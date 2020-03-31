@@ -1,14 +1,11 @@
-##### SSL
-##### Syntax and Semantics of programming Languages
-
 # Sintaxis y Semantica de los Lenguajes
 
 ## K2051
 
-### Año 2020 - Anual
+Año 2020 - Anual
 
-### 166043-3
+166043-3
 
-## Sanchez,
+Sanchez,
 
-## Tomas Agustin
+Tomas Agustin
