@@ -1,11 +1,11 @@
-# Sintaxis y Semantica de los Lenguajes
+# Sintaxis y Semántica de los Lenguajes
 
-K2051
+K 2051
 
 Año 2020 - Anual
 
 166043-3
 
-Sanchez,
+Sánchez,
 
-Tomas Agustin
+Tomás Agustín
