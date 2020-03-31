@@ -33,7 +33,7 @@
 > ∀𝑖 ∈ 𝑁: 𝑆𝑖 ≠ ∅
 > ∀𝑖, 𝑗 ∈ 𝑁: 𝑆𝑖 ∩ 𝑆𝑗 = ∅
 > 
-> Then partition is defined as subsequent unions from i to n of  𝑆𝑖; 𝑛, 𝑖 ∈ 𝑁
+> Then partition is defined as a subsequent of unions from i to n of  𝑆 sub 𝑖; 𝑛, 𝑖 ∈ 𝑁
 
 6. > 𝐿𝑒𝑡 X={a; b}
 >
@@ -49,5 +49,40 @@
 
 2. Es un paradigma de programacion que tiene como objetivo mejorar la claridad, precision, calidad y tiempo de desarrollo.
 
-3. 
+3. Segun el teorema del programa estructurado: 
+  - Secuencial
+  - Seleccion
+  - Iteracion
+  
+4. Los parametros estan estan definidos en la declaracion de una funcion, se les asigna un nombre y tipo; en cambio los argumentos son expresiones que son llamados por una funcion.
+
+5. Por valor y por referencia
+
+6. Parametros de entrada son los que se le deben asignar un valor al llamar a la funcion, los de salida retornar un valor, y por ultimo esta la combinacion de estos dos.
+
+7. Tipo de dato abstracto (ADT) es una clase de objetos cuyo comportamiento esta definido por un conjunto de valores y operaciones.
+
+8. La diferencia esta en el metodo de acceso y adicion de elementos: los stacks usan LIFO y las queues FIFO.
+
+9. Es un objeto que almacena informacion.
+
+10. Recorrer el array a, sumar todos los valores y promediar con n, en C++:
+
+`double prom = 0;`
+
+`for (auto& element : a)`
+	`prom += element;`
+
+`prom /= n;`
+
+En C:
+
+`double prom = 0;`
+
+	for (int i = 0; i < n; i++)
+		prom += a[i];`
+	
+	prom /= n;
+
+
 
