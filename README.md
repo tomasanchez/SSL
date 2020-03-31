@@ -1,6 +1,6 @@
 # Sintaxis y Semantica de los Lenguajes
 
-## K2051
+K2051
 
 Año 2020 - Anual
 
