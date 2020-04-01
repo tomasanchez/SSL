@@ -67,22 +67,22 @@
 9. Es un objeto que almacena informacion.
 
 10. Recorrer el array a, sumar todos los valores y promediar con n, en C++:
+```cpp
+double prom = 0;
 
-`double prom = 0;`
+for (auto& element : a)
+	`prom += element;
 
-`for (auto& element : a)`
-	`prom += element;`
-
-`prom /= n;`
-
+prom /= n;
+```
 En C:
-
-`double prom = 0;`
+```c
+double prom = 0;
 
 	for (int i = 0; i < n; i++)
-		prom += a[i];`
+		prom += a[i];
 	
 	prom /= n;
-
+```
 
 
