@@ -79,10 +79,10 @@ En C:
 ```c
 double prom = 0;
 
-	for (int i = 0; i < n; i++)
-		prom += a[i];
+for (int i = 0; i < n; i++)
+	prom += a[i];
 	
-	prom /= n;
+prom /= n;
 ```
 
 
