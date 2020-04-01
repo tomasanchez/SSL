@@ -71,7 +71,7 @@
 double prom = 0;
 
 for (auto& element : a)
-	`prom += element;
+	prom += element;
 
 prom /= n;
 ```
