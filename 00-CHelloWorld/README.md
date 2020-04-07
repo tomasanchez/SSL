@@ -12,20 +12,22 @@
 
 ## Metodologia de Resolucion
 
-Para resolver el trabajo utilice el editor de texto Visual Studio Code. Clone el repositorio SSL, ya creado para el Examen#00, y cree el directorio pedido. Debo mencionar que poseo Windows Subsystem for Linux, por lo que configure al VS code para que trabaje junto con una terminal del mismo.
+Para resolver el trabajo utilice el editor de texto Visual Studio Code. Clone el repositorio SSL, ya creado para el Examen#00, y cree el directorio pedido. Debo mencionar que poseo Windows Subsystem for Linux, por lo que configure al VS Code para que trabaje junto con una terminal del mismo.
 
 ```mkdir 00-CHelloworld && touch $_/hello.c```
 
-Para que el codigo se lo mas simple posible utilice ```puts()``` y no ```printf()```, como en el libro de Kernighan y Ritchie no declare al ```main``` como ```int``` por razones academicas.
+Para que el codigo se lo mas simple posible utilice ```puts()``` y no ```printf()```. Al igual que en el libro de Kernighan y Ritchie, no declare al ```main()``` como ```int``` por razones academicas.
 
 Compile usando gcc
 
-```gcc -o hello helloc```
+```gcc -o hello hello.c```
 
 Lo que resulta en:
 
 ```warning: return type defaults to ‘int’ [-Wimplicit-int]```
 
-Como era de esperarse compila. Genere el archivo ```.txt``` lo hice directo desde la terminal
+Como era de esperarse compila. Genere el archivo ```.txt```, lo hice directo desde la terminal
 
 ```./hello > output.txt```
+
+Como el item de restricciones aclara la ausencia de ellas, me tome la libertad de dejar el ejecutable
