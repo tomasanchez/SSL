@@ -25,5 +25,3 @@ Compile usando gcc
 Genere el archivo ```.txt```, lo hice directo desde la terminal
 
 ```./hello > output.txt```
-
-Como el item de restricciones aclara la ausencia de ellas, me tome la libertad de dejar el ejecutable
