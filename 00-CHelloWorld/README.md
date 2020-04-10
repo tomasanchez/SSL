@@ -24,6 +24,6 @@ Compile usando gcc
 
 ```$ gcc -o hello hello.c -std=c18 -Wall```
 
-Genere el archivo ```.txt```, lo hice directo desde la terminal
+Genere el archivo ```.txt``` directo desde la terminal
 
 ```$ ./hello > output.txt```
