@@ -1,4 +1,4 @@
-# Uso del Lenguage C en mi Dia a Dia
+# Uso del Lenguage C en mi dia a dia
 
 ## Objectivo
 
