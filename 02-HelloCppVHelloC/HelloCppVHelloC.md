@@ -1,4 +1,4 @@
-# 02 - Hello Cpp vs Hello
+# 02 - Hello Cpp vs Hello C
 
 ## Hello in C++
 
@@ -36,7 +36,7 @@ Si bien *Haskell* trabaja con otro paradigma, funcional, a diferencia de *C* y *
 
 ```haskell
 
-main = putStrLn "Hello World!"
+main = putStrLn "Hello, World!"
 
 ```
 
@@ -45,5 +45,5 @@ main = putStrLn "Hello World!"
 |                                                  Sintaxis                                                 	|                                        Semantica                                        	|                                  Pragmatica                                  	| Lenguaje 	|
 |:---------------------------------------------------------------------------------------------------------:	|:---------------------------------------------------------------------------------------:	|:----------------------------------------------------------------------------:	|:--------:	|
 |                                        Utiliza biblioteca *stdio.h*                                       	|                                    Llamada a funcion                                    	|         **Escribe** al *string* y agrega una  *newline* en *stdout*.         	|     C    	|
-|                 Utiliza biblioteca *iostream* utilizacion el operador *:: (scope qualifier)*               	|      Realiza una operacion *<< (overload de bitwise)*  y llama a una funcion *endl*     	|  **Inserta** al *string* en el *ostream* y **Realiza** un *flush* del mismo  	|    C++   	|
+|                 Utiliza biblioteca *iostream* utilizacion el operador *:: (scope qualifier)*               	|      Realiza una operacion *<< (overload de bitwise)*  y llama a una funcion *endl* del *namespace std*     	|  **Inserta** al *string* en el *ostream* y **Realiza** un *flush* del mismo  	|    C++   	|
 |  Los parametros se especifican solo un espacio en blanco No se incluyen librerias No se define un *scope* 	|   Se declara una igualdad donde "se le asigna" otro nombre a una funcion ya determinada 	|                   **Escribe** en el *standard output device*                 	|  Haskell 	|
