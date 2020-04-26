@@ -24,7 +24,7 @@ En C, equivalente podriamos tener:
 
 int main (int argc, char* argv []){
 
-    puts("Hello,  World!")
+    puts("Hello,  World!");
 
     return 0;
 }
@@ -44,6 +44,6 @@ main = putStrLn "Hello, World!"
 
 |                                                  Sintaxis                                                 	|                                        Semantica                                        	|                                  Pragmatica                                  	| Lenguaje 	|
 |:---------------------------------------------------------------------------------------------------------:	|:---------------------------------------------------------------------------------------:	|:----------------------------------------------------------------------------:	|:--------:	|
-|                                        Utiliza biblioteca *stdio.h*                                       	|                                    Llamada a funcion                                    	|         **Escribe** al *string* y agrega una  *newline* en *stdout*.         	|     C    	|
+|                                        Utiliza biblioteca *stdio.h*                                       	|                                    Llamada a funcion a la cual se pasa un argumento                                    	|         **Escribe** al *string* y agrega una  *newline* en *stdout*.         	|     C    	|
 |                 Utiliza biblioteca *iostream* utilizacion el operador *:: (scope qualifier)*               	|      Realiza una operacion *<< (overload de bitwise)*  y llama a una funcion *endl* del *namespace std*     	|  **Inserta** al *string* en el *ostream* y **Realiza** un *flush* del mismo  	|    C++   	|
 |  Los parametros se especifican solo un espacio en blanco No se incluyen librerias No se define un *scope* 	|   Se declara una igualdad donde "se le asigna" otro nombre a una funcion ya determinada 	|                   **Escribe** en el *standard output device*                 	|  Haskell 	|
