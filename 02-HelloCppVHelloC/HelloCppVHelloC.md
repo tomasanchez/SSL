@@ -9,7 +9,7 @@ Utilizare el siguiente codigo para la comparacion:
 
 int main (int argc, char* argv[]){
 
-    std::cout << "Hello,  World!" << endl;
+    std::cout << "Hello,  World!" << std::endl;
 
     return 0;
 }
