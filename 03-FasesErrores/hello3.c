@@ -1,15 +1,15 @@
 /* ---------------------------------------------------------------------------------
-*   hello2.c   
+*   hello3.c   
 *   
-*   description: phases of error - the beginning
+*   description: phases of error - new variant
 *   
 *   author: Tomas Sanchez
 *   
-*   last modified: 05/04/2020
+*   last modified: 05/05/2020
 ------------------------------------------------------------------------------------ */
 
-#include <stdio.h>
+int printf(const char *s, ...);
 
-int/*medio*/main(void){
+int main(void){
      int i=42;
-      prontf("La respuesta es %d\n");
+     prontf("La respuesta es %d\n");

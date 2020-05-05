@@ -92,9 +92,142 @@ The following language-independent options do not enable specific warnings but c
     This enables some extra warning flags that are not enabled by -Wall. (This option used to be called -W. The older name is still supported, but the newer name is more descriptive).
 ```
 
+Utilizaria entonces para,
+
+- Preprocesado:
+
+```bash
+$gcc hellon.c -E -o hellon.i
+```
+
+- Compilacion:
+  
+```bash
+$gcc hellon.c -o hellon.out -std=c18 -Werror -Wall -pedantic-errors -Wextra
+```
+
+Durante el analisis del primer preprocesado, *hello2.i*, note que era necesario profundizar la investigacion:
+
+Resultados:
+
+```
+Source file name and line number information is conveyed by lines of the form
+
+# linenum filename flags
+
+These are called linemarkers. They are inserted as needed into the output (but never within a string or character constant). They mean that the following line originated in file filename at line linenum. filename will never contain any non-printing characters; they are replaced with octal escape sequences.
+
+After the file name comes zero or more flags, which are ‘1’, ‘2’, ‘3’, or ‘4’. If there are multiple flags, spaces separate them. Here is what the flags mean:
+
+‘1’
+
+    This indicates the start of a new file. 
+‘2’
+
+    This indicates returning to a file (after having included another file). 
+‘3’
+
+    This indicates that the following text comes from a system header file, so certain warnings should be suppressed. 
+‘4’
+
+    This indicates that the following text should be treated as being wrapped in an implicit extern "C" block. 
+
+```
+
+Fuente:
+
+[GCC - Preprocessor Output](https://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html)
+
 ### hello2.c
 
-Setup:
 ```bash
 $mkdir 03-FasesErrores && touch $_/hello2.c
 ```
+
+Luego en el *source file*
+
+```c
+#include <stdio.h>
+
+int/*medio*/main(void){
+     int i=42;
+      prontf("La respuesta es %d\n");
+```
+
+#### Precompilado
+
+Utilizando:
+
+```bash
+$gcc hello2.c -E -o hello2.i
+```
+
+Analisis:
+
+A partir de la linea 791:
+
+```c
+# 868 "/usr/include/stdio.h" 3 4
+
+# 12 "hello2.c" 2
+
+
+# 13 "hello2.c"
+int main(void){
+     int i=42;
+      prontf("La respuesta es %d\n");
+```
+
+Observo que:
+
+- Se incluye el header stdio.h, ocupando mas de 700 lineas.
+- Los flags 3 y 4, *linemarkers*, aclaran esto; *following text comes from a system header file* y *following text should be treated as being wrapped in an implicit extern "C" block* respectivamente.
+- El programa arranca en la linea 12, y esto se debe al *header comments*, obligatorios.
+- Los comentarios se sustituyen por espacios vacios.
+
+#### No compilacion
+
+Utilizando:
+
+```bash
+$gcc hello2.c -o hello2.out -std=c18 -Werror -Wall -pedantic-errors -Wextra
+```
+Obtengo
+
+```
+hello2.c: In function ‘main’:
+hello2.c:15:7: error: implicit declaration of function ‘prontf’; did you mean ‘printf’? [-Wimplicit-function-declaration]
+   15 |       prontf("La respuesta es %d\n");
+      |       ^~~~~~
+      |       printf
+hello2.c:15:7: error: expected declaration or statement at end of input
+hello2.c:14:10: error: unused variable ‘i’ [-Werror=unused-variable]
+   14 |      int i=42;
+      |          ^
+cc1: all warnings being treated as errors
+```
+
+### hello3.c
+
+#### Setup
+
+```bash
+$touch hello3.c
+```
+
+```c
+int printf(const char *s, ...);
+
+int main(void){
+     int i=42;
+     prontf("La respuesta es %d\n");
+```
+
+#### Investigacion
+
+>
+Theproperdeclarationforprintfis
+intprintf(char*fmt,...)
+wherethedeclaration...meansthatthenumberandtypesoftheseargumentsmayvary.The
+declaration...canonlyappearattheendofanargumentlist.
+
