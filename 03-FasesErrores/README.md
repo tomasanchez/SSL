@@ -92,8 +92,6 @@ The following language-independent options do not enable specific warnings but c
 
 -pedantic-errors
     Like -pedantic, except that errors are produced rather than warnings.
-
--
 ```
 
 ```
