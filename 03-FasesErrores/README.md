@@ -18,12 +18,12 @@
 Utilizo el compilador gcc
 
 ```bash
-$gcc --version
+$ gcc --version
 ```
 
 Obtengo:
 
-```bash
+```
 gcc (Ubuntu 9.2.1-17ubuntu1~18.04.1) 9.2.1 20191102
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
@@ -35,7 +35,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Considero que la mejor manera de invesitgar el compilador es leyendo su manual, para ello:
 
 ```bash
-$man gcc
+$ man gcc
 ```
 
 Resultados de investigacion:
