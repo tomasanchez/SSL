@@ -121,7 +121,7 @@ $ gcc hellon.c -S -std=c18 -Werror -Wall -pedantic-errors -Wextra
 - Ensamble
 
 ```bash
-$ gcc hellon.s -C -o hellon.o -std=c18 -Werror -Wall -Wextra -pedantic-errors -g
+$ gcc hellon.s -C -o hellon.o
 ```
 
 - Linkeo
