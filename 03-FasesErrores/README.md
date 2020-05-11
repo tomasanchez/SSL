@@ -11,6 +11,24 @@
    - Transicribir en readme.md cada comando ejecutado.
    - Describir en readme.md el resultado u error obtenidos para cada paso
 
+## Restricciones
+
+- El programa ejemplo debe enviar por *stdout* la frase "La respuesta es 42", elvalor 42 debe surgir de una variable.
+
+## Productos
+
+```
+03-FasesErrores
+|-- readme.md
+|-- hello2.c
+|-- hello3.c
+|-- hello4.c
+|-- hello5.c
+|-- hello6.c
+`-- hello7.c
+```
+
+
 ## Desarrollo
 
 ### Investigacion
