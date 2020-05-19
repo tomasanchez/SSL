@@ -11,6 +11,24 @@
    - Transicribir en readme.md cada comando ejecutado.
    - Describir en readme.md el resultado u error obtenidos para cada paso
 
+## Restricciones
+
+- El programa ejemplo debe enviar por *stdout* la frase "La respuesta es 42", elvalor 42 debe surgir de una variable.
+
+## Productos
+
+```
+03-FasesErrores
+|-- readme.md
+|-- hello2.c
+|-- hello3.c
+|-- hello4.c
+|-- hello5.c
+|-- hello6.c
+`-- hello7.c
+```
+
+
 ## Desarrollo
 
 ### Investigacion
@@ -92,8 +110,6 @@ The following language-independent options do not enable specific warnings but c
 
 -pedantic-errors
     Like -pedantic, except that errors are produced rather than warnings.
-
--
 ```
 
 ```
@@ -123,7 +139,7 @@ $ gcc hellon.c -S -std=c18 -Werror -Wall -pedantic-errors -Wextra
 - Ensamble
 
 ```bash
-$ gcc hellon.s -C -o hellon.o -std=c18 -Werror -Wall -Wextra -pedantic-errors -g
+$ gcc hellon.s -C -o hellon.o
 ```
 
 - Linkeo
