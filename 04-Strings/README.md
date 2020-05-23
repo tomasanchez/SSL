@@ -18,7 +18,7 @@ e. ¿El tipo tiene mutabilidad o es inmutable?
 
 f. ¿El tipo es un first class citizen?
 
-g. ¿Cuál   es   la   mecánica   para   ese   tipo   cuando   se   los   pasa   comoargumentos?
+g. ¿Cuál   es   la   mecánica   para   ese   tipo   cuando   se   los   pasa   como argumentos?
 
 h. ¿Y cuando son retornados por una función?
 
@@ -51,7 +51,7 @@ Notar que en vez de la operación concatenar que propone [MUCH2012] se debe desa
 1. Parte I
 
 
-    a. Escribir el AnálisisComparativo.md con la comparación de strings en Cversus otro lenguaje de programación a elección.
+    a. Escribir el AnálisisComparativo.md con la comparación de strings en C versus otro lenguaje de programación a elección.
 
 
 2. Parte II
