@@ -42,6 +42,6 @@ bool isEmpty(const char* str);
 /* concats the string with itself n times*/
 char* power (char* str, int n);
 
-/* Only callabeale from power. concatenates two strings */
+/* Only callable from power. concatenates two strings */
 void append (char* dest, char* src);
 
