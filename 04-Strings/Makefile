@@ -3,7 +3,7 @@
 
 CC = gcc
 CFLAGS = -std=c18 -Werror -Wall -pedantic-errors -Wextra
-INCLUDES = -I ./include/
+INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
 
 

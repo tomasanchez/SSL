@@ -57,7 +57,7 @@ Notar que en vez de la operación concatenar que propone [MUCH2012] se debe desa
 2. Parte II
 
 
-    - Para cada operación, escribir en Strings.md la especificación matemáticade la operación, con conjuntos de salida y de llegada, y con especificaciónde la operación.
+    - Para cada operación, escribir en Strings.md la especificación matemática de la operación, con conjuntos de salida y de llegada, y con especificaciónde la operación.
     
     - Escribir el Makefile.
     
@@ -67,7 +67,7 @@ Notar que en vez de la operación concatenar que propone [MUCH2012] se debe desa
         
         ii. Escribir los prototipos en String.h.
         
-        iii. Escribir   en   String.h   comentarios   con   las   precondiciones   yposcondiciones de cada función, arriba de cada prototipo.
+        iii. Escribir   en   String.h   comentarios   con   las   precondiciones   y poscondiciones de cada función, arriba de cada prototipo.
         
         iv. Escribir las implementaciones en Strings.c.
 
