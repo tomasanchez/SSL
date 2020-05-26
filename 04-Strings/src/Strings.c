@@ -51,6 +51,7 @@ char* power (char* src, int n){
         append(dest, src);
     }
 
+
     return dest;
 }
 

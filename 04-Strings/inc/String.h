@@ -36,12 +36,12 @@
 /*  calculates the length of a string */
 size_t getLength (const char* str);
 
-/* checks if string has no characters*/
+/* checks if string has no characters, returns True or False if not*/
 bool isEmpty(const char* str);
 
-/* concats the string with itself n times*/
+/* concats the string with itself n times, returns the new string*/
 char* power (char* str, int n);
 
-/* Only callable from power. concatenates two strings */
+/* only callable from power. concatenates two strings, in the first argument (dest) */
 void append (char* dest, char* src);
 
