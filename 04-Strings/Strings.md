@@ -1,4 +1,4 @@
-# Strings
+# Parte II - Strings
 
 ## Funciones
 
