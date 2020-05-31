@@ -15,7 +15,7 @@ let getLength(a) a in Sigma*/ {a = {a_0, a_1, ..., a_n} : n in N : getLength(a) 
 ```hs
 isEmpty :: Sigma* -> Boolean
 
-let isEmpty(a), a in Sigma* / {a = {a_0, a_1, ..., a_n} : n in N : isEmpty(a) = True if n = 0; isEmpty(a) = False n not 0 }
+let isEmpty(a), a in Sigma* / {a = {a_0, a_1, ..., a_n} : n in N : isEmpty(a) = True if n = 0; isEmpty(a) = False if n not 0 }
 ```
 
 ### Power()
