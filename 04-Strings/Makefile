@@ -1,8 +1,8 @@
-# C Makefile using gcc and gdb
+# C Makefile using gcc and gdb modified version of Makefile using g++ by Roberto Nicolas Savinelli <rsavinelli@est.frba.utn.edu.ar>
 # Tomas Agustin Sanchez <tosanchez@est.frba.utn.edu.ar>
 
 CC = gcc
-CFLAGS = -std=c18 -Werror -Wall -pedantic-errors -Wextra
+CFLAGS = -std=c18 -Werror -Wall -pedantic-errors -Wextra -g3
 INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
 
@@ -15,7 +15,9 @@ compile:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT)
 
 debug:
-	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -g3 -o $(OUTPUT) && gdb -se $(OUTPUT)
+	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && gdb -se $(OUTPUT)
+vg:
+	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --file="leaks.log" $(OUTPUT)
 
 clean:
 	$(RM) ./$(OUTPUT)
