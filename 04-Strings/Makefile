@@ -1,4 +1,4 @@
-# C Makefile using gcc and gdb modified version of Makefile using g++ by Roberto Nicolas Savinelli <rsavinelli@est.frba.utn.edu.ar>
+# C Makefile using gcc, gdb and valgrind. Modified version of Makefile using g++ & gdb by Roberto Nicolas Savinelli <rsavinelli@est.frba.utn.edu.ar>
 # Tomas Agustin Sanchez <tosanchez@est.frba.utn.edu.ar>
 
 CC = gcc
@@ -17,6 +17,7 @@ compile:
 
 debug:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && gdb -se $(OUTPUT)
+	
 vg:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --log-file="$(LOG)" --track-origins=yes ./$(OUTPUT)
 
