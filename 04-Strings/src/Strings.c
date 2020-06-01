@@ -50,8 +50,9 @@ char* power (char* src, int n){
     char* dest = NULL;
     dest = malloc(size_of_str);
 
-    //Evito leaks
+    //Ini c : str to avoid jumps of uninitialized value
     for (size_t i = 0; i < size_of_str; i++){
+        //for comfort, '\0' so that getLength returns length = 0, at first call
         dest[i] = '\0';
     }
 
@@ -64,7 +65,7 @@ char* power (char* src, int n){
 }
 
 void append (char* dest, char* src){
-
+    
     size_t destend = getLength(dest);
     size_t srcend = getLength(src);
 
@@ -76,9 +77,12 @@ void append (char* dest, char* src){
 bool isEqual(const char* this_str,const char* that_str){
 
     size_t this_str_len =   getLength(this_str);
+
+    //pattern matching
     if (    this_str_len != getLength (that_str))
         return false;
 
+    //check for every c : str
     for (size_t i = 0; i < this_str_len; i++ ){
 
         if (this_str[i] != that_str[i])
