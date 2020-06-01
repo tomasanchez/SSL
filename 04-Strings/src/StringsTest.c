@@ -43,6 +43,7 @@ int main(void){
 
     /* Testing isEqual  */
     assert(!isEqual(test, test_2));
+    assert(isEqual(test, test));
 
     /*Testing power works correctly*/
     test = power(test, 10);
@@ -50,7 +51,7 @@ int main(void){
     puts(test);
     free(test);
 
-    puts("Testing Negatives, should return empty string");
+    /*Testing power, with negatives, should print "\n"*/
     test = power(test,-10);
     assert(test);
     puts(test);
