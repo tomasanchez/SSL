@@ -44,6 +44,7 @@ int main(void){
     test = power(test, 10);
     assert(test);
     puts(test);
+    free(test);
 
     puts("Testing Negatives, should return empty string");
     test = power(test,-10);

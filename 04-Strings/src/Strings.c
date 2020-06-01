@@ -32,7 +32,7 @@
 #include "String.h"
 
 size_t getLength(const char* str){
-    return *str != 0 ? getLength(str+1) + 1 : 0;
+    return *str == '\0' ? 0lu : getLength(str+1) + 1lu;
 }
 
 bool isEmpty(const char* str){
@@ -45,7 +45,15 @@ char* power (char* src, int n){
     if(n<=0)
     return "";
 
-    char* dest = malloc((getLength(src)+1)*n);
+    size_t size_of_str = (getLength(src) + 1) * n;
+
+    char* dest = NULL;
+    dest = malloc(size_of_str);
+
+    //Evito leaks
+    for (size_t i = 0; i < size_of_str; i++){
+        dest[i] = '\0';
+    }
 
     for (int i = 0; i < n; i++){
         append(dest, src);
