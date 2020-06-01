@@ -17,7 +17,7 @@ compile:
 debug:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && gdb -se $(OUTPUT)
 vg:
-	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --log-file="leaks.log" ./$(OUTPUT)
+	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --log-file="leaks.log" --track-origins=yes ./$(OUTPUT)
 
 clean:
 	$(RM) ./$(OUTPUT)
