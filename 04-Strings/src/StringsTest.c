@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 05/23/2020
+    last modified: 01/06/2020
 ------------------------------------------------------------------------------------ */
 
 #include "String.h"
@@ -35,10 +35,14 @@
 int main(void){
 
     char* test = "abcdefghijklmnopqrstuvwxyZ";
+    char* test_2 = "jk";
 
     /*Testing if can get length and not empty*/
-    assert(getLength(test));
+    assert(getLength(test) == 26lu);
     assert(!isEmpty(test));
+
+    /* Testing isEqual  */
+    assert(!isEqual(test, test_2));
 
     /*Testing power works correctly*/
     test = power(test, 10);

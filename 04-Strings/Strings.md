@@ -15,7 +15,15 @@ let getLength(a) a in Sigma*/ {a = {a_0, a_1, ..., a_n} : n in N : getLength(a) 
 ```hs
 isEmpty :: Sigma* -> Boolean
 
-let isEmpty(a), a in Sigma* / {a = {a_0, a_1, ..., a_n} : n in N : isEmpty(a) = True if n = 0; isEmpty(a) = False if n not 0 }
+let isEmpty(a), a in Sigma* / {a = {a_0, a_1, ..., a_n} : n in N : isEmpty(a) = True if n = 0 & a_0 = lambda; isEmpty(a) = False if n not 0 }
+```
+
+### isEqualTo()
+
+```hs
+isEqual:: Sigma* x Sigma* -> Boolean
+
+let isEqual (a, b); a, b in Sigma* / a = {a_0, a_1, ..., a_n}, b = {b_0, b_1, ..., b_m} : n, m in N : isEqual(a, b) = true <-> a_i = b_i for all i in N;
 ```
 
 ### Power()
@@ -31,5 +39,5 @@ let Power(a, m) / {a = {a_0, a_1, ..., a_n} : n in N : Power (a) = b, b in  Sigm
 ```hs
 append :: Sigma* X Sigma* -> Sigma*
 
-let append(a, b) a, b in Sigma* / {a = {a_0, a_1, ..., a_n}, b = {b_0, _1, ..., b_n} : n, m in N : append(a, b) = c, c in Sigma* : c = {a_0, a_1, ..., a_n, b_0, ..., b_m,}}
+let append(a, b) a, b in Sigma* / {a = {a_0, a_1, ..., a_n}, b = {b_0, b_1, ..., b_m} : n, m in N : append(a, b) = c, c in Sigma* : c = {a_0, a_1, ..., a_n, b_0, ..., b_m,}}
 ```

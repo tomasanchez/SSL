@@ -42,6 +42,9 @@ bool isEmpty(const char* str);
 /* concats the string with itself n times, returns the new string*/
 char* power (char* str, int n);
 
+/* checks if two strings are equal  */
+bool isEqual(const char* this, const char* that);
+
 /* only callable from power. concatenates two strings, in the first argument (dest) */
 void append (char* dest, char* src);
 

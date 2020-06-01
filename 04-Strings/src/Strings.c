@@ -65,10 +65,25 @@ char* power (char* src, int n){
 
 void append (char* dest, char* src){
 
-    int destend = getLength(dest);
-    int srcend = getLength(src);
+    size_t destend = getLength(dest);
+    size_t srcend = getLength(src);
 
-    for (int i = 0; i < srcend ; i++){
+    for (size_t i = 0; i < srcend ; i++){
         dest[destend+i] = src[i];
     }
+}
+
+bool isEqual(const char* this_str,const char* that_str){
+
+    size_t this_str_len =   getLength(this_str);
+    if (    this_str_len != getLength (that_str))
+        return false;
+
+    for (size_t i = 0; i < this_str_len; i++ ){
+
+        if (this_str[i] != that_str[i])
+            return false;
+    }
+
+    return true;    
 }
