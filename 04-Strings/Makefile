@@ -9,7 +9,7 @@ SOURCES = ./src/*.c
 
 OUTPUT = test
 
-.PHONY: compile debug clean
+.PHONY: compile debug clean vg
 
 compile:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT)
@@ -17,7 +17,7 @@ compile:
 debug:
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && gdb -se $(OUTPUT)
 vg:
-	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --file="leaks.log" $(OUTPUT)
+	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --log-file="leaks.log" ./$(OUTPUT)
 
 clean:
 	$(RM) ./$(OUTPUT)

@@ -50,6 +50,5 @@ int main(void){
     assert(test);
     puts(test);
 
-    free(test);
     return 0;
 }
