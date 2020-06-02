@@ -7,7 +7,7 @@
 ```hs
 getLength :: Sigma* -> N
 
-let getLength(a) a in Sigma*/ getLength(a) = { 0, a = epsilon; 1+getLength(a), s= h t, h, t in Sigma
+let getLength(a) a in Sigma*/ getLength(a) = { 0, a = epsilon; 1+getLength(a), s= h t, h Sigma
 ```
 
 ### isEmpty()
