@@ -35,8 +35,8 @@ size_t getLength(const char* str){
     return *str == '\0' ? 0lu : getLength(str+1) + 1lu;
 }
 
-bool isEmpty(const char* str){
-    return getLength(str) == 0 ? true : false;
+inline bool isEmpty(const char* str){
+    return *str == '\0';
 }
 
 char* power (char* src, int n){
