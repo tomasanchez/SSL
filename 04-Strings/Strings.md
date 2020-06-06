@@ -2,22 +2,22 @@
 
 ## Funciones
 
-### getLength()
+### getLength
 
 ![getLength(x)](data/getLength.png)
 
-### isEmpty()
+### isEmpty
 
 ![isEmpty](data/isEmpty.png)
 
-### isEqual()
+### isEqual
 
 ![isEqual](data/isEqual.png)
 
-### Power()
+### Power
 
 ![power](data/power.png)
 
-### append()
+### append
 
 ![append](data/append.png)
