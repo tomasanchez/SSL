@@ -19,20 +19,81 @@ En general, para evitar *overhead*, se pasa por referencia
 
 ## Declarion y Asignacion
 
-En C:
+### C
 
 ```c
-const char * str = "This is a string literal.";
+const char * str = "This is a string.";
+
+/* O Bien */
+char str[] = "This is a string.";
 ```
 
-En C++
+### *C++*
 
 ```cpp
 std::string my_str;
+
 /* O inicializado con un c-string*/
 std::string name("Mark");
+
 /* O con otro std::string */
 std::string name2(name);
+
 /* Incluso con un substring */
-std::string lip(name, 4);
+std::string substr(name, 4);
+```
+
+## Pasando como parametros
+
+### C
+
+De no modificarse el *string*, es recomendable aclararlo con *const*.
+
+```c
+inline int foo (const char * bar){
+
+    return puts(bar);
+}
+```
+
+### C++
+
+Como se aclaro anteriormente, no siempre es adecuado pasarlo como parametro.
+Supongamos la misma funcion, pero adaptandola.
+
+```c
+inline int foo (std::string bar){
+    /*  Como puts() recibe un const char *,
+        debemos obtenerlo desde el class string,
+        por ello en c++ de querer lograr lo mismo,
+        cout << bar << endl;
+    */
+    return puts(bar.c_str());
+}
+```
+
+### Aclaracion
+
+Notese que en ambos se esta creando una copia, de querer modifcar el valor en si, en *C* deberiamos pasar un *pointer to pointer*, mientras que en *C++*, pasarlo por refenrecia
+
+## Valor de retorno
+
+### C
+
+No es posible con arreglos, pero si con punteros.
+
+```c
+char * foobar (){
+    return malloc(sizeof(char));
+}
+```
+
+### C++
+
+```cpp
+std::string * spam (){
+    std::string * str = new std::string();
+    str->clear();
+    return str;
+}
 ```

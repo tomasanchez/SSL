@@ -2,3 +2,5 @@
 *.exe
 *.s
 *.o
+*.vscode
+*.json

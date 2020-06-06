@@ -4,11 +4,9 @@
 
 #### getLength()
 
-```hs
-getLength :: Sigma* -> N
-
-let getLength(a) a in Sigma*/ getLength(a) = { 0, a = epsilon; 1+getLength(a), s= h t, h Sigma
-```
+> $$ getLength(x) : \Sigma^*\rightarrow\N$$
+>  
+> $$ getLength(x) = 0, \text{ if }x=\epsilon \\getLength(h)\text { if } x = t : h $$
 
 ### isEmpty()
 

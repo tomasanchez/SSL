@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 05/23/2020
+    last modified: 06/01/2020
 ------------------------------------------------------------------------------------ */
 
 #include "String.h"
