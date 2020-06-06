@@ -4,9 +4,7 @@
 
 #### getLength()
 
-> $$ getLength(x) : \Sigma^*\rightarrow\N$$
->  
-> $$ getLength(x) = 0, \text{ if }x=\epsilon \\getLength(h)\text { if } x = t : h $$
+![getLength(x)](data/getLength.png)
 
 ### isEmpty()
 
