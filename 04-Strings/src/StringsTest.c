@@ -34,26 +34,26 @@
 
 int main(void){
 
-    char* test = "abcdefghijklmnopqrstuvwxyZ";
-    char* test_2 = "jk";
+    char* test = "hello, world!";
+    char* test_2 = "";
 
     /*Testing if can get length and not empty*/
-    assert(getLength(test) == 26lu);
-    assert(!isEmpty(test));
+    assert(getLength(test) == 13lu);
+    assert(isEmpty(test_2));
 
     /* Testing isEqual  */
     assert(!isEqual(test, test_2));
     assert(isEqual(test, test));
 
     /*Testing power works correctly*/
-    test = power(test, 10);
-    assert(test);
+    test = power(test, 2);
+    assert(isEqual(test,"hello, world!hello, world!"));
     puts(test);
     free(test);
 
     /*Testing power, with negatives, should print "\n"*/
     test = power(test,-10);
-    assert(test);
+    assert(isEmpty(test));
     puts(test);
 
     return 0;

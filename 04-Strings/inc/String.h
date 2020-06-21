@@ -46,5 +46,5 @@ char* power (char* str, int n);
 bool isEqual(const char* this, const char* that);
 
 /* only callable from power. concatenates two strings, in the first argument (dest) */
-void append (char* dest, char* src);
+void append (char** dest, char* src);
 

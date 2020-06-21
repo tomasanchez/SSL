@@ -45,32 +45,36 @@ char* power (char* src, int n){
     if(n<=0)
     return "";
 
-    size_t size_of_str = (getLength(src) + 1) * n;
-
     char* dest = NULL;
-    dest = malloc(size_of_str);
-
-    //Ini c : str to avoid jumps of uninitialized value
-    for (size_t i = 0; i < size_of_str; i++){
-        //for comfort, '\0' so that getLength returns length = 0, at first call
+    dest = malloc(sizeof(char)*getLength(src));
+    
+    //Avoiding jumps on uninitialized values
+    for (size_t i = 0; i < getLength(src); i++)
         dest[i] = '\0';
-    }
 
     for (int i = 0; i < n; i++){
-        append(dest, src);
+        append(&dest, src);
     }
-
 
     return dest;
 }
 
-void append (char* dest, char* src){
+void append (char** dest, char* src){
     
-    size_t destend = getLength(dest);
-    size_t srcend = getLength(src);
+    size_t dest_length = getLength(*dest);
+    size_t src_length = getLength(src);
 
-    for (size_t i = 0; i < srcend ; i++){
-        dest[destend+i] = src[i];
+    *dest = realloc(*dest, dest_length + src_length + 1);
+    char * aux = NULL;
+    aux = *dest;
+
+    //Avoiding jumps on uninitialized values
+    for(size_t i = dest_length; i<= src_length; i++)
+        aux[i] = '\0';
+
+
+    for (size_t i = 0; i <= src_length ; i++){
+        aux[dest_length + i] = src[i];
     }
 }
 
