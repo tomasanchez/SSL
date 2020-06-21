@@ -31,6 +31,12 @@
 
 #include "String.h"
 
+char * string_create(){
+    char * new_str = malloc(sizeof(char));
+    *new_str = '\0';
+    return new_str;
+}
+
 size_t getLength(const char* str){
     return *str == '\0' ? 0lu : getLength(str+1) + 1lu;
 }
@@ -46,12 +52,8 @@ char* power (char* src, int n){
     return "";
 
     char* dest = NULL;
-    dest = malloc(sizeof(char)*getLength(src));
+    dest = string_create();
     
-    //Avoiding jumps on uninitialized values
-    for (size_t i = 0; i < getLength(src); i++)
-        dest[i] = '\0';
-
     for (int i = 0; i < n; i++){
         append(&dest, src);
     }

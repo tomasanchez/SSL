@@ -36,6 +36,7 @@ int main(void){
 
     char* test = "hello, world!";
     char* test_2 = "";
+    char* test_3 = " new world";
 
     /*Testing if can get length and not empty*/
     assert(getLength(test) == 13lu);
@@ -55,6 +56,15 @@ int main(void){
     test = power(test,-10);
     assert(isEmpty(test));
     puts(test);
+
+    /*Testing append*/
+    test = string_create();
+
+    append(&test, test_3);
+    puts(test);
+    assert(isEqual(test," new world"));
+
+    free (test);
 
     return 0;
 }

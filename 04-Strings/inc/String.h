@@ -24,7 +24,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 05/23/2020
+    last modified: 06/21/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
@@ -32,6 +32,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h> 
+
+/*  creates a new string initialized in '\0' */
+char * string_create();
 
 /*  calculates the length of a string */
 size_t getLength (const char* str);

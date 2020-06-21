@@ -7,7 +7,7 @@ CFLAGS = -std=c18 -Werror -Wall -pedantic-errors -Wextra -g3
 INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
 
-OUTPUT = test
+OUTPUT = test.exe
 LEAKS = leaks.log
 HELGRIND = threads.log
 
