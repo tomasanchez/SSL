@@ -46,11 +46,11 @@ size_t getLength (const char* str);
 bool isEmpty(const char* str);
 
 /* concats the string with itself n times, returns a new created string*/
-char* power (char* str, int n);
+char* power (const char* str, int n);
 
 /* checks if two strings are equal  */
 bool isEqual(const char* this, const char* that);
 
-/* only callable from power. concatenates two strings, in the first argument (dest) */
-void append (char** dest, char* src);
+/* needs a previously allocked pointer. concatenates two strings, in the first argument (dest) */
+void append (char** dest, const char* src);
 

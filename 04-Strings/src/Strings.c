@@ -49,7 +49,7 @@ inline bool isEmpty(const char* str){
     return *str == '\0';
 }
 
-char* power (char* src, int n){
+char* power (const char* src, int n){
 
     char* dest = NULL;
     dest = string_create();
@@ -61,7 +61,7 @@ char* power (char* src, int n){
     return dest;
 }
 
-void append (char** dest, char* src){
+void append (char** dest, const char* src){
     
     size_t dest_length = getLength(*dest);
     size_t src_length = getLength(src);
