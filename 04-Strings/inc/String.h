@@ -45,7 +45,7 @@ size_t getLength (const char* str);
 /* checks if string has no characters, returns True or False if not*/
 bool isEmpty(const char* str);
 
-/* concats the string with itself n times, returns the new string*/
+/* concats the string with itself n times, returns a new created string*/
 char* power (char* str, int n);
 
 /* checks if two strings are equal  */

@@ -50,7 +50,7 @@ int main(void){
     test = power(test, 2);
     assert(isEqual(test,"hello, world!hello, world!"));
     puts(test);
-    free(test);
+    string_destroy(test);
 
     /*Testing power, with negatives, should print "\n"*/
     test = power(test,-10);

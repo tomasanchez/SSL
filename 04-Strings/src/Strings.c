@@ -53,14 +53,13 @@ char* power (char* src, int n){
 
     //pattern matching
     if(n<=0)
-    return "";
+        return "";
 
     char* dest = NULL;
     dest = string_create();
     
-    for (int i = 0; i < n; i++){
+    for (int i = 0; i < n; i++)
         append(&dest, src);
-    }
 
     return dest;
 }
