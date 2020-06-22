@@ -31,10 +31,14 @@
 
 #include "String.h"
 
-char * string_create(){
+inline char * string_create(){
     char * new_str = malloc(sizeof(char));
     *new_str = '\0';
     return new_str;
+}
+
+inline void string_destroy(char * str){
+    free(str);
 }
 
 size_t getLength(const char* str){

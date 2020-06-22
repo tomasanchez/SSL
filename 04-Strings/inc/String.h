@@ -36,6 +36,9 @@
 /*  creates a new string initialized in '\0' */
 char * string_create();
 
+/* destroys a previously created string */
+void string_destroy(char * str);
+
 /*  calculates the length of a string */
 size_t getLength (const char* str);
 

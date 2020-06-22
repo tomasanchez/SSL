@@ -64,7 +64,7 @@ int main(void){
     puts(test);
     assert(isEqual(test," new world"));
 
-    free (test);
+    string_destroy(test);
 
     return 0;
 }
