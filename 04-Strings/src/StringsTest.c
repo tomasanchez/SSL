@@ -58,7 +58,6 @@ int main(void){
     puts(test);
 
     /*Testing append*/
-    test = string_create();
 
     append(&test, test_3);
     puts(test);

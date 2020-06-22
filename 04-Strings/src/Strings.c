@@ -51,14 +51,11 @@ inline bool isEmpty(const char* str){
 
 char* power (char* src, int n){
 
-    //pattern matching
-    if(n<=0)
-        return "";
-
     char* dest = NULL;
     dest = string_create();
-    
-    for (int i = 0; i < n; i++)
+
+    if(n>=0)
+        for (int i = 0; i < n; i++)
         append(&dest, src);
 
     return dest;
