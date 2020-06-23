@@ -51,8 +51,7 @@ inline bool isEmpty(const char* str){
 
 char* power (const char* src, int n){
 
-    char* dest = NULL;
-    dest = string_create();
+    char* dest = string_create();
 
     if(n>=0)
         for (int i = 0; i < n; i++)
@@ -67,17 +66,16 @@ void append (char** dest, const char* src){
     size_t src_length = getLength(src);
 
     *dest = realloc(*dest, dest_length + src_length + 1);
-    char * aux = NULL;
-    aux = *dest;
+    char * aux = *dest;
 
     //Avoiding jumps on uninitialized values
     for(size_t i = dest_length; i<= src_length; i++)
         aux[i] = '\0';
 
 
-    for (size_t i = 0; i <= src_length ; i++){
+    for (size_t i = 0; i <= src_length ; i++)
         aux[dest_length + i] = src[i];
-    }
+    
 }
 
 bool isEqual(const char* this_str,const char* that_str){

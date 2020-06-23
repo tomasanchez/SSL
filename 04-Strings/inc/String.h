@@ -24,7 +24,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 06/21/2020
+    last modified: 06/22/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
@@ -48,9 +48,9 @@ bool isEmpty(const char* str);
 /* concats the string with itself n times, returns a new created string*/
 char* power (const char* str, int n);
 
-/* checks if two strings are equal  */
+/* checks if the first string is equal to the second one  */
 bool isEqual(const char* this, const char* that);
 
-/* needs a previously allocked pointer. concatenates two strings, in the first argument (dest) */
+/* needs a previously allocated pointer. concatenates two strings, in the first argument (dest) */
 void append (char** dest, const char* src);
 
