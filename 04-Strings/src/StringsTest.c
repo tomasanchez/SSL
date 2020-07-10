@@ -58,7 +58,6 @@ int main(void){
     puts(test);
 
     /*Testing append*/
-
     append(&test, test_3);
     puts(test);
     assert(isEqual(test," new world"));

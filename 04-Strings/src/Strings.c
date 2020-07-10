@@ -72,7 +72,6 @@ void append (char** dest, const char* src){
     for(size_t i = dest_length; i<= src_length; i++)
         aux[i] = '\0';
 
-
     for (size_t i = 0; i <= src_length ; i++)
         aux[dest_length + i] = src[i];
     

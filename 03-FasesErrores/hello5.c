@@ -8,9 +8,12 @@
 *   last modified: 05/05/2020
 ------------------------------------------------------------------------------------ */
 
-int printf(const char *s, ...);
+#include <stdio.h>
+
+
 
 int main(void){
-     int i = 42;
-     printf("La respuesta es %d\n", i);
+     unsigned int * n = malloc(sizeof(int));
+     puts("This is an example.");
 }
+

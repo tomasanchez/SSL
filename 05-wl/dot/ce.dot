@@ -1,0 +1,33 @@
+digraph counter{
+
+subgraph cluster{
+
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+
+    1[label = <||>];
+    1->{a, 2};
+    
+    2[label = <||>];
+    2->{d, g};
+
+    a[label = <==> ];
+    a -> {c0,b};
+    c0[label = <c>];
+    b[label = <' '> ];
+
+    d[label = <==>];
+    d-> {e, f};
+    e[label = <c>];
+    f[label = <'\n'>];
+
+    g[label = <==>];
+    g->{h, i};
+    h[label = <c>];
+    i[label = <'\t'>];
+
+    label = "control expression";
+  }
+
+}

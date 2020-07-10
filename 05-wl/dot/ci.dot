@@ -1,0 +1,16 @@
+digraph counter{
+
+  subgraph cluster_0 {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+    a[label = <=> ];
+    a -> {nl,b};
+    b[label = <=> ];
+    b ->{nw, c};
+    c[label = <=>];
+    c ->{ nc, 0};
+    label = "counters' init";
+  }
+
+}
