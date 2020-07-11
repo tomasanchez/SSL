@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------
 
-    wl-1-enum-switch.c
+    src.c
 
     State machine based on The C Programming Language 1.5.4 example.
 
@@ -29,37 +29,10 @@
     last modified: 07/10/2020
 ------------------------------------------------------------------------------------ */
 
-#include "sm-es.h"
+#include "all.h"
 
-int sm_switch (){
-
-    stateMachine_t state_machine;
-
-    assert(!stateMachine_init(&state_machine));
-
-    while(stateMachine_is_reading(&state_machine)){
-
-        ++state_machine.nc;
-
-        switch (state_machine.c)
-        {
-        case '\n':
-            ++state_machine.nl;
-            state_machine.current_state=SM_OUT;
-            break;
-
-        case ' ':
-        case '\t':
-            state_machine.current_state = SM_OUT;
-            break;
-
-        default:
-            state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw: 0;
-            break;
-        }
-    }
-
-    stateMachine_print(&state_machine);
-
+int main (void){
+    puts("A simple state machine based on The C porgramming Language book");
+    sm_switch();
     return 0;
 }

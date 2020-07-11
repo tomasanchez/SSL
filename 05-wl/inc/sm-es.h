@@ -33,6 +33,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 /*Machine status: OUT, or IN*/
 typedef enum state {
@@ -43,4 +44,32 @@ typedef enum state {
 /* State Machine */
 typedef struct machine{
     state_t current_state;
+
+    // Char buffer
+    int c;
+    // number of lines
+    int nl;
+    // number of characters
+    int nc;
+    // number of words
+    int nw;
+
 } stateMachine_t;
+
+/* Creates a new state machine */
+int stateMachine_init(stateMachine_t * this_sm){
+    this_sm->c = this_sm->nc = this_sm->nl = this_sm->nw = 0;
+    this_sm->current_state = SM_OUT;
+    return this_sm->c && this_sm->nc && this_sm->nl && this_sm->nw && (int)this_sm->current_state;
+}
+
+/* Verifies if characters are being read*/
+int stateMachine_is_reading(stateMachine_t * this_sm){
+    return (this_sm->c = getchar()) != EOF;
+}
+
+/* Outputs to stdout counter results*/
+int stateMachine_print(const stateMachine_t * this_sm){
+    printf("No. of lines: %d\nNo. of words: %d\nNo. of characters: %d\n", this_sm->nl, this_sm->nw, this_sm->nc);
+    return puts("© 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar | All rights reserved");
+}
