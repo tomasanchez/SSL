@@ -13,7 +13,7 @@ subgraph cluster{
     2->{g, d};
 
     a[label = <==> ];
-    a -> {c0,b};
+    a -> {c0,i};
     c0[label = <c>];
     b[label = <' '> ];
 
@@ -23,7 +23,7 @@ subgraph cluster{
     f[label = <'\n'>];
 
     g[label = <==>];
-    g->{h, i};
+    g->{h, b};
     h[label = <c>];
     i[label = <'\t'>];
 
