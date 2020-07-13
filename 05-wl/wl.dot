@@ -1,0 +1,5 @@
+digraph G {
+    IN -> OUT [label = eol]
+    OUT -> IN [label = char]
+    IN -> IN [label = char]
+}

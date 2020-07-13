@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------
 
-    src.c
+    wl-2-goto.c
 
     State machine based on The C Programming Language 1.5.4 example.
 
@@ -29,22 +29,40 @@
     last modified: 07/13/2020
 ------------------------------------------------------------------------------------ */
 
-#include "all.h"
+#include "sm-es.h"
+
+int sm_goto()
+{
+
+    stateMachine_t state_machine;
+    assert(!stateMachine_init(&state_machine));
 
 
+    start:
+        if(stateMachine_is_reading(&state_machine)){
 
-int main (void){
+            state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0;
+            
+            ++state_machine.nc;
 
-    puts("A simple state machine based on The C porgramming Language book");
-    
-    switch (sm_get_option())
-    {
-    case SM_GOTO:
-        sm_goto(); break;
-    default:
-        sm_switch(); break;
-    }
-    
-    return 0;
+            if(stateMachine_is_EOL(state_machine))
+                goto out;
+            else
+                goto in;
+
+        }else
+            goto end;
+            
+
+    in:
+        state_machine.current_state = SM_IN;
+        goto start;
+
+    out:
+        state_machine.current_state = SM_OUT;
+        state_machine.c == '\n' ? ++state_machine.nl : 0;
+        goto start;
+
+    end:
+        return stateMachine_print(&state_machine);
 }
-

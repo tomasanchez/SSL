@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    src.c
+    sm-es.h
 
-    State machine based on The C Programming Language 1.5.4 example.
+    Header for State machine based on The C Programming Language 1.5.4 example.
 
     MIT License
 
@@ -28,23 +28,23 @@
 
     last modified: 07/13/2020
 ------------------------------------------------------------------------------------ */
+#include "sm-es.h"
 
-#include "all.h"
-
-
-
-int main (void){
-
-    puts("A simple state machine based on The C porgramming Language book");
-    
-    switch (sm_get_option())
-    {
-    case SM_GOTO:
-        sm_goto(); break;
-    default:
-        sm_switch(); break;
-    }
-    
-    return 0;
+int stateMachine_init(stateMachine_t * this_sm){
+    this_sm->c = this_sm->nc = this_sm->nl = this_sm->nw = 0;
+    this_sm->current_state = SM_OUT;
+    return this_sm->c && this_sm->nc && this_sm->nl && this_sm->nw && (int)this_sm->current_state;
 }
 
+int stateMachine_is_reading(stateMachine_t * this_sm){
+    return (this_sm->c = getchar()) != EOF;
+}
+
+int stateMachine_print(const stateMachine_t * this_sm){
+    printf("No. of lines: %d\nNo. of words: %d\nNo. of characters: %d\n", this_sm->nl, this_sm->nw, this_sm->nc);
+    return puts("© 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar | All rights reserved");
+}
+
+int stateMachine_is_EOL(stateMachine_t this_sm){
+    return (this_sm.c == ' ') || (this_sm.c == '\t') || (this_sm.c == '\n');
+}

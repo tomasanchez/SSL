@@ -26,12 +26,34 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/10/2020
+    last modified: 07/13/2020
 ------------------------------------------------------------------------------------ */
 
 # pragma once
 
 #include <stdio.h>
 
+typedef enum SM_type{
+    SM_GOTO,
+    SM_SWITCH,
+    SM_FOR
+}SM_type_t;
+
 /*  Switch test for state machine */
 int sm_switch ();
+
+/* Goto test for state machine */
+int sm_goto();
+
+/* Chooses what state machine to execute*/
+SM_type_t sm_get_option(){
+    int option;
+
+    puts("Choose variant:");
+    puts("[0] goto");
+    puts("[1] switch");
+    puts("[2] for");
+    scanf("%d", &option );
+
+    return option;
+}

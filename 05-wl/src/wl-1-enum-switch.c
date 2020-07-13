@@ -31,7 +31,8 @@
 
 #include "sm-es.h"
 
-int sm_switch (){
+int sm_switch(void)
+{
 
     stateMachine_t state_machine;
 
