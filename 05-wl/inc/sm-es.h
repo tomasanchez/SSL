@@ -65,6 +65,5 @@ int stateMachine_is_reading(stateMachine_t *);
 /* Outputs to stdout counter results*/
 int stateMachine_print(const stateMachine_t *);
 
-
 /* Checks is End of Line character*/
 int stateMachine_is_EOL(stateMachine_t);
