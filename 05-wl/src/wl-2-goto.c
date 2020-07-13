@@ -40,8 +40,6 @@ int sm_goto()
 
     start:
         if(stateMachine_is_reading(&state_machine)){
-
-            state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0;
             
             ++state_machine.nc;
 
@@ -55,12 +53,15 @@ int sm_goto()
             
 
     in:
+        state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0;
         state_machine.current_state = SM_IN;
         goto start;
 
     out:
+
         state_machine.current_state = SM_OUT;
         state_machine.c == '\n' ? ++state_machine.nl : 0;
+
         goto start;
 
     end:

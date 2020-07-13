@@ -41,7 +41,7 @@ int stateMachine_is_reading(stateMachine_t * this_sm){
 }
 
 int stateMachine_print(const stateMachine_t * this_sm){
-    printf("No. of lines: %d\nNo. of words: %d\nNo. of characters: %d\n", this_sm->nl, this_sm->nw, this_sm->nc);
+    printf("\nNo. of lines: %d\nNo. of words: %d\nNo. of characters: %d\n", this_sm->nl, this_sm->nw, this_sm->nc);
     return puts("© 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar | All rights reserved");
 }
 
