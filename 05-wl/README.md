@@ -14,6 +14,19 @@
 
 ![wl](dot/wl.svg)
 
+
+### Definicion formal
+
+```
+{Q, E, T, out, F}
+
+Q = {in, out}
+E = {ASCII}
+T : Q X E -> Q
+F = {in, out}
+```
+
+
 Nota: EOL representa *end of line characters* que incluye el ingreso de *'\n', '\t', etc*, mientras que *char* un caracter cualquiera distinto a los de EOL.
 
 ### Switch - Enum
@@ -34,3 +47,14 @@ switch(c){
     default:
 }
 ```
+
+
+### Goto
+
+Si bien, generalmente, se desalienta el uso del goto. Este puede resultar util para:
+
+- Salir de *nested loops*: goto resulta mas limpio y a diferencia del *break keyword* permite salir de todos los loops y no solo de uno.
+
+- Performance: Si bien esto es una espada de doble filo, ya que los compiladores no pueden optimizar gotos, estos se ejecutan relativamente mas rapidos.
+
+- Legibilidad: permiten un codigo mas amigable a la vista, probablemente en menos lineas.
