@@ -40,22 +40,22 @@ int sm_switch(void)
 
     while(stateMachine_is_reading(&state_machine)){
 
-        ++state_machine.nc;
 
         switch (state_machine.c)
         {
         case '\n':
-            ++state_machine.nl;
-            state_machine.current_state=SM_OUT;
-            break;
+            ++state_machine.nl; 
+            continue;
 
         case ' ':
+            continue;
+
         case '\t':
             state_machine.current_state = SM_OUT;
             break;
 
         default:
-            state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw: 0;
+            state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 1 ;
             break;
         }
     }

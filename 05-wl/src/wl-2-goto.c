@@ -40,24 +40,20 @@ int sm_goto()
 
     start:
         if(stateMachine_is_reading(&state_machine)){
-            
-            ++state_machine.nc;
 
             if(stateMachine_is_EOL(state_machine))
-                goto out;
+                goto OUT;
             else
-                goto in;
+                goto IN;
 
         }else
             goto end;
-            
 
-    in:
-        state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0;
-        state_machine.current_state = SM_IN;
+    IN:
+        state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0 ;
         goto start;
 
-    out:
+    OUT:
 
         state_machine.current_state = SM_OUT;
         state_machine.c == '\n' ? ++state_machine.nl : 0;

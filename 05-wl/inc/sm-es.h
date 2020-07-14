@@ -49,8 +49,6 @@ typedef struct machine{
     int c;
     // number of lines
     int nl;
-    // number of characters
-    int nc;
     // number of words
     int nw;
 
