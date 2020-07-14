@@ -38,29 +38,37 @@ int sm_goto()
     assert(!stateMachine_init(&state_machine));
 
 
-    start:
+    OUT:
         if(stateMachine_is_reading(&state_machine)){
-
-            if(stateMachine_is_EOL(state_machine))
+            state_machine.current_state = SM_OUT;
+            stateMachine_put(state_machine);
+            
+            if(stateMachine_is_EOL(state_machine)){
+                
+                state_machine.c == '\n' ? ++state_machine.nl : 0;
                 goto OUT;
-            else
+            }else
                 goto IN;
+    
 
         }else
-            goto end;
+            return stateMachine_print(&state_machine);
 
     IN:
-        state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0 ;
-        stateMachine_put(state_machine);
-        goto start;
+        state_machine.current_state = SM_IN;
+        ++state_machine.nw;
 
-    OUT:
+        if(stateMachine_is_reading(&state_machine)){
 
-        state_machine.current_state = SM_OUT;
-        state_machine.c == '\n' ? ++state_machine.nl, stateMachine_put_eol() : 0;
+            stateMachine_put(state_machine);
 
-        goto start;
-
-    end:
-        return stateMachine_print(&state_machine);
+            if(stateMachine_is_EOL(state_machine)){
+                state_machine.c == '\n' ? ++state_machine.nl : 0;
+                goto OUT;
+            }else
+                goto IN;
+                
+        }else
+            return stateMachine_print(&state_machine);
+        
 }
