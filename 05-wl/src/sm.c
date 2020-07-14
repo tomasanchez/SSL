@@ -45,6 +45,14 @@ inline int stateMachine_print(const stateMachine_t * this_sm){
     return puts("© 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar | All rights reserved");
 }
 
-inline int stateMachine_is_EOL(stateMachine_t this_sm){
+inline int stateMachine_is_EOL(const stateMachine_t this_sm){
     return (this_sm.c == ' ') || (this_sm.c == '\t') || (this_sm.c == '\n');
+}
+
+inline int stateMachine_put(const stateMachine_t this_sm){
+    return putchar(this_sm.c);
+}
+
+inline int stateMachine_put_eol(void){
+    return puts("");
 }

@@ -51,12 +51,13 @@ int sm_goto()
 
     IN:
         state_machine.current_state == SM_OUT? state_machine.current_state = SM_IN, ++state_machine.nw : 0 ;
+        stateMachine_put(state_machine);
         goto start;
 
     OUT:
 
         state_machine.current_state = SM_OUT;
-        state_machine.c == '\n' ? ++state_machine.nl : 0;
+        state_machine.c == '\n' ? ++state_machine.nl, stateMachine_put_eol() : 0;
 
         goto start;
 

@@ -65,3 +65,9 @@ int stateMachine_print(const stateMachine_t *);
 
 /* Checks is End of Line character*/
 int stateMachine_is_EOL(stateMachine_t);
+
+/* Puts a the current character*/
+int stateMachine_put(stateMachine_t);
+
+/* Puts a new line */
+int stateMachine_put_eol(void);
