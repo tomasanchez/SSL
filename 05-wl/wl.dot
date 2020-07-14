@@ -1,5 +1,6 @@
 digraph G {
-    IN -> OUT [label = eol]
-    OUT -> IN [label = char]
-    IN -> IN [label = char]
+    IN -> OUT [label = <mostrar enter>]
+    OUT -> IN [label = <   mostrar letra>]
+    OUT -> OUT [label = <contar caracter>]
+    IN -> IN [label = <mostrar letra>]
 }
