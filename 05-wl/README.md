@@ -48,6 +48,8 @@ switch(c){
 
 ### Goto
 
+Lo podemos encontrar en lenguajes como C, C++, C#.
+
 Si bien, generalmente, se desalienta el uso del goto. Este puede resultar util para:
 
 - Salir de *nested loops*: goto resulta mas limpio y a diferencia del *break keyword* permite salir de todos los loops y no solo de uno.
