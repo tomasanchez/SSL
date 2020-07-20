@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/13/2020
+    last modified: 07/20/2020
 ------------------------------------------------------------------------------------ */
 #include "sm-es.h"
 
@@ -51,8 +51,4 @@ inline int stateMachine_is_EOL(const stateMachine_t this_sm){
 
 inline int stateMachine_put(const stateMachine_t this_sm){
     return putchar(this_sm.c);
-}
-
-inline int stateMachine_put_eol(void){
-    return puts("");
 }

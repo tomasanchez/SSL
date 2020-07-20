@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------
 
-    wl-2-goto.c
+    wl-3-recursive.c
 
     State machine based on The C Programming Language 1.5.4 example.
 
@@ -26,48 +26,41 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/13/2020
+    last modified: 07/20/2020
 ------------------------------------------------------------------------------------ */
 
 #include "sm-es.h"
 
-int sm_goto()
-{
+/* Iterates the state machine, returning the number of iterations*/ 
+static int sm_recursive_loop (stateMachine_t *);
 
-    stateMachine_t state_machine;
-    assert(!stateMachine_init(&state_machine));
+int sm_recursive(void){
+
+    stateMachine_t recursive;
+
+    stateMachine_init(&recursive);
+
+    sm_recursive_loop(&recursive);
+    
+    return  stateMachine_print(&recursive);
+}
+
+static int sm_recursive_loop (stateMachine_t * this_sm){
 
 
-    OUT:
-        if(stateMachine_is_reading(&state_machine)){
-            state_machine.current_state = SM_OUT;
-            stateMachine_put(state_machine);
-            
-            if(stateMachine_is_EOL(state_machine)){
-                state_machine.c == '\n' ? ++state_machine.nl : 0;
-                goto OUT;
-            }else
-                goto IN;
+    if(stateMachine_is_reading(this_sm)){
+        
+        stateMachine_put(*this_sm);
+
+        if(stateMachine_is_EOL(*this_sm))
+            this_sm->current_state = SM_OUT;
+        else
+            this_sm->current_state = SM_IN;
+        
+        
+    } else
+        return 0;
     
 
-        }else
-            return stateMachine_print(&state_machine);
-
-    IN:
-        state_machine.current_state = SM_IN;
-        ++state_machine.nw;
-
-        if(stateMachine_is_reading(&state_machine)){
-
-            stateMachine_put(state_machine);
-
-            if(stateMachine_is_EOL(state_machine)){
-                state_machine.c == '\n' ? ++state_machine.nl : 0;
-                goto OUT;
-            }else
-                goto IN;
-                
-        }else
-            return stateMachine_print(&state_machine);
-        
+    return 1 + sm_recursive_loop(this_sm);
 }

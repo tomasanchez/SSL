@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/13/2020
+    last modified: 07/20/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
@@ -34,6 +34,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+
+#define INITIALIZED 1
 
 /*Machine status: OUT, or IN*/
 typedef enum state {
@@ -68,6 +70,3 @@ int stateMachine_is_EOL(stateMachine_t);
 
 /* Puts a the current character*/
 int stateMachine_put(stateMachine_t);
-
-/* Puts a new line */
-int stateMachine_put_eol(void);

@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/13/2020
+    last modified: 07/20/2020
 ------------------------------------------------------------------------------------ */
 
 # pragma once
@@ -36,14 +36,17 @@
 typedef enum SM_type{
     SM_GOTO,
     SM_SWITCH,
-    SM_FOR
+    SM_RECURSIVE
 }SM_type_t;
 
 /*  Switch test for state machine */
-int sm_switch ();
+int sm_switch (void);
 
 /* Goto test for state machine */
-int sm_goto();
+int sm_goto(void);
+
+/* Recursive test for state machine*/
+int sm_recursive(void);
 
 /* Chooses what state machine to execute*/
 SM_type_t sm_get_option(){
@@ -52,7 +55,7 @@ SM_type_t sm_get_option(){
     puts("Choose variant:");
     puts("[0] goto");
     puts("[1] switch");
-    puts("[2] for");
+    puts("[2] Recursive");
     scanf("%d", &option );
 
     return option;

@@ -41,6 +41,8 @@ int main (void){
     {
     case SM_GOTO:
         sm_goto(); break;
+    case SM_RECURSIVE:
+        sm_recursive(); break;
     default:
         sm_switch(); break;
     }
