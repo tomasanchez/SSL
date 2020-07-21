@@ -1,16 +1,25 @@
-==1229== Memcheck, a memory error detector
-==1229== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1229== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==1229== Command: ./test.exe
-==1229== Parent PID: 1215
-==1229== 
-==1229== error calling PR_SET_PTRACER, vgdb might block
-==1229== 
-==1229== HEAP SUMMARY:
-==1229==     in use at exit: 0 bytes in 0 blocks
-==1229==   total heap usage: 2 allocs, 2 frees, 2,048 bytes allocated
-==1229== 
-==1229== All heap blocks were freed -- no leaks are possible
-==1229== 
-==1229== For counts of detected and suppressed errors, rerun with: -v
-==1229== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==466== Memcheck, a memory error detector
+==466== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==466== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==466== Command: ./test.exe
+==466== Parent PID: 452
+==466== 
+==466== error calling PR_SET_PTRACER, vgdb might block
+==466== 
+==466== Process terminating with default action of signal 1 (SIGHUP)
+==466==    at 0x4F4C07F: read (read.c:27)
+==466==    by 0x4EC9147: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:531)
+==466==    by 0x4ECA3F1: _IO_default_uflow (genops.c:380)
+==466==    by 0x4EA7BE9: _IO_vfscanf (vfscanf.c:630)
+==466==    by 0x4EB7FD7: __isoc99_scanf (isoc99_scanf.c:37)
+==466==    by 0x1089BA: sm_get_option (all.h:59)
+==466==    by 0x108A3C: main (src.c:44)
+==466== 
+==466== HEAP SUMMARY:
+==466==     in use at exit: 0 bytes in 0 blocks
+==466==   total heap usage: 2 allocs, 2 frees, 2,048 bytes allocated
+==466== 
+==466== All heap blocks were freed -- no leaks are possible
+==466== 
+==466== For counts of detected and suppressed errors, rerun with: -v
+==466== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

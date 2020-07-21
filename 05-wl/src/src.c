@@ -31,8 +31,6 @@
 
 #include "all.h"
 
-
-
 int main (void){
 
     puts("A simple state machine based on The C porgramming Language book");

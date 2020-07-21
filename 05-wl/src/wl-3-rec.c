@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------
 
-    wl-3-recursive.c
+    wl-3-rec.c
 
     State machine based on The C Programming Language 1.5.4 example.
 
