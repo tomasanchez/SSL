@@ -45,7 +45,6 @@ switch(c){
 }
 ```
 
-
 ### Goto
 
 Lo podemos encontrar en lenguajes como C, C++, C#.

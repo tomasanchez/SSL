@@ -1,6 +1,6 @@
 digraph G {
-    IN -> OUT [label = <mostrar enter>]
+    IN -> OUT [label = <mostrar salto>]
     OUT -> IN [label = <   mostrar letra>]
-    OUT -> OUT [label = <contar caracter>]
+    OUT -> OUT [label = <mostrar salto>]
     IN -> IN [label = <mostrar letra>]
 }

@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------
 
-    src.c
+    scanner.c
 
     State machine based on The C Programming Language 1.5.4 example.
 
@@ -26,26 +26,5 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 07/13/2020
+    last modified: 09/10/2020
 ------------------------------------------------------------------------------------ */
-
-#include "all.h"
-
-int main (void){
-
-    puts("A simple state machine based on The C porgramming Language book");
-    
-    switch (sm_get_option())
-    {
-    case SM_GOTO:
-        sm_goto(); break;
-    case SM_RECURSIVE:
-        sm_recursive(); break;
-    case SM_SWITCH:
-        ;
-    default:
-        sm_switch(); break;
-    }
-    
-    return 0;
-}
