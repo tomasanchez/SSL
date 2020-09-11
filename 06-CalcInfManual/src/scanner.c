@@ -26,5 +26,65 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/11/2020
 ------------------------------------------------------------------------------------ */
+
+#include "inc/scanner.h"
+
+int scanner_read(scanner_t * this){
+    int c = getchar();
+    return scanner_is_valid(this, c);
+}
+
+inline int scanner_is_valid(scanner_t * this, int c){
+    return scanner_is_number(this, c) || scanner_is_operator(this, c);
+}
+
+inline int scanner_check_buffer(scanner_t * this){
+
+    if ( this->index > (buffer_size - 1)){
+        puts("[WARNING] Buffer overflow: buffer will be overwritten");
+        this->flags.overwritter = true;
+        this->index = 0;
+    } else if(this->flags.overwritter){
+        puts("[WARNING] Buffer is being overwritten");  
+    }
+    
+    return this->index;
+}
+
+inline bool scanner_is_number(scanner_t * this, int c){
+
+    this->flags.operand = false;
+
+    scanner_check_buffer(this);
+        
+    if ( (c >= 0) && (c <= 9)){
+
+        this->flags.operand = true;
+        snprintf(this->ibuffer, 1,"%d", c);
+        this->index++;
+
+    } else if((c >= 'a') && (c <= 'z') || (c >= 'A') && (c <= 'Z')){
+        this->flags.operand = true;
+        this->ibuffer[this->index++] = c;
+    }
+
+    return this->flags.operand;
+}
+
+inline bool scanner_is_operator(scanner_t * this, int c){
+
+    scanner_check_buffer(this);
+
+    this->flags.optor = false;
+
+    for(int i = 0 ; i < operator_size; i++){
+        if(optor_list[i] == c){
+            this->flags.optor = true;
+            this->ibuffer[this->index] = c;
+        }
+    }    
+   
+    return this->flags.operand;
+}
