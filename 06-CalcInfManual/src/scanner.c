@@ -26,21 +26,19 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/11/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
 #include "inc/scanner.h"
 
-scanner_t scanner_create(){
+inline scanner_t scanner_create(){
     scanner_t new;
     new.index = buffer_clean(new.ibuffer);
     new.flags.operand = new.flags.optor = new.flags.overwritten = false;
     return new;
 }
 
-
-
-int scanner_read(scanner_t * this){
+inline int scanner_read(scanner_t * this){
     int c = getchar();
     return scanner_is_valid(this, c);
 }
@@ -56,7 +54,7 @@ inline token_t scanner_is_valid(scanner_t * this, int c){
         return INVALID;
 }
 
-inline int scanner_check_buffer(scanner_t * this){
+int scanner_check_buffer(scanner_t * this){
 
     if ( this->index >= (buffer_size - 2)){
         puts("[WARNING] Buffer overflow: buffer will be overwritten");
@@ -69,7 +67,7 @@ inline int scanner_check_buffer(scanner_t * this){
     return this->index;
 }
 
-inline bool scanner_is_number(scanner_t * this, int c){
+bool scanner_is_number(scanner_t * this, int c){
 
     this->flags.operand = false;
 
@@ -83,7 +81,7 @@ inline bool scanner_is_number(scanner_t * this, int c){
     return this->flags.operand;
 }
 
-inline bool scanner_is_variable(scanner_t * this, int c){
+bool scanner_is_variable(scanner_t * this, int c){
 
     this->flags.operand = false;
 
@@ -95,7 +93,7 @@ inline bool scanner_is_variable(scanner_t * this, int c){
     return this->flags.operand;
 }
 
-inline bool scanner_is_operator(scanner_t * this, int c){
+bool scanner_is_operator(scanner_t * this, int c){
 
     scanner_check_buffer(this);
 
@@ -109,4 +107,25 @@ inline bool scanner_is_operator(scanner_t * this, int c){
     }    
    
     return this->flags.operand;
+}
+
+inline int scanner_GetNextToken(char * dest, scanner_t * this){
+
+    /* Explanation Index - 2:
+     * 
+     * Suppose a new token is detected we will have something like this
+     *            0   |   1   |   2    |   ...   |   31  |
+     *            7   |   +   |   \0   |   ...   |   \0  |
+     *                  The thing is that INDEX = 2,
+     *      And we need to get 7, and then +,  so we also need to save the element in INDEX - 1
+     */
+
+    char last_token = this->ibuffer[this->index-1];
+    strncpy(dest, this->ibuffer, this->index - 2);
+
+    this->index = buffer_clean(this->ibuffer);
+
+    this->ibuffer[this->index++] = last_token;
+
+    return 0;
 }

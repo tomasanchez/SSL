@@ -60,3 +60,6 @@ int calculator_read(calculator_t *);
 
 /*Checks if a new token has been detected*/
 int calculator_new_token(calculator_t *);
+
+/*Allow communication between parser and scanner*/
+int calculator_GetNextToken(calculator_t *);

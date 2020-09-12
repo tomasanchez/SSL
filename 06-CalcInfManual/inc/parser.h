@@ -35,6 +35,7 @@
 typedef struct pToken{
     char token[buffer_size];
     int index;
+    bool valid;
 }ptoken_t;
 
 typedef struct Parser{
@@ -43,3 +44,6 @@ typedef struct Parser{
 
 /*Creates a new usable parser*/
 parser_t parser_create();
+
+/*Adds token to the list*/
+parser_t parser_GetNextToken(parser_t *, char *);

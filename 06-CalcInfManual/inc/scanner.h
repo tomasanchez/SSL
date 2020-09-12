@@ -60,3 +60,5 @@ bool scanner_is_number(scanner_t *, int);
 /*Checks if is a valid operator, from the operator list*/
 bool scanner_is_operator(scanner_t *, int);
 
+/*Loads new token from scanner buffer*/
+int scanner_GetNextToken(char *, scanner_t *);

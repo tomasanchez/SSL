@@ -56,12 +56,6 @@
 	*/
 	void list_add_in_index(t_list *, int index, void *element);
 
-	/**
-	* @NAME: list_add_all
-	* @DESC: Agrega todos los elementos de
-	* la segunda lista en la primera
-	*/
-	void list_add_all(t_list*, t_list* other);
 
 	/**
 	* @NAME: list_get
@@ -84,19 +78,6 @@
 	*/
 	t_list* list_take_and_remove(t_list*, int count);
 
-	/**
-	* @NAME: list_filter
-	* @DESC: Retorna una nueva lista con los
-	* elementos que cumplen la condicion
-	*/
-	t_list* list_filter(t_list*, bool(*condition)(void*));
-
-	/**
-	* @NAME: list_map
-	* @DESC: Retorna una nueva lista con los
-	* con los elementos transformados
-	*/
-	t_list* list_map(t_list*, void*(*transformer)(void*));
 
 	/**
 	* @NAME: list_replace

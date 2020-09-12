@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/11/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
 #include "../inc/Calc.h"
@@ -49,6 +49,14 @@ inline int calculator_new_token(calculator_t * this){
     return this->token_type != this->previous_token;
 }
 
+int calculator_GetNextToken(calculator_t * this){
+
+    scanner_GetNextToken(this->tbuffer, &this->scanner);
+    parser_GetNextToken(&this->parser, this->tbuffer);
+
+    return 0;
+}
+
 int calculator_parse(calculator_t * this){
 
 }
@@ -58,7 +66,7 @@ int calculator_update(calculator_t * this){
     calculator_read(this);
 
     if(calculator_new_token(this) || !calculator_is_running(this)){
-        calculator_parse(this);
+        calculator_GetNextToken(this);
     }
 
     return 0;

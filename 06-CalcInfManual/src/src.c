@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/11/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
 #include "../inc/Calc.h"
@@ -40,6 +40,9 @@ int main(void){
         calculator_update(&this_calculator);
 
     }
+
+    calculator_print_results(&this_calculator);
+    calculator_destroy(&this_calculator);
 
     return 0;
 }

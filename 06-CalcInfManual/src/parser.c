@@ -39,3 +39,7 @@ parser_t parser_crate(){
     return new;  
 }
 
+parser_add_token(parser_t * this){
+
+
+}
