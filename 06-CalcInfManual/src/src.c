@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    Calc.h
+    src.c
 
-    Infix Manual Calculator header
+    Infix manual calculator test
 
     MIT License
 
@@ -26,34 +26,20 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/11/2020
 ------------------------------------------------------------------------------------ */
 
-#pragma once
+#include "../inc/Calc.h"
 
-#include "scanner.h"
+int main(void){
 
-typedef struct Flags{
-    bool fst, optor, operand, running;
-} cflags_t;
+    calculator_t this_calculator = calculator_create();
 
-typedef struct Calculator{
-    scanner_t scanner;
-    cflags_t flags;
-    token_t token_type, previous_token;
-} calculator_t;
+    while(calculator_is_running(&this_calculator)){
 
-/*Starts a calculator ready to run*/
-calculator_t calculator_create();
+        calculator_update(&this_calculator);
 
-/*Checks if calculator is active*/
-bool calculator_is_running(const calculator_t *);
+    }
 
-/*Updates lvalues of calculator*/
-int calculator_update(calculator_t *);
-
-/*Loads a new character into the calculator*/
-int calculator_read(calculator_t *);
-
-/*Checks if a new token has been detected*/
-int calculator_new_token(calculator_t *);
+    return 0;
+}

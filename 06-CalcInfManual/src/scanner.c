@@ -31,22 +31,38 @@
 
 #include "inc/scanner.h"
 
+scanner_t scanner_create(){
+    scanner_t new;
+    new.index = 0;
+    new.ibuffer[buffer_size] = '\0';
+    new.flags.operand = new.flags.optor = new.flags.overwritten = false;
+    return new;
+}
+
+
+
 int scanner_read(scanner_t * this){
     int c = getchar();
     return scanner_is_valid(this, c);
 }
 
-inline int scanner_is_valid(scanner_t * this, int c){
-    return scanner_is_number(this, c) || scanner_is_operator(this, c);
+inline token_t scanner_is_valid(scanner_t * this, int c){
+
+    if(scanner_is_number(this, c))
+        return OPERAND;
+    else if (scanner_is_operator(this, c))
+        return OPERATOR;
+    else
+        return INVALID;
 }
 
 inline int scanner_check_buffer(scanner_t * this){
 
     if ( this->index > (buffer_size - 1)){
         puts("[WARNING] Buffer overflow: buffer will be overwritten");
-        this->flags.overwritter = true;
+        this->flags.overwritten = true;
         this->index = 0;
-    } else if(this->flags.overwritter){
+    } else if(this->flags.overwritten){
         puts("[WARNING] Buffer is being overwritten");  
     }
     

@@ -35,15 +35,21 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef enum token{
+    INVALID = -1,
+    OPERATOR,
+    OPERAND
+}token_t;
+
 /*Defines size of scanner number buffer*/
-const int buffer_size = 31;
+const int buffer_size = 32;
 /*Current number of valid operators*/
 const int operator_size = 3;
 /*Valid operators*/
 const char optor_list[] = {'+','-', '*'};
 
 typedef struct Sflags{
-    bool optor, operand, overwritter;
+    bool optor, operand, overwritten;
 } sflags_t;
 
 typedef struct Scanner {
@@ -52,8 +58,11 @@ typedef struct Scanner {
     sflags_t flags;
 } scanner_t;
 
+/* Creates a scanner */
+scanner_t scanner_create();
+
 /*Scans a character from*/
-int scanner_read(scanner_t *);
+token_t scanner_read(scanner_t *);
 
 /*Checks if is a valid scan*/
 int scanner_is_valid(scanner_t *, int);
