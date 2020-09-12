@@ -32,14 +32,13 @@
 #pragma once
 #include "all.h"
 
-typedef struct List{
+typedef struct pToken{
     char token[buffer_size];
-    tokenList_t * next;
-}tokenList_t;
+    int index;
+}ptoken_t;
 
 typedef struct Parser{
- char obuffer[buffer_size];
- int index;
+    t_list* token_list;
 }parser_t;
 
 /*Creates a new usable parser*/

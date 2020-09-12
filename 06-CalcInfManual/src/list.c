@@ -42,14 +42,6 @@ int list_add(t_list *self, void *data) {
 	return self->elements_count - 1;
 }
 
-void list_add_all(t_list* self, t_list* other) {
-	void _add_in_list(void* element){
-		list_add(self, element);
-	}
-
-	list_iterate(other, _add_in_list);
-}
-
 void* list_get(t_list *self, int index) {
 	t_link_element* element_in_index = list_get_element(self, index);
 	return element_in_index != NULL ? element_in_index->data : NULL;
@@ -203,31 +195,6 @@ t_list* list_take_and_remove(t_list* self, int count) {
 		list_add(sublist, element);
 	}
 	return sublist;
-}
-
-t_list* list_filter(t_list* self, bool(*condition)(void*)){
-	t_list* filtered = list_create();
-
-	void _add_if_apply(void* element) {
-		if (condition(element)) {
-			list_add(filtered, element);
-		}
-	}
-
-	list_iterate(self, _add_if_apply);
-	return filtered;
-}
-
-t_list* list_map(t_list* self, void*(*transformer)(void*)){
-	t_list* mapped = list_create();
-
-	void _add_after_transform(void* element) {
-		void* new_element = transformer(element);
-		list_add(mapped, new_element);
-	}
-
-	list_iterate(self, _add_after_transform);
-	return mapped;
 }
 
 void list_sort(t_list *self, bool (*comparator)(void *, void *)) {
