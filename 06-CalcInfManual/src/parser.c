@@ -34,6 +34,7 @@
 parser_t parser_crate(){
     parser_t new;
     new.index = buffer_clean(new.obuffer);
-    
+
     return new;  
 }
+

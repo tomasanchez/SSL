@@ -32,6 +32,11 @@
 #pragma once
 #include "all.h"
 
+typedef struct List{
+    char token[buffer_size];
+    tokenList_t * next;
+}tokenList_t;
+
 typedef struct Parser{
  char obuffer[buffer_size];
  int index;
