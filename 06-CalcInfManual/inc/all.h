@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    all.h
 
-    scanner for infix calculator.
+    Infix Manual Calculator header
 
     MIT License
 
@@ -26,37 +26,35 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "all.h"
 
-typedef struct Sflags{
-    bool optor, operand, overwritten;
-} sflags_t;
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-typedef struct Scanner {
-    char ibuffer[buffer_size];
-    int index;
-    sflags_t flags;
-} scanner_t;
+typedef enum token{
+    INVALID = -1,
+    OPERATOR,
+    OPERAND,
+    OPERANDV
+}token_t;
 
-/* Creates a scanner */
-scanner_t scanner_create();
+/*Defines size of scanner number buffer*/
+const int buffer_size = 32;
+/*Current number of valid operators*/
+const int operator_size = 3;
+/*Valid operators*/
+const char optor_list[] = {'+','-', '*'};
 
-/*Scans a character from*/
-token_t scanner_read(scanner_t *);
+/*Initializes a buffer*/
+int buffer_clean(char * buffer){
 
-/*Checks if is a valid scan*/
-int scanner_is_valid(scanner_t *, int);
-
-/*Investigates if buffer is being overwritten*/
-int scanner_check_buffer(scanner_t *);
-
-/*Checks if is a valid number Number = [0..9] or a Variable = [a..z,A..Z]*/
-bool scanner_is_number(scanner_t *, int);
-
-/*Checks if is a valid operator, from the operator list*/
-bool scanner_is_operator(scanner_t *, int);
-
+    for (int i = 0; i < buffer_size; i++){
+        buffer[i] = '\0';
+    }
+    
+    return 0;
+}

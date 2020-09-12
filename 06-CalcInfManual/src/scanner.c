@@ -33,8 +33,7 @@
 
 scanner_t scanner_create(){
     scanner_t new;
-    new.index = 0;
-    new.ibuffer[buffer_size] = '\0';
+    new.index = buffer_clean(new.ibuffer);
     new.flags.operand = new.flags.optor = new.flags.overwritten = false;
     return new;
 }
@@ -47,18 +46,19 @@ int scanner_read(scanner_t * this){
 }
 
 inline token_t scanner_is_valid(scanner_t * this, int c){
-
     if(scanner_is_number(this, c))
         return OPERAND;
     else if (scanner_is_operator(this, c))
         return OPERATOR;
+    else if (scanner_is_variable(this, c))
+        return OPERANDV;
     else
         return INVALID;
 }
 
 inline int scanner_check_buffer(scanner_t * this){
 
-    if ( this->index > (buffer_size - 1)){
+    if ( this->index >= (buffer_size - 2)){
         puts("[WARNING] Buffer overflow: buffer will be overwritten");
         this->flags.overwritten = true;
         this->index = 0;
@@ -75,13 +75,19 @@ inline bool scanner_is_number(scanner_t * this, int c){
 
     scanner_check_buffer(this);
         
-    if ( (c >= 0) && (c <= 9)){
-
+    if ( (c >= '0') && (c <= '9')){
         this->flags.operand = true;
-        snprintf(this->ibuffer, 1,"%d", c);
-        this->index++;
+        this->ibuffer[this->index++] = c;
+    } else 
 
-    } else if((c >= 'a') && (c <= 'z') || (c >= 'A') && (c <= 'Z')){
+    return this->flags.operand;
+}
+
+inline bool scanner_is_variable(scanner_t * this, int c){
+
+    this->flags.operand = false;
+
+    if((c >= 'a') && (c <= 'z') || (c >= 'A') && (c <= 'Z')){
         this->flags.operand = true;
         this->ibuffer[this->index++] = c;
     }

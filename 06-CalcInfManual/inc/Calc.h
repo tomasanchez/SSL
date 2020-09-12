@@ -30,17 +30,20 @@
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-
 #include "scanner.h"
+#include "parser.h"
 
 typedef struct Flags{
-    bool fst, optor, operand, running;
+    bool optor, operand, running;
 } cflags_t;
 
 typedef struct Calculator{
     scanner_t scanner;
+    parser_t parser;
     cflags_t flags;
     token_t token_type, previous_token;
+    char tbuffer[buffer_size];
+    int index;
 } calculator_t;
 
 /*Starts a calculator ready to run*/

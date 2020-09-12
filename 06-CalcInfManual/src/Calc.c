@@ -34,7 +34,8 @@
 calculator_t calculator_create(){
     calculator_t new;
     new.scanner = scanner_create();
-    new.flags.fst = new.flags.running = true;
+    new.index = buffer_clean(new.tbuffer);
+    new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
     new.token_type = new.previous_token = OPERAND;
     return new;
@@ -46,6 +47,10 @@ inline bool calculator_is_running(const calculator_t * this){
 
 inline int calculator_new_token(calculator_t * this){
     return this->token_type != this->previous_token;
+}
+
+int calculator_parse(calculator_t * this){
+
 }
 
 int calculator_update(calculator_t * this){

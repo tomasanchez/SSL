@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    parser.h
 
-    scanner for infix calculator.
+    parser for infix calculator.
 
     MIT License
 
@@ -26,37 +26,16 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 #include "all.h"
 
-typedef struct Sflags{
-    bool optor, operand, overwritten;
-} sflags_t;
+typedef struct Parser{
+ char obuffer[buffer_size];
+ int index;
+}parser_t;
 
-typedef struct Scanner {
-    char ibuffer[buffer_size];
-    int index;
-    sflags_t flags;
-} scanner_t;
-
-/* Creates a scanner */
-scanner_t scanner_create();
-
-/*Scans a character from*/
-token_t scanner_read(scanner_t *);
-
-/*Checks if is a valid scan*/
-int scanner_is_valid(scanner_t *, int);
-
-/*Investigates if buffer is being overwritten*/
-int scanner_check_buffer(scanner_t *);
-
-/*Checks if is a valid number Number = [0..9] or a Variable = [a..z,A..Z]*/
-bool scanner_is_number(scanner_t *, int);
-
-/*Checks if is a valid operator, from the operator list*/
-bool scanner_is_operator(scanner_t *, int);
-
+/*Creates a new usable parser*/
+parser_t parser_create();
