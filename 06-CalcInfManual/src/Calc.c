@@ -37,7 +37,7 @@ calculator_t calculator_create(){
     new.index = buffer_clean(new.tbuffer);
     new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
-    new.token_type = new.previous_token = OPERAND;
+    new.token_type = new.previous_token = new.token_parsed =OPERAND;
     return new;
 }
 
@@ -52,7 +52,10 @@ inline int calculator_new_token(calculator_t * this){
 int calculator_GetNextToken(calculator_t * this){
 
     scanner_GetNextToken(this->tbuffer, &this->scanner);
-    parser_GetNextToken(&this->parser, this->tbuffer);
+    
+    this->token_parsed = this->previous_token;
+
+    parser_GetNextToken(&this->parser, this->tbuffer, this->token_parsed);
 
     return 0;
 }

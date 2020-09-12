@@ -33,17 +33,19 @@
 #include "all.h"
 
 typedef struct pToken{
-    char token[buffer_size];
+    char str[buffer_size];
     int index;
     bool valid;
+    token_t type;
 }ptoken_t;
 
 typedef struct Parser{
     t_list* token_list;
+    token_t previous_token;
 }parser_t;
 
 /*Creates a new usable parser*/
 parser_t parser_create();
 
 /*Adds token to the list*/
-parser_t parser_GetNextToken(parser_t *, char *);
+int parser_GetNextToken(parser_t *, char *, token_t);

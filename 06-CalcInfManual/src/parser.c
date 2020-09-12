@@ -35,11 +35,25 @@ parser_t parser_crate(){
     parser_t new;
 
     new.token_list = list_create();
-
+    new.previous_token = OPERATOR;
     return new;  
 }
 
-parser_add_token(parser_t * this){
+int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
+    ptoken_t token;
+    token.index = buffer_clean(token.str);
+    strcpy(token.str, src);
+    token.type = parsed_type;
 
+    if(token.type == this->previous_token)
+        token.valid = false;
+    else
+        token.valid = true;
+
+    this->previous_token = parsed_type;
+    
+    list_add(this->token_list, &token);
+    
+    return token.valid;
 }

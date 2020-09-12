@@ -41,7 +41,7 @@ typedef struct Calculator{
     scanner_t scanner;
     parser_t parser;
     cflags_t flags;
-    token_t token_type, previous_token;
+    token_t token_type, previous_token, token_parsed;
     char tbuffer[buffer_size];
     int index;
 } calculator_t;

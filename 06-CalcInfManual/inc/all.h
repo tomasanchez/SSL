@@ -36,6 +36,7 @@
 #include <string.h>
 #include "list.h"
 
+const char * token_Name = {"Operator", "Operand"};
 typedef enum token{
     INVALID = -1,
     OPERATOR,
