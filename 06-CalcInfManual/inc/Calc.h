@@ -34,7 +34,7 @@
 #include "parser.h"
 
 typedef struct Flags{
-    bool optor, operand, running;
+    bool fst,optor, operand, running;
 } cflags_t;
 
 typedef struct Calculator{
@@ -43,14 +43,14 @@ typedef struct Calculator{
     cflags_t flags;
     token_t token_type, previous_token, token_parsed;
     char tbuffer[buffer_size];
-    int index;
+    int index, tokens;
 } calculator_t;
 
 /*Starts a calculator ready to run*/
 calculator_t calculator_create();
 
 /*Checks if calculator is active*/
-bool calculator_is_running(const calculator_t *);
+bool calculator_is_running(calculator_t *);
 
 /*Updates lvalues of calculator*/
 int calculator_update(calculator_t *);

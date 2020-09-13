@@ -31,8 +31,7 @@
 
 #include "parser.h"
 
-const char token_Name[2][10] = {"Operator", "Operand"};
-
+const char token_Name[2][9] = {"Operator", "Operand"};
 parser_t parser_create(){
     parser_t new;
     new.read_token.index = buffer_clean(new.read_token.str);
@@ -49,19 +48,40 @@ void parser_destroy(parser_t * this){
 
 int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
-    strcpy(this->read_token.str, src);
+    for (int i = 0; src[i] < '\0'; i++)
+    {
+        this->read_token.str[i] = src[i];
+    }
+
+    if(VERBOSE)
+        printf("[DEBUG][PARSER] %s :: Moved from tbuffer to obuffer as %s\n", src, this->read_token.str);
+    
     this->read_token.type = parsed_type;
-
-    if(this->read_token.type == this->previous_token)
-        this->read_token.valid = false;
-    else
-        this->read_token.valid = true;
-
+    this->read_token.valid = __token_is_valid__(this->read_token.type, this->previous_token);
+    if(VERBOSE)
+        printf("[DEBUG] Is token '%s' valid ? %s\n", this->read_token.str, this->read_token.valid? "true" : "false");
+    
     this->previous_token = parsed_type;
     
     list_add(this->token_list, &this->read_token);
     
     return this->read_token.valid;
+}
+
+bool __token_is_valid__(token_t new, token_t previous){
+    switch (new)
+    {
+    case OPERAND:
+        return (previous == OPERAND || previous == OPERATOR) ? true : false;
+        break;
+    case OPERANDV:
+        return previous == OPERATOR ? true : false;
+    case OPERATOR:
+        return (previous == OPERAND || previous == OPERANDV) ? true : false;
+    
+    default:
+        return false;
+    }
 }
 
 int parser_print_results(parser_t * this){
@@ -82,8 +102,8 @@ void __print_token__(void * element){
     ptoken_t * this_token = (ptoken_t *) element;
 
     if(this_token->valid){
-        printf("[TOKEN]\t-\t[OK]\t-\t%s\t::\t%s.\n", this_token->str, token_Name[this_token->type]);
+        printf("[TOKEN]\t-\t[OK]\t-\t%s\t::\t%s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
     } else{
-        printf("[TOKEN]\t-\t[INVALID]\t-\t%s\t::\t%s.\n", this_token->str, token_Name[this_token->type]);
+        printf("[TOKEN]\t-\t[INVALID]\t-\t%s\t::\t%s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
     }
 }

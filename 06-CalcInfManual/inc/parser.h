@@ -58,3 +58,6 @@ void parser_destroy(parser_t *);
 
 /*  Private Function :: writes a token to stdout*/
 void __print_token__(void *);
+
+/*Validates a token*/
+bool __token_is_valid__(token_t, token_t);

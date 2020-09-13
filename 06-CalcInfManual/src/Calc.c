@@ -34,28 +34,34 @@ calculator_t calculator_create(){
     calculator_t new;
     new.scanner = scanner_create();
     new.parser = parser_create();
-    new.index = buffer_clean(new.tbuffer);
-    new.flags.running = true;
+    new.tokens = new.index = buffer_clean(new.tbuffer);
+    new.flags.fst = new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
     new.token_type = new.previous_token = new.token_parsed = OPERAND;
     return new;
 }
 
-inline bool calculator_is_running(const calculator_t * this){
+inline bool calculator_is_running(calculator_t * this){
+    if (this->tokens >= this->scanner.tokens)
+        this->flags.running = false;
+
     return this->flags.running;
 }
 
 inline int calculator_new_token(calculator_t * this){
-    return this->token_type != this->previous_token;
+    return (this->token_type != this->previous_token) && !this->flags.fst;
 }
 
 int calculator_GetNextToken(calculator_t * this){
 
     scanner_GetNextToken(this->tbuffer, &this->scanner);
+    this->tokens++;
     
     this->token_parsed = this->previous_token;
 
     parser_GetNextToken(&this->parser, this->tbuffer, this->token_parsed);
+
+    this->index = buffer_clean(this->tbuffer);
 
     return 0;
 }
@@ -64,7 +70,7 @@ int calculator_update(calculator_t * this){
 
     calculator_read(this);
 
-    if(calculator_new_token(this) || !calculator_is_running(this)){
+    while( calculator_is_running(this)){
         calculator_GetNextToken(this);
     }
 
@@ -75,7 +81,7 @@ int calculator_read(calculator_t * this){
 
     token_t scanned_token = scanner_read(&(this->scanner));
 
-    if ( scanned_token != INVALID && scanned_token != EOL ){
+    if ( scanned_token != INVALID){
         this->previous_token = this->token_type;
         this->token_type = scanned_token;
         return 1;

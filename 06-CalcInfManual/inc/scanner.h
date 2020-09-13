@@ -38,7 +38,7 @@ typedef struct Sflags{
 
 typedef struct Scanner {
     char ibuffer[buffer_size];
-    int index;
+    int index, tokens;
     sflags_t flags;
 } scanner_t;
 

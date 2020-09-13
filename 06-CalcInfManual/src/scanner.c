@@ -46,35 +46,39 @@ int buffer_clean(char * buffer){
 
 inline scanner_t scanner_create(){
     if(VERBOSE)
-        puts("[DEBUG] Creating scanner...");
+        puts("[DEBUG] :: [SCANNER] :: Creating scanner...");
     scanner_t new;
+    new.tokens = 1;
     new.index = buffer_clean(new.ibuffer);
     new.flags.operand = new.flags.optor = new.flags.overwritten = false;
     if(VERBOSE)
-        puts("[DEBUG] Scanner created!...");
+        puts("[DEBUG] :: [SCANNER] :: Scanner created!...");
     return new;
 }
 
 inline int scanner_read(scanner_t * this){
     int c;
     if(VERBOSE)
-        puts("[DEBUG] Reading from stdin:");
+        puts("[DEBUG] :: [SCANNER] :: Reading from stdin:");
     
-    printf(" > ");
-    c = getchar();
-    // Consuming '\n'
-    getchar();
+    printf(" :: > ");
+    while(  (c = getchar()) != '\n'){
+        scanner_check_buffer(this);
+        this->ibuffer[this->index++] = c;
+        if(scanner_is_operator(this, c))
+            this->tokens++;
+    }
+    this->index = 0;
     if(VERBOSE)
-        printf("[DEBUG] Has been read: %c / %d\n", c, c);
+        printf("[DEBUG] :: [SCANNER] :: Read << '%s' >> with <<'%d' tokens >>\n", this->ibuffer, this->tokens);
 
-    
-    return scanner_is_valid(this, c);
+    return 0;
 }
 
 inline token_t scanner_is_valid(scanner_t * this, int c){
     
     if(VERBOSE)
-        puts("[DEBUG] Validating character ...");
+        puts("[DEBUG] :: [SCANNER] :: Validating character ...");
 
     if(scanner_is_number(this, c))
         return OPERAND;
@@ -84,17 +88,18 @@ inline token_t scanner_is_valid(scanner_t * this, int c){
         return OPERANDV;
     else if (c != '\n')
         return EOL;
-    else return INVALID;
+ 
+ return INVALID;
 }
 
 int scanner_check_buffer(scanner_t * this){
 
     if ( this->index >= (buffer_size - 2)){
-        puts("[WARNING] Buffer overflow: buffer will be overwritten");
+        puts("[WARNING] :: [SACANNER] :: Buffer overflow :: Buffer will be overwritten");
         this->flags.overwritten = true;
         this->index = 0;
     } else if(this->flags.overwritten){
-        puts("[WARNING] Buffer is being overwritten");  
+        puts("[WARNING] :: [SCANNER] :: Buffer is being overwritten");  
     }
     
     return this->index;
@@ -108,10 +113,9 @@ bool scanner_is_number(scanner_t * this, int c){
         
     if ( (c >= '0') && (c <= '9')){
         if(VERBOSE)
-            printf("[DEBUG] %c has validated as a Number\n", c);
+            printf("[DEBUG] :: [SCANNER] :: '%c' is a Number\n", c);
 
         this->flags.operand = true;
-        this->ibuffer[this->index++] = c;
     } 
 
     return this->flags.operand;
@@ -123,9 +127,8 @@ bool scanner_is_variable(scanner_t * this, int c){
 
     if( ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) ){
         if(VERBOSE)
-            printf("[DEBUG] %c has validated as a Variable\n", c);
+            printf("[DEBUG] :: [SCANERR] :: '%c' is a Variable\n", c);
         this->flags.operand = true;
-        this->ibuffer[this->index++] = c;
     }
 
     return this->flags.operand;
@@ -133,41 +136,50 @@ bool scanner_is_variable(scanner_t * this, int c){
 
 bool scanner_is_operator(scanner_t * this, int c){
 
-    scanner_check_buffer(this);
-
     this->flags.optor = false;
 
     for(int i = 0 ; i < operator_size; i++){
         if(optor_list[i] == c){
             if(VERBOSE)
-                printf("[DEBUG] %c has validated as a Operator\n", c);
+                printf("[DEBUG] :: [SCANNER] :: '%c' is Operator\n", c);
             this->flags.optor = true;
-            this->ibuffer[this->index] = c;
         }
     }    
    
-    return this->flags.operand;
+    return this->flags.optor;
 }
 
 inline int scanner_GetNextToken(char * dest, scanner_t * this){
 
-    /* Explanation Index - 2:
+    if(VERBOSE)
+        printf("\n[DEBUG] :: [SCANNER] :: Getting Next Tokens :: ibuffer = '%s'.\n", this->ibuffer);
+
+    /* Understanding index:
      * 
      * Suppose a new token is detected we will have something like this
      *            0   |   1   |   2    |   ...   |   31  |
      *            7   |   +   |   \0   |   ...   |   \0  |
-     *                  The thing is that INDEX = 2,
-     *      And we need to get 7, and then +,  so we also need to save the element in INDEX - 1
+     *                  When iterated, will be INDEX = 1,
+     *      And we need to get 7, and then +
      */
 
-    char last_token = this->ibuffer[this->index-1];
-    for(int i = 0; i < this->index-2; i++){
-        dest[i] = this->ibuffer[i];
+    for(int i = this->index, j = 0;  this->ibuffer[i] != '\0'; j++, i++){
+        
+        dest[j] = this->ibuffer[i];
+        if(scanner_is_operator(this, this->ibuffer[i])){
+            if ( i != this->index ){
+                dest[i] = '\0';
+            }
+            break; 
+        }
+        this->index = i;
+    }
+    this->index++;
+
+    if(VERBOSE){
+        printf("[DEBUG] :: [SCANNER] :: '%d' --->'%c'  :: index   ---> ibuffer.\n", this->index, this->ibuffer[this->index]);
+        printf("[DEBUG] :: [SCANNER] :: '%s' ---> '%s' :: ibuffer ---> tbuffer.\n", this->ibuffer, dest);
     }
 
-    this->index = buffer_clean(this->ibuffer);
-
-    this->ibuffer[this->index++] = last_token;
-
-    return 0;
+    return this->ibuffer[this->index] == '\0' ? false : true;
 }
