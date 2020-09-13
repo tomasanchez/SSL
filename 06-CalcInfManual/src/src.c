@@ -36,12 +36,8 @@ int main(void){
     puts("\tInfix\tManual\tCalculator\t-\tMade by Tomas Sanchez\t-\t2020");
     calculator_t this_calculator = calculator_create();
 
-    if(calculator_is_running(&this_calculator)){
-
-        calculator_update(&this_calculator);
-
-    }
-
+    calculator_update(&this_calculator);
+    
     calculator_print_results(&this_calculator);
     calculator_destroy(&this_calculator);
 

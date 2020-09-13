@@ -48,9 +48,10 @@ inline scanner_t scanner_create(){
     if(VERBOSE)
         puts("[DEBUG] :: [SCANNER] :: Creating scanner...");
     scanner_t new;
-    new.tokens = 1;
+    new.tokens = 0;
     new.index = buffer_clean(new.ibuffer);
-    new.flags.operand = new.flags.optor = new.flags.overwritten = false;
+    new.flags.fst = new.flags.optor = true;
+    new.flags.operand = new.flags.overwritten = false;
     if(VERBOSE)
         puts("[DEBUG] :: [SCANNER] :: Scanner created!...");
     return new;
@@ -65,8 +66,9 @@ inline int scanner_read(scanner_t * this){
     while(  (c = getchar()) != '\n'){
         scanner_check_buffer(this);
         this->ibuffer[this->index++] = c;
-        if(scanner_is_operator(this, c))
-            this->tokens++;
+        scanner_is_valid(this, c);
+        if (this->flags.fst)
+            this->flags.fst = false;
     }
     this->index = 0;
     if(VERBOSE)
@@ -80,16 +82,34 @@ inline token_t scanner_is_valid(scanner_t * this, int c){
     if(VERBOSE)
         puts("[DEBUG] :: [SCANNER] :: Validating character ...");
 
-    if(scanner_is_number(this, c))
-        return OPERAND;
-    else if (scanner_is_operator(this, c))
+    if(scanner_is_number(c)){
+        if(this->flags.optor || this->flags.fst){
+            this->tokens++;
+            this->flags.optor   = false;
+            this->flags.operand = true;
+        }    
+    return OPERAND;
+    }
+
+        
+    else if (scanner_is_operator(c)){
+        if(this->flags.operand || this->flags.fst){
+            this->tokens++;
+            this->flags.optor   = true;
+            this->flags.operand = false;
+        }
         return OPERATOR;
-    else if (scanner_is_variable(this, c))
+    }
+    else if (scanner_is_variable(c)){
+        if(this->flags.optor || this->flags.fst){
+            this->tokens++;
+            this->flags.optor = false;
+            this->flags.operand = true;
+        }
         return OPERANDV;
-    else if (c != '\n')
-        return EOL;
+    }
  
- return INVALID;
+    return INVALID;
 }
 
 int scanner_check_buffer(scanner_t * this){
@@ -105,48 +125,40 @@ int scanner_check_buffer(scanner_t * this){
     return this->index;
 }
 
-bool scanner_is_number(scanner_t * this, int c){
-
-    this->flags.operand = false;
-
-    scanner_check_buffer(this);
+bool scanner_is_number(int c){
         
     if ( (c >= '0') && (c <= '9')){
         if(VERBOSE)
             printf("[DEBUG] :: [SCANNER] :: '%c' is a Number\n", c);
-
-        this->flags.operand = true;
+        return true;
     } 
 
-    return this->flags.operand;
+    return false;
 }
 
-bool scanner_is_variable(scanner_t * this, int c){
+bool scanner_is_variable(int c){
 
-    this->flags.operand = false;
 
     if( ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) ){
         if(VERBOSE)
             printf("[DEBUG] :: [SCANERR] :: '%c' is a Variable\n", c);
-        this->flags.operand = true;
+        return true;
     }
 
-    return this->flags.operand;
+    return false;
 }
 
-bool scanner_is_operator(scanner_t * this, int c){
-
-    this->flags.optor = false;
+bool scanner_is_operator(int c){
 
     for(int i = 0 ; i < operator_size; i++){
         if(optor_list[i] == c){
             if(VERBOSE)
                 printf("[DEBUG] :: [SCANNER] :: '%c' is Operator\n", c);
-            this->flags.optor = true;
+            return true;
         }
     }    
    
-    return this->flags.optor;
+    return false;
 }
 
 inline int scanner_GetNextToken(char * dest, scanner_t * this){
@@ -166,7 +178,7 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
     for(int i = this->index, j = 0;  this->ibuffer[i] != '\0'; j++, i++){
         
         dest[j] = this->ibuffer[i];
-        if(scanner_is_operator(this, this->ibuffer[i])){
+        if(scanner_is_operator(this->ibuffer[i])){
             if ( i != this->index ){
                 dest[i] = '\0';
             }

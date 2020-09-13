@@ -33,7 +33,7 @@
 #include "parser.h"
 
 typedef struct Sflags{
-    bool optor, operand, overwritten;
+    bool fst, optor, operand, overwritten;
 } sflags_t;
 
 typedef struct Scanner {
@@ -55,13 +55,13 @@ int scanner_is_valid(scanner_t *, int);
 int scanner_check_buffer(scanner_t *);
 
 /*Checks if is a valid number Number = [0..9]*/
-bool scanner_is_number(scanner_t *, int);
+bool scanner_is_number(int);
 
 /*Checks if is a valid operator, from the operator list*/
-bool scanner_is_operator(scanner_t *, int);
+bool scanner_is_operator(int);
 
 /*Checks if scanner is a Variable = [a..z,A..Z]*/
-bool scanner_is_variable(scanner_t *, int);
+bool scanner_is_variable(int);
 
 /*Loads new token from scanner buffer*/
 int scanner_GetNextToken(char *, scanner_t *);
