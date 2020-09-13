@@ -33,10 +33,12 @@
 
 const char token_Name[2][10] = {"Operator", "Operand"};
 
-parser_t parser_crate(){
+parser_t parser_create(){
     parser_t new;
-
+    new.read_token.index = buffer_clean(new.read_token.str);
     new.token_list = list_create();
+    new.read_token.type = OPERAND;
+    new.read_token.valid = false;
     new.previous_token = OPERATOR;
     return new;  
 }
@@ -47,21 +49,19 @@ void parser_destroy(parser_t * this){
 
 int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
-    ptoken_t token;
-    token.index = buffer_clean(token.str);
-    strcpy(token.str, src);
-    token.type = parsed_type;
+    strcpy(this->read_token.str, src);
+    this->read_token.type = parsed_type;
 
-    if(token.type == this->previous_token)
-        token.valid = false;
+    if(this->read_token.type == this->previous_token)
+        this->read_token.valid = false;
     else
-        token.valid = true;
+        this->read_token.valid = true;
 
     this->previous_token = parsed_type;
     
-    list_add(this->token_list, &token);
+    list_add(this->token_list, &this->read_token);
     
-    return token.valid;
+    return this->read_token.valid;
 }
 
 int parser_print_results(parser_t * this){

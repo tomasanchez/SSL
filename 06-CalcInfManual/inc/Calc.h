@@ -31,6 +31,7 @@
 
 #pragma once
 #include "scanner.h"
+#include "parser.h"
 
 typedef struct Flags{
     bool optor, operand, running;

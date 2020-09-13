@@ -161,7 +161,9 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
      */
 
     char last_token = this->ibuffer[this->index-1];
-    strncpy(dest, this->ibuffer, this->index - 2);
+    for(int i = 0; i < this->index-2; i++){
+        dest[i] = this->ibuffer[i];
+    }
 
     this->index = buffer_clean(this->ibuffer);
 

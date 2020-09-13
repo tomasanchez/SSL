@@ -28,15 +28,16 @@
 
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
-#include "../inc/Calc.h"
+#include "Calc.h"
 
 calculator_t calculator_create(){
     calculator_t new;
     new.scanner = scanner_create();
+    new.parser = parser_create();
     new.index = buffer_clean(new.tbuffer);
     new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
-    new.token_type = new.previous_token = new.token_parsed =OPERAND;
+    new.token_type = new.previous_token = new.token_parsed = OPERAND;
     return new;
 }
 
