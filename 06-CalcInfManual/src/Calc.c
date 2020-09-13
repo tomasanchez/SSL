@@ -57,7 +57,8 @@ int calculator_GetNextToken(calculator_t * this){
     scanner_GetNextToken(this->tbuffer, &this->scanner);
     this->tokens++;
     
-    this->token_parsed = this->previous_token;
+    this->token_type        =                           calculator_validate_token(this);
+    this->previous_token    = this->token_parsed    =   this->token_type;
 
     parser_GetNextToken(&this->parser, this->tbuffer, this->token_parsed);
 
@@ -78,18 +79,12 @@ int calculator_update(calculator_t * this){
 }
 
 int calculator_read(calculator_t * this){
+    scanner_read(&(this->scanner));
+    return 0;
+}
 
-    token_t scanned_token = scanner_read(&(this->scanner));
-
-    if ( scanned_token != INVALID){
-        this->previous_token = this->token_type;
-        this->token_type = scanned_token;
-        return 1;
-    } else {
-        puts("[NOTE] Invalid character - Aborting...");
-        this->flags.running = false;
-        return 0;
-    }
+token_t calculator_validate_token(calculator_t * this){
+ return scanner_is_operator(*this->tbuffer) ? OPERATOR : OPERAND;
 }
 
 inline int calculator_print_results(calculator_t * this){

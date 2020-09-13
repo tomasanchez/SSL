@@ -58,6 +58,8 @@ void parser_destroy(parser_t *);
 
 /*  Private Function :: writes a token to stdout*/
 void __print_token__(void *);
+/*  Private Function :: wirtes unique token to stdout*/
+void __print_one__(void * element);
 
 /*  Private Function :: Validates a token*/
 bool __token_is_valid__(token_t, token_t);

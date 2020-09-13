@@ -77,7 +77,7 @@ inline int scanner_read(scanner_t * this){
     return 0;
 }
 
-inline token_t scanner_is_valid(scanner_t * this, int c){
+token_t scanner_is_valid(scanner_t * this, int c){
     
     if(VERBOSE)
         puts("[DEBUG] :: [SCANNER] :: Validating character ...");
@@ -179,8 +179,8 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
         
         dest[j] = this->ibuffer[i];
         if(scanner_is_operator(this->ibuffer[i])){
-            if ( i != this->index ){
-                dest[i] = '\0';
+            if ( i != this->index){
+                dest[j] = '\0';
             }
             break; 
         }
@@ -189,7 +189,7 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
     this->index++;
 
     if(VERBOSE){
-        printf("[DEBUG] :: [SCANNER] :: '%d' --->'%c'  :: index   ---> ibuffer.\n", this->index, this->ibuffer[this->index]);
+        printf("[DEBUG] :: [SCANNER] :: '%d' ---> '%c' :: index   ---> ibuffer.\n", this->index, this->ibuffer[this->index]);
         printf("[DEBUG] :: [SCANNER] :: '%s' ---> '%s' :: ibuffer ---> tbuffer.\n", this->ibuffer, dest);
     }
 

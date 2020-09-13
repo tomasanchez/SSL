@@ -101,12 +101,28 @@ int parser_print_results(parser_t * this){
     if(VERBOSE)
         puts("[DEBUG] Printing results ...\n");
 
-    puts("--------------------------------------------------");
-    puts("----------------------PARSER----------------------");
-    puts("--------------------------------------------------");
-    list_iterate(this->token_list, __print_token__);
+    puts(":=-----------------::========::-----------------=:");
+    puts(" :: :: :: :: :: :: :: PARSER :: :: :: :: :: :: :: ");
+    puts(":=-----------------::========::-----------------=:\n");
+    if( list_size(this->token_list) > 1)
+        list_iterate(this->token_list, __print_token__);
+    else
+    {
+        list_iterate(this->token_list, __print_one__);
+    }
     
-    return 0;
+    
+    return puts("\n-:: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar | :: | All rights reserved ::-");
+}
+
+void __print_one__(void * element){
+
+    ptoken_t * this_token = (ptoken_t *) element;
+
+    if(this_token->type != OPERAND)
+    printf(">> PARSED :: Invalid expression :: '%s' :: Operator.\n", this_token->str);
+    else
+    printf(">> PARSED :: [VALID] :: '%s' :: Operand.\n", this_token->str);
 }
 
 void __print_token__(void * element){
@@ -114,8 +130,8 @@ void __print_token__(void * element){
     ptoken_t * this_token = (ptoken_t *) element;
 
     if(this_token->valid){
-        printf("[TOKEN]\t-\t[OK]\t-\t%s\t::\t%s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
+        printf(">> PARSED :: [ VALID ] :: '%s'\t:: %s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
     } else{
-        printf("[TOKEN]\t-\t[INVALID]\t-\t%s\t::\t%s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
+        printf(">> PARSED :: [INVALID] :: '%s'\t:: %s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
     }
 }

@@ -33,7 +33,7 @@
 
 int main(void){
 
-    puts("\tInfix\tManual\tCalculator\t-\tMade by Tomas Sanchez\t-\t2020");
+    puts(" :: == A Simple Infix Manual Calculator == :: ");
     calculator_t this_calculator = calculator_create();
 
     calculator_update(&this_calculator);
