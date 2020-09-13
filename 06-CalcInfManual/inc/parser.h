@@ -32,15 +32,15 @@
 #include "all.h"
 
 typedef struct pToken{
-    char str[buffer_size];
     int index;
     bool valid;
     token_t type;
+    char str[buffer_size];
 }ptoken_t;
 
 typedef struct Parser{
     t_list* token_list;
-    ptoken_t read_token;
+    ptoken_t* read_token;
     token_t previous_token;
 }parser_t;
 
@@ -59,5 +59,11 @@ void parser_destroy(parser_t *);
 /*  Private Function :: writes a token to stdout*/
 void __print_token__(void *);
 
-/*Validates a token*/
+/*  Private Function :: Validates a token*/
 bool __token_is_valid__(token_t, token_t);
+
+/*  Private Function :: Creates an element for a list*/
+ptoken_t * __ptoken_create__();
+
+/*  Private Function :: Destroys an element for a list*/
+void __ptoken_destroy__(void *);

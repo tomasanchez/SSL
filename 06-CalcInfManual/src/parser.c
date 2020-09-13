@@ -31,41 +31,53 @@
 
 #include "parser.h"
 
-const char token_Name[2][9] = {"Operator", "Operand"};
 parser_t parser_create(){
     parser_t new;
-    new.read_token.index = buffer_clean(new.read_token.str);
     new.token_list = list_create();
-    new.read_token.type = OPERAND;
-    new.read_token.valid = false;
+    new.read_token = __ptoken_create__();
     new.previous_token = OPERATOR;
     return new;  
 }
 
+ptoken_t * __ptoken_create__(){
+    ptoken_t * new = malloc(sizeof(ptoken_t));
+    new->index = buffer_clean(new->str);
+    new->type = OPERATOR;
+    new->valid = false;
+    return new;
+}
+
+void __ptoken_destroy__(void * element){
+    free (element);
+}
+
 void parser_destroy(parser_t * this){
-    list_destroy(this->token_list);
+    free(this->read_token);
+    list_destroy_and_destroy_elements(this->token_list, __ptoken_destroy__);
 }
 
 int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
-    for (int i = 0; src[i] < '\0'; i++)
+    for (int i = 0; src[i] != '\0'; i++)
     {
-        this->read_token.str[i] = src[i];
+        this->read_token->str[i] = src[i];
     }
 
     if(VERBOSE)
-        printf("[DEBUG][PARSER] %s :: Moved from tbuffer to obuffer as %s\n", src, this->read_token.str);
+        printf("[DEBUG] :: [PARSER] %s --> %s :: tbuffer ---> obuffer.\n", src, this->read_token->str);
     
-    this->read_token.type = parsed_type;
-    this->read_token.valid = __token_is_valid__(this->read_token.type, this->previous_token);
+    this->read_token->type = parsed_type;
+    this->read_token->valid = __token_is_valid__(this->read_token->type, this->previous_token);
     if(VERBOSE)
-        printf("[DEBUG] Is token '%s' valid ? %s\n", this->read_token.str, this->read_token.valid? "true" : "false");
+        printf("[DEBUG] :: [PARSER] :: Is token '%s' valid ? :: '%s'.\n", this->read_token->str, this->read_token->valid? "YES" : "NO");
     
     this->previous_token = parsed_type;
     
-    list_add(this->token_list, &this->read_token);
+    list_add(this->token_list, this->read_token);
+
+    this->read_token = __ptoken_create__();
     
-    return this->read_token.valid;
+    return this->read_token->valid;
 }
 
 bool __token_is_valid__(token_t new, token_t previous){
