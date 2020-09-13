@@ -174,33 +174,6 @@
 	t_list* list_sorted(t_list *, bool (*comparator)(void *, void *));
 
 	/**
-	* @NAME: list_count_satisfying
-	* @DESC: Cuenta la cantidad de elementos de
-	* la lista que cumplen una condición
-	*/
-	int list_count_satisfying(t_list* self, bool(*condition)(void*));
-
-	/**
-	* @NAME: list_any_satisfy
-	* @DESC: Determina si algún elemento
-	* de la lista cumple una condición
-	*/
-	bool list_any_satisfy(t_list* self, bool(*condition)(void*));
-
-	/**
-	* @NAME: list_any_satisfy
-	* @DESC: Determina si todos los elementos
-	* de la lista cumplen una condición
-	*/
-	bool list_all_satisfy(t_list* self, bool(*condition)(void*));
-
-	/**
-	* @NAME: list_duplicate
-	* @DESC: Crea una lista nueva con los mismos elementos que la original.
-	**/
-	t_list* list_duplicate(t_list* self);
-
-	/**
 	 * @NAME: list_fold
 	 * @DESC: Devuelve un valor que resulta de aplicar la 
 	 * operacion entre todos los elementos de la lista, partiendo desde el primero.

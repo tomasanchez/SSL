@@ -29,7 +29,9 @@
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------*/
 
-#include "../inc/parser.h"
+#include "parser.h"
+
+const char token_Name[2][10] = {"Operator", "Operand"};
 
 parser_t parser_crate(){
     parser_t new;
@@ -37,6 +39,10 @@ parser_t parser_crate(){
     new.token_list = list_create();
     new.previous_token = OPERATOR;
     return new;  
+}
+
+void parser_destroy(parser_t * this){
+    list_destroy(this->token_list);
 }
 
 int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
@@ -56,4 +62,28 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
     list_add(this->token_list, &token);
     
     return token.valid;
+}
+
+int parser_print_results(parser_t * this){
+
+    if(VERBOSE)
+        puts("[DEBUG] Printing results ...\n");
+
+    puts("--------------------------------------------------");
+    puts("----------------------PARSER----------------------");
+    puts("--------------------------------------------------");
+    list_iterate(this->token_list, __print_token__);
+    
+    return 0;
+}
+
+void __print_token__(void * element){
+
+    ptoken_t * this_token = (ptoken_t *) element;
+
+    if(this_token->valid){
+        printf("[TOKEN]\t-\t[OK]\t-\t%s\t::\t%s.\n", this_token->str, token_Name[this_token->type]);
+    } else{
+        printf("[TOKEN]\t-\t[INVALID]\t-\t%s\t::\t%s.\n", this_token->str, token_Name[this_token->type]);
+    }
 }

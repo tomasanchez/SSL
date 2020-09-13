@@ -33,6 +33,7 @@
 
 int main(void){
 
+    puts("\tInfix\tManual\tCalculator\t-\tMade by Tomas Sanchez\t-\t2020");
     calculator_t this_calculator = calculator_create();
 
     while(calculator_is_running(&this_calculator)){

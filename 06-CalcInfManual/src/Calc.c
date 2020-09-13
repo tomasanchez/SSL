@@ -28,7 +28,6 @@
 
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
-
 #include "../inc/Calc.h"
 
 calculator_t calculator_create(){
@@ -60,10 +59,6 @@ int calculator_GetNextToken(calculator_t * this){
     return 0;
 }
 
-int calculator_parse(calculator_t * this){
-
-}
-
 int calculator_update(calculator_t * this){
 
     calculator_read(this);
@@ -79,7 +74,7 @@ int calculator_read(calculator_t * this){
 
     token_t scanned_token = scanner_read(&(this->scanner));
 
-    if ( scanned_token != INVALID ){
+    if ( scanned_token != INVALID && scanned_token != EOL ){
         this->previous_token = this->token_type;
         this->token_type = scanned_token;
         return 1;
@@ -88,4 +83,13 @@ int calculator_read(calculator_t * this){
         this->flags.running = false;
         return 0;
     }
+}
+
+inline int calculator_print_results(calculator_t * this){
+    return parser_print_results(&this->parser);
+}
+
+int calculator_destroy(calculator_t * this){
+    parser_destroy(&this->parser);
+    return 0;
 }

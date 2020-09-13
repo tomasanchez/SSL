@@ -31,7 +31,6 @@
 
 #pragma once
 #include "scanner.h"
-#include "parser.h"
 
 typedef struct Flags{
     bool optor, operand, running;
@@ -63,3 +62,9 @@ int calculator_new_token(calculator_t *);
 
 /*Allow communication between parser and scanner*/
 int calculator_GetNextToken(calculator_t *);
+
+/*Writes resultos to stdout*/
+int calculator_print_results(calculator_t *);
+
+/*Closes program*/
+int calculator_destroy(calculator_t *);

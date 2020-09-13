@@ -36,27 +36,20 @@
 #include <string.h>
 #include "list.h"
 
-const char * token_Name = {"Operator", "Operand"};
+#define VERBOSE 1
+
 typedef enum token{
     INVALID = -1,
     OPERATOR,
     OPERAND,
-    OPERANDV
+    OPERANDV,
+    EOL
 }token_t;
 
 /*Defines size of scanner number buffer*/
-const int buffer_size = 32;
+#define  buffer_size 32
 /*Current number of valid operators*/
-const int operator_size = 3;
-/*Valid operators*/
-const char optor_list[] = {'+','-', '*'};
+#define operator_size 3
 
 /*Initializes a buffer*/
-int buffer_clean(char * buffer){
-
-    for (int i = 0; i < buffer_size; i++){
-        buffer[i] = '\0';
-    }
-    
-    return 0;
-}
+int buffer_clean(char * buffer);

@@ -28,7 +28,6 @@
 
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
-
 #pragma once
 #include "all.h"
 
@@ -49,3 +48,12 @@ parser_t parser_create();
 
 /*Adds token to the list*/
 int parser_GetNextToken(parser_t *, char *, token_t);
+
+/*Writes parsed tokens to stdout, telling if valid or not*/
+int parser_print_results(parser_t *);
+
+/*Frees memory usage*/
+void parser_destroy(parser_t *);
+
+/*  Private Function :: writes a token to stdout*/
+void __print_token__(void *);
