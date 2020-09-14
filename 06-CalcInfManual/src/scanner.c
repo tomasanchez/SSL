@@ -65,8 +65,9 @@ inline int scanner_read(scanner_t * this){
     printf(" :: > ");
     while(  (c = getchar()) != '\n'){
         scanner_check_buffer(this);
-        this->ibuffer[this->index++] = c;
-        scanner_is_valid(this, c);
+        if( scanner_is_valid(this, c) != INVALID )
+            this->ibuffer[this->index++] = c;
+
         if (this->flags.fst)
             this->flags.fst = false;
     }
@@ -163,10 +164,11 @@ bool scanner_is_operator(int c){
 
 inline int scanner_GetNextToken(char * dest, scanner_t * this){
 
-    if(VERBOSE)
-        printf("\n[DEBUG] :: [SCANNER] :: Getting Next Tokens :: ibuffer = '%s'.\n", this->ibuffer);
-
-    /* Understanding index:
+    if(VERBOSE){
+        puts(":: ============================================================================ ::");
+        printf("[DEBUG] :: [SCANNER] :: Getting Next Tokens :: ibuffer = '%s'.\n", this->ibuffer);
+    }
+    /* Understanding indexation:
      * 
      * Suppose a new token is detected we will have something like this
      *            0   |   1   |   2    |   ...   |   31  |
@@ -175,18 +177,27 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
      *      And we need to get 7, and then +
      */
 
-    for(int i = this->index, j = 0;  this->ibuffer[i] != '\0'; j++, i++){
+    int d_index = 0;
+    for(int i = this->index;  this->ibuffer[i] != '\0'; d_index++, i++){
         
-        dest[j] = this->ibuffer[i];
+        dest[d_index] = this->ibuffer[i];
         if(scanner_is_operator(this->ibuffer[i])){
-            if ( i != this->index){
-                dest[j] = '\0';
-            }
+
+            if( i != this->index)
+                dest[d_index] = '\0';
+
             break; 
         }
         this->index = i;
     }
     this->index++;
+
+    if(scanner_is_operator(this->ibuffer[this->index-1])){
+        while(scanner_is_operator(this->ibuffer[this->index])){
+            puts(" >> Writing :: ");
+            dest[d_index] = this->ibuffer[this->index++];
+        }
+    }
 
     if(VERBOSE){
         printf("[DEBUG] :: [SCANNER] :: '%d' ---> '%c' :: index   ---> ibuffer.\n", this->index, this->ibuffer[this->index]);
