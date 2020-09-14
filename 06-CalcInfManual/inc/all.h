@@ -36,7 +36,7 @@
 #include <string.h>
 #include "list.h"
 
-#define VERBOSE 1
+#define VERBOSE 0
 
 typedef enum token{
     INVALID = -1,

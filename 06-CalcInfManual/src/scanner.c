@@ -57,7 +57,7 @@ inline scanner_t scanner_create(){
     return new;
 }
 
-inline int scanner_read(scanner_t * this){
+int scanner_read(scanner_t * this){
     int c;
     if(VERBOSE)
         puts("[DEBUG] :: [SCANNER] :: Reading from stdin:");
@@ -109,7 +109,10 @@ token_t scanner_is_valid(scanner_t * this, int c){
         }
         return OPERANDV;
     }
- 
+    
+    if(VERBOSE)
+        puts("[DEBUG] :: [SCANNER] :: << Invalid character >> :: IGNORING...");
+
     return INVALID;
 }
 

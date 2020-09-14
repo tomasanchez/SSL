@@ -39,8 +39,8 @@ typedef struct pToken{
 }ptoken_t;
 
 typedef struct Parser{
-    t_list* token_list;
-    ptoken_t* read_token;
+    t_list * token_list;
+    ptoken_t * read_token;
     token_t previous_token;
 }parser_t;
 
