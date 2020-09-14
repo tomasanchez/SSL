@@ -29,17 +29,15 @@
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 
-#include "../inc/Calc.h"
+#include "Calc.h"
 
 int main(void){
 
-    puts(" :: == A Simple Infix Manual Calculator == :: ");
     calculator_t this_calculator = calculator_create();
 
     calculator_update(&this_calculator);
     
     calculator_print_results(&this_calculator);
-    calculator_destroy(&this_calculator);
 
-    return 0;
+    return calculator_destroy(&this_calculator);
 }

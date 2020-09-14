@@ -31,6 +31,7 @@
 #include "Calc.h"
 
 calculator_t calculator_create(){
+    puts(" :: == A Simple Infix Manual Calculator == :: ");
     calculator_t new;
     new.scanner = scanner_create();
     new.parser = parser_create();

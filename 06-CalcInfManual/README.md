@@ -27,10 +27,10 @@ Análisis de expresiones aritméticas infijas simples que incluya:
 - El  *parser*  se  comunica  con  el  *scanner*  con  la  operación  *GetNextToken*.
 - El *scanner* toma los caracteres de *stdin* con *getchar*.
 
-## Tareas
+## TODO
 
 1. Diseñar el nivel léxico del lenguaje. [-]
 2. Diseñar el nivel sintáctico del lenguaje. [-]
-3. Implementar el scanner. [-]
-4. Implementar el parser.[-]
-5. Probar. [-]
+3. Implementar el scanner. [X]
+4. Implementar el parser.[X]
+5. Probar. [x]
