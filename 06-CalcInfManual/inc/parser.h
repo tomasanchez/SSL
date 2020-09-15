@@ -64,6 +64,9 @@ void __print_one__(void * element);
 /*  Private Function :: Validates a token*/
 bool __token_is_valid__(token_t, token_t);
 
+/* Checks if a number is Decimal or an unique variable*/
+bool __is_valid_operand__(char *);
+
 /*  Private Function :: Creates an element for a list*/
 ptoken_t * __ptoken_create__();
 

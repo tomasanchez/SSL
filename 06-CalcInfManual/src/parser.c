@@ -71,6 +71,10 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
     tokens_gp++;
     this->read_token->type = parsed_type;
     this->read_token->valid = __token_is_valid__(this->read_token->type, this->previous_token);
+
+    if(parsed_type == OPERAND && this->read_token->valid){
+        this->read_token->valid = __is_valid_operand__(src);
+    }
     if(VERBOSE)
         printf("[DEBUG] :: [PARSER] :: Is token '%s' valid ? :: '%s'.\n", this->read_token->str, this->read_token->valid? "YES" : "NO");
     
@@ -92,7 +96,7 @@ bool __token_is_valid__(token_t new, token_t previous){
     case OPERANDV:
         return previous == OPERATOR ? true : false;
     case OPERATOR:
-        return (previous == OPERAND || previous == OPERANDV) ? tokens_gp == tokens_g ? false : true : false;
+        return (previous == OPERAND || previous == OPERANDV) ? true : false;
     
     default:
         return false;
@@ -104,11 +108,11 @@ int parser_print_results(parser_t * this){
     if(VERBOSE)
         puts("[DEBUG] Printing results ...\n");
 
-    if( list_size(this->token_list) >0){
+    if( tokens_g > 0){
         puts("\n:=-----------------::========::-----------------=:");
         puts(" :: :: :: :: :: :: :: PARSER :: :: :: :: :: :: :: ");
         puts(":=-----------------::========::-----------------=:\n");
-        if( list_size(this->token_list) > 1)
+        if( tokens_g > 1)
             list_iterate(this->token_list, __print_token__);
         else
             list_iterate(this->token_list, __print_one__);
@@ -137,4 +141,36 @@ void __print_token__(void * element){
     } else{
         printf(">> PARSED :: [INVALID] :: '%s'\t:: %s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
     }
+}
+
+bool __is_valid_operand__(char * this){
+
+    bool integer, id;
+
+    integer = char_is_number(*this);
+    id = !integer;
+
+    //Patterng matching
+    if( id && this[1] != '\0')
+        return false;
+
+    for (int i = 1; this[i] != '\0'; i++){
+
+            // Checking for non-decimal imputs
+            if( char_is_number(this[i])){
+                if(id)
+                    return false;
+                id = false;
+                integer = !id;
+            }
+
+            if(char_is_variable(this[i])){
+                if(integer)
+                    return false;
+                integer = true;
+                id = !integer;
+            }
+    }
+
+    return true;
 }

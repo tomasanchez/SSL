@@ -53,3 +53,12 @@ typedef enum token{
 
 /*Initializes a buffer*/
 int buffer_clean(char * buffer);
+
+/*Checks if is a valid number Number = [0..9]*/
+bool char_is_number(int);
+
+/*Checks if is a valid operator, from the operator list*/
+bool char_is_operator(int);
+
+/*Checks if scanner is a Variable = [a..z,A..Z]*/
+bool char_is_variable(int);

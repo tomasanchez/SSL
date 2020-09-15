@@ -31,7 +31,7 @@
 #include "Calc.h"
 
 /*Global Token Counter*/
-int tokens_g = 0;
+int tokens_g;
 
 calculator_t calculator_create(){
     puts(" :: == A Simple Infix Manual Calculator == :: ");
@@ -42,6 +42,7 @@ calculator_t calculator_create(){
     new.flags.fst = new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
     new.token_type = new.previous_token = new.token_parsed = OPERAND;
+    tokens_g = 0;
     return new;
 }
 
@@ -87,10 +88,12 @@ inline int calculator_read(calculator_t * this){
 }
 
 token_t calculator_validate_token(calculator_t * this){
- return scanner_is_operator(*this->tbuffer) ? OPERATOR : OPERAND;
+ return char_is_operator(*this->tbuffer) ? OPERATOR : OPERAND;
 }
 
 inline int calculator_print_results(calculator_t * this){
+    scanner_syntax_check(&this->scanner);
+    scanner_print(&this->scanner);
     return parser_print_results(&this->parser);
 }
 
