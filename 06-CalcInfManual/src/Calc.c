@@ -74,12 +74,11 @@ int calculator_GetNextToken(calculator_t * this){
 
 int calculator_update(calculator_t * this){
 
-    calculator_read(this);
-
     while( calculator_is_running(this)){
         calculator_GetNextToken(this);
     }
 
+    calculator_print_results(this);
     return 0;
 }
 

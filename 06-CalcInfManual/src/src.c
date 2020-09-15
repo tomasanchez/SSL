@@ -35,9 +35,9 @@ int main(void){
 
     calculator_t this_calculator = calculator_create();
 
+    calculator_read(&this_calculator);
+
     calculator_update(&this_calculator);
-    
-    calculator_print_results(&this_calculator);
 
     return calculator_destroy(&this_calculator);
 }
