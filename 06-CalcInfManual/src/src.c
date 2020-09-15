@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/12/2020
+    last modified: 09/14/2020
 ------------------------------------------------------------------------------------ */
 
 #include "Calc.h"

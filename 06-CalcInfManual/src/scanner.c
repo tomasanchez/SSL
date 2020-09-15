@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/12/2020
+    last modified: 09/14/2020
 ------------------------------------------------------------------------------------ */
 
 #include "scanner.h"
@@ -64,6 +64,10 @@ int scanner_read(scanner_t * this){
     
     printf(" :: > ");
     while(  (c = getchar()) != '\n'){
+
+        if(c == EOF)
+            break;
+        
         scanner_check_buffer(this);
         if( scanner_is_valid(this, c) != INVALID )
             this->ibuffer[this->index++] = c;
@@ -197,7 +201,6 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
 
     if(scanner_is_operator(this->ibuffer[this->index-1])){
         while(scanner_is_operator(this->ibuffer[this->index])){
-            puts(" >> Writing :: ");
             dest[d_index] = this->ibuffer[this->index++];
         }
     }

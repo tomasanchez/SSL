@@ -30,6 +30,9 @@
 ------------------------------------------------------------------------------------ */
 #include "Calc.h"
 
+/*Global Token Counter*/
+int tokens_g = 0;
+
 calculator_t calculator_create(){
     puts(" :: == A Simple Infix Manual Calculator == :: ");
     calculator_t new;
@@ -56,7 +59,7 @@ inline int calculator_new_token(calculator_t * this){
 int calculator_GetNextToken(calculator_t * this){
 
     scanner_GetNextToken(this->tbuffer, &this->scanner);
-    this->tokens++;
+    tokens_g = ++this->tokens;
     
     this->token_type        =                           calculator_validate_token(this);
     this->previous_token    = this->token_parsed    =   this->token_type;
@@ -79,9 +82,8 @@ int calculator_update(calculator_t * this){
     return 0;
 }
 
-int calculator_read(calculator_t * this){
-    scanner_read(&(this->scanner));
-    return 0;
+inline int calculator_read(calculator_t * this){
+    return scanner_read(&(this->scanner));;
 }
 
 token_t calculator_validate_token(calculator_t * this){

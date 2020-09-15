@@ -31,6 +31,9 @@
 
 #include "parser.h"
 
+extern int tokens_g;
+int tokens_gp = 0;
+
 parser_t parser_create(){
     parser_t new;
     new.token_list = list_create();
@@ -51,7 +54,7 @@ void __ptoken_destroy__(void * element){
     free (element);
 }
 
-void parser_destroy(parser_t * this){
+inline void parser_destroy(parser_t * this){
     free(this->read_token);
     list_destroy_and_destroy_elements(this->token_list, __ptoken_destroy__);
 }
@@ -65,7 +68,7 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
     if(VERBOSE)
         printf("[DEBUG] :: [PARSER] %s --> %s :: tbuffer ---> obuffer.\n", src, this->read_token->str);
-    
+    tokens_gp++;
     this->read_token->type = parsed_type;
     this->read_token->valid = __token_is_valid__(this->read_token->type, this->previous_token);
     if(VERBOSE)
@@ -89,7 +92,7 @@ bool __token_is_valid__(token_t new, token_t previous){
     case OPERANDV:
         return previous == OPERATOR ? true : false;
     case OPERATOR:
-        return (previous == OPERAND || previous == OPERANDV) ? true : false;
+        return (previous == OPERAND || previous == OPERANDV) ? tokens_gp == tokens_g ? false : true : false;
     
     default:
         return false;

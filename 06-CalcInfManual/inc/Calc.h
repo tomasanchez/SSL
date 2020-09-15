@@ -55,7 +55,7 @@ bool calculator_is_running(calculator_t *);
 /*Updates lvalues of calculator*/
 int calculator_update(calculator_t *);
 
-/*Loads a new character into the calculator*/
+/*Scans characters into the calculator until '\n' is pushed*/
 int calculator_read(calculator_t *);
 
 /*Checks if a new token has been detected*/
