@@ -1,4 +1,4 @@
-# [06] - Calculadora Infija: Construccion manual
+# [06] - [Calculadora Infija: Construccion manual][CALC]
 
 ## Objetivos
 
@@ -29,8 +29,15 @@ Análisis de expresiones aritméticas infijas simples que incluya:
 
 ## TODO
 
-1. Diseñar el nivel léxico del lenguaje. [-]
-2. Diseñar el nivel sintáctico del lenguaje. [-]
-3. Implementar el scanner. [X]
-4. Implementar el parser.[X]
-5. Probar. [x]
+1. Diseñar el nivel léxico del lenguaje.        [X]
+2. Diseñar el nivel sintáctico del lenguaje.    [X]
+3. Implementar el scanner.                      [X]
+4. Implementar el parser.                       [X]
+5. Probar.                                      [X]
+
+**Completed!**
+
+<br />
+<br />
+
+[CALC]:"https://github.com/tomasanchez/SSL/blob/master/06-CalcInfManual/Calc.md"

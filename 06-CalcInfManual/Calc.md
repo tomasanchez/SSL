@@ -84,13 +84,16 @@ Opte por una la siguiente resolucion:
 ```c
     /* Poseemos el siguiente flujo*/
 
+int main(void){
+
     calculator_t this_calculator = calculator_create();
+
+    calculator_read(&this_calculator);
 
     calculator_update(&this_calculator);
 
-    calculator_print_results(&this_calculator);
-
-    return calculator_destroy(&this_calculator);
+    return calculator_delete(&this_calculator);
+}
 ```
 
 **Que es un calculator?**
@@ -108,6 +111,33 @@ typedef struct Calculator{
     parser_t parser;
     char tbuffer[buffer_size];
 } calculator_t;
+```
+
+**Create**
+
+```c
+    calculator_t calculator_create(){
+    calculator_t new;
+    /*Inicio todos los principales partes aparte*/
+    new.scanner = scanner_create();
+    new.parser = parser_create();
+    /*Poseo un buffer que lo relleno con '\0'*/
+    new.tokens = new.index = buffer_clean(new.tbuffer);
+    new.flags.fst = new.flags.running = true;
+    new.flags.operand = new.flags.optor = false;
+    /*Determino los tokens mediante una logica de anterior != posterior*/
+    new.token_type = new.previous_token = new.token_parsed = OPERAND;
+    return new;
+}
+```
+
+**Read**
+
+```c
+inline int calculator_read(calculator_t * this){
+    /*Una calculadora no lee en si, sino que de eso se encarga el scanner*/
+    return scanner_read(&(this->scanner));
+}
 ```
 
 **Update**
@@ -169,10 +199,10 @@ inline int calculator_print_results(calculator_t * this){
 }
 ```
 
-**Destroy**
+**Delete**
 
 ```c
-int calculator_destroy(calculator_t * this){
+int calculator_delete(calculator_t * this){
     /* Se libera la memoria pedida por la lista del parser*/
     parser_destroy(&this->parser);
     return 0;

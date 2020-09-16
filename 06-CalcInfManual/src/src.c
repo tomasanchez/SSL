@@ -39,5 +39,5 @@ int main(void){
 
     calculator_update(&this_calculator);
 
-    return calculator_destroy(&this_calculator);
+    return calculator_delete(&this_calculator);
 }

@@ -83,7 +83,7 @@ int calculator_update(calculator_t * this){
 }
 
 inline int calculator_read(calculator_t * this){
-    return scanner_read(&(this->scanner));;
+    return scanner_read(&(this->scanner));
 }
 
 token_t calculator_validate_token(calculator_t * this){
@@ -96,7 +96,7 @@ inline int calculator_print_results(calculator_t * this){
     return parser_print_results(&this->parser);
 }
 
-int calculator_destroy(calculator_t * this){
+int calculator_delete(calculator_t * this){
     parser_destroy(&this->parser);
     return 0;
 }

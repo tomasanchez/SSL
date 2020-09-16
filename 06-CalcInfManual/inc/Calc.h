@@ -68,7 +68,7 @@ int calculator_GetNextToken(calculator_t *);
 int calculator_print_results(calculator_t *);
 
 /*Closes program*/
-int calculator_destroy(calculator_t *);
+int calculator_delete(calculator_t *);
 
 /*Checks what kind of token is*/
 token_t calculator_validate_token(calculator_t *);
