@@ -30,11 +30,11 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 [Examen-00]:(https://github.com/tomasanchez/SSL/blob/master/ResolucionDeExamenes/Examen00.md)
 
 <!-- TPs Individuales - Links -->
-[00-CHelloWolrd]:(https://github.com/tomasanchez/SSL/tree/master/00-CHelloWorld)
-[01-UsoDeC]:(https://github.com/tomasanchez/SSL/tree/master/01-UsoDeC)
+[00-CHelloWolrd]:"https://github.com/tomasanchez/SSL/tree/master/00-CHelloWorld"
+[01-UsoDeC]:"https://github.com/tomasanchez/SSL/tree/master/01-UsoDeC"
 [02-HelloCppVHelloC]:(02-HelloCppvHelloC/REAMDE.md)
-[03-FasesErrores]:(https://github.com/tomasanchez/SSL/tree/master/03-FasesErrores)
-[04-Strings]:(https://github.com/tomasanchez/SSL/tree/master/04-Strings)
-[05-wl]:(https://github.com/tomasanchez/SSL/tree/master/05-wl)
+[03-FasesErrores]:"https://github.com/tomasanchez/SSL/tree/master/03-FasesErrores"
+[04-Strings]:"https://github.com/tomasanchez/SSL/tree/master/04-Strings"
+[05-wl]:"https://github.com/tomasanchez/SSL/tree/master/05-wl"
 [06-CalcInfManual]:(06-CalcInfManual/README.md)
 [07-CalcInfManual2]:(07-CalcInfManual2/Calc.md)
