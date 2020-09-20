@@ -1,27 +1,15 @@
-==4948== Memcheck, a memory error detector
-==4948== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==4948== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==4948== Command: ./test.exe
-==4948== Parent PID: 4930
-==4948== 
-==4948== 
-==4948== HEAP SUMMARY:
-==4948==     in use at exit: 4 bytes in 1 blocks
-==4948==   total heap usage: 24 allocs, 23 frees, 2,434 bytes allocated
-==4948== 
-==4948== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==4948==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==4948==    by 0x10A7D4: __solve__ (solver.c:142)
-==4948==    by 0x10A8C1: solver_update (solver.c:176)
-==4948==    by 0x108C0B: calculator_update (Calc.c:82)
-==4948==    by 0x10A9BF: main (src.c:60)
-==4948== 
-==4948== LEAK SUMMARY:
-==4948==    definitely lost: 4 bytes in 1 blocks
-==4948==    indirectly lost: 0 bytes in 0 blocks
-==4948==      possibly lost: 0 bytes in 0 blocks
-==4948==    still reachable: 0 bytes in 0 blocks
-==4948==         suppressed: 0 bytes in 0 blocks
-==4948== 
-==4948== For counts of detected and suppressed errors, rerun with: -v
-==4948== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==5139== Memcheck, a memory error detector
+==5139== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==5139== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==5139== Command: ./test.exe
+==5139== Parent PID: 5121
+==5139== 
+==5139== 
+==5139== HEAP SUMMARY:
+==5139==     in use at exit: 0 bytes in 0 blocks
+==5139==   total heap usage: 10 allocs, 10 frees, 2,177 bytes allocated
+==5139== 
+==5139== All heap blocks were freed -- no leaks are possible
+==5139== 
+==5139== For counts of detected and suppressed errors, rerun with: -v
+==5139== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -69,7 +69,7 @@ void solver_delete(solver_t * this){
 int solver_GetNextToken(solver_t * this, char * tok, token_t type){
 
     char token_operator = '\0';
-    int token_integer;
+    int token_integer = 0;
 
     if(VERBOSE)
         printf("[DEBUG] :: [SOLVER] :: Evaluating '%s'\n", tok);
@@ -88,8 +88,10 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
     case PARENTHESIS:
     case OPERATOR:
         token_operator = *tok;
-        if(token_operator == ')')
+        if(token_operator == ')'){
             solver_handle_parenthesis(this);
+            return 0;
+        }
         else{
             *this->operator_buffer = token_operator;
             if(VERBOSE)
@@ -181,8 +183,8 @@ int solver_update(solver_t * this){
     //if(optor){
      //   __solve__(this, optor);
     //}
-
-    this->operand_buffer = stack_pop(this->operand_stack);
+    if(tokens_g > 0)
+        this->operand_buffer = stack_pop(this->operand_stack);
 
     this->final_result = *this->operand_buffer;
 
