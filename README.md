@@ -25,9 +25,8 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 |           | [06-CalcInfManual]        |               |
 |           | [07-CalcInfManual2]       |               |
 
-
 <!-- Examenes - Links -->
-[Examen-00]:(https://github.com/tomasanchez/SSL/blob/master/ResolucionDeExamenes/Examen00.md)
+[Examen-00]:(ResolucionDeExamenes/Examen00.md)
 
 <!-- TPs Individuales - Links -->
 [00-CHelloWolrd]:(00-CHelloWorld/README.md)
