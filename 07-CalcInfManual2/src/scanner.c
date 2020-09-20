@@ -98,6 +98,7 @@ int scanner_syntax_check(scanner_t * this){
                 operator = true;
             }
     }
+
     return 1;
 }
 
@@ -155,7 +156,7 @@ token_t scanner_valid(scanner_t * this, int c){
     return OPERAND;
     }
         
-    else if (char_is_operator(c)){
+    else if (char_is_operator(c)|| char_is_parenthesis(c)){
         if(this->flags.operand || this->flags.fst){
             this->tokens++;
             this->flags.optor   = true;
@@ -216,6 +217,9 @@ inline bool char_is_variable(int c){
 
 inline bool char_is_operator(int c){
 
+    if(char_is_parenthesis(c))
+        return false;
+
     for(int i = 0 ; i < operator_size; i++){
         if(optor_list[i] == c){
             if(VERBOSE)
@@ -226,6 +230,12 @@ inline bool char_is_operator(int c){
    
     return false;
 }
+
+inline bool char_is_parenthesis(int c){
+    return c == '(' || c ==')';
+}
+
+
 
 inline int scanner_GetNextToken(char * dest, scanner_t * this){
 
@@ -246,7 +256,7 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
     for(int i = this->index;  this->ibuffer[i] != '\0'; d_index++, i++){
         
         dest[d_index] = this->ibuffer[i];
-        if(char_is_operator(this->ibuffer[i])){
+        if(char_is_operator(this->ibuffer[i]) || char_is_parenthesis(this->ibuffer[i])){
 
             if( i != this->index)
                 dest[d_index] = '\0';

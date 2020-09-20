@@ -42,6 +42,7 @@ typedef enum token{
     OPERATOR,
     OPERAND,
     OPERANDV,
+    PARENTHESIS,
     EOL
 }token_t;
 
@@ -53,11 +54,14 @@ typedef enum token{
 /*Initializes a buffer*/
 int buffer_clean(char * buffer);
 
-/*Checks if is a valid number Number = [0..9]*/
+/*Checks if char is a valid number Number = [0..9]*/
 bool char_is_number(int);
 
-/*Checks if is a valid operator, from the operator list*/
+/*Checks if char is a valid operator, from the operator list*/
 bool char_is_operator(int);
 
-/*Checks if scanner is a Variable = [a..z,A..Z]*/
+/*Checks if char is a Variable = [a..z,A..Z]*/
 bool char_is_variable(int);
+
+/*Checks if char is '(' or ')'*/
+bool char_is_parenthesis(int);

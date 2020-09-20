@@ -79,7 +79,7 @@ int calculator_update(calculator_t * this){
     while( calculator_is_running(this)){
         calculator_GetNextToken(this);
     }
-
+    solver_update(&this->solver);
     calculator_print_results(this);
     return 0;
 }
@@ -89,7 +89,7 @@ inline int calculator_read(calculator_t * this){
 }
 
 token_t calculator_validate_token(calculator_t * this){
- return char_is_operator(*this->tbuffer) ? OPERATOR : OPERAND;
+ return char_is_operator(*this->tbuffer) ? OPERATOR : char_is_parenthesis(*this->tbuffer)? PARENTHESIS : OPERAND;
 }
 
 inline int calculator_print_results(calculator_t * this){
