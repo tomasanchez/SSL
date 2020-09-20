@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    Calc.h
+    solver.h
 
-    Infix Manual Calculator header
+    solver for infix calculator.
 
     MIT License
 
@@ -26,50 +26,38 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/20/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "solver.h"
-#include "parser.h"
 
-typedef struct Flags{
-    bool fst,optor, operand, running;
-} cflags_t;
+#include "scanner.h"
 
-typedef struct Calculator{
-    scanner_t scanner;
-    parser_t parser;
-    solver_t solver;
-    cflags_t flags;
-    token_t token_type, previous_token, token_parsed;
-    char tbuffer[buffer_size];
-    int index, tokens;
-} calculator_t;
+typedef struct Solver{
+    int     * operand_buffer;
+    char    * operator_buffer;
+    stack_t * operand_stack;
+    stack_t * operator_stack;
+    int final_result;
+}solver_t;
 
-/*Starts a calculator ready to run*/
-calculator_t calculator_create();
+/*Creates a solver*/
+solver_t solver_create();
 
-/*Checks if calculator is active*/
-bool calculator_is_running(calculator_t *);
+/*Frees memory usage form solver*/
+void solver_delete(solver_t *);
 
-/*Updates lvalues of calculator*/
-int calculator_update(calculator_t *);
+/*Solves '(expression)' operations stacks*/
+int solver_handle_parenthesis(solver_t *);
 
-/*Scans characters into the calculator until '\n' is pushed*/
-int calculator_read(calculator_t *);
+/*Stores next token*/
+int solver_GetNextToken(solver_t *, char *, token_t);
 
-/*Checks if a new token has been detected*/
-int calculator_new_token(calculator_t *);
+/*Solves expression*/
+int solver_update(solver_t *);
 
-/*Allow communication between parser and scanner*/
-int calculator_GetNextToken(calculator_t *);
+/*Print results*/
+int solver_print(solver_t *);
 
-/*Writes resultos to stdout*/
-int calculator_print_results(calculator_t *);
-
-/*Closes program*/
-int calculator_delete(calculator_t *);
-
-/*Checks what kind of token is*/
-token_t calculator_validate_token(calculator_t *);
+/*Solve math expression*/
+int __solve__(solver_t *, char *);

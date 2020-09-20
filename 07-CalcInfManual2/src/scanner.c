@@ -29,12 +29,12 @@
     last modified: 09/14/2020
 ------------------------------------------------------------------------------------ */
 
-#include "scanner.h"
+#include "../inc/scanner.h"
 
 extern int tokens_g;
 
 /*Valid operators*/
-const char optor_list[] = {'+','-', '*','(', ')'};
+const char optor_list[] = {'(',')','*','+','-'};
 
 int buffer_clean(char * buffer){
 
@@ -98,7 +98,6 @@ int scanner_syntax_check(scanner_t * this){
                 operator = true;
             }
     }
-
     return 1;
 }
 
@@ -125,7 +124,7 @@ int scanner_read(scanner_t * this){
     printf(" :: > ");
     while(  (c = getchar()) != '\n'){
 
-        if(c == EOF)
+        if(c == EOF) // Pattern matching
             break;
         
         scanner_check_buffer(this);
@@ -155,7 +154,6 @@ token_t scanner_valid(scanner_t * this, int c){
         }    
     return OPERAND;
     }
-
         
     else if (char_is_operator(c)){
         if(this->flags.operand || this->flags.fst){

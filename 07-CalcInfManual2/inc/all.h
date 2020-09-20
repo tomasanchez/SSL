@@ -32,11 +32,10 @@
 #pragma once
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "stack.h"
 
-#define VERBOSE 0
+#define VERBOSE 1
 
 typedef enum token{
     INVALID = -1,
@@ -49,7 +48,7 @@ typedef enum token{
 /*Defines size of scanner number buffer*/
 #define  buffer_size 32
 /*Current number of valid operators*/
-#define operator_size 3
+#define operator_size 5
 
 /*Initializes a buffer*/
 int buffer_clean(char * buffer);

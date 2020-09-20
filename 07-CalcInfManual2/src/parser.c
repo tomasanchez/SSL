@@ -124,7 +124,7 @@ int parser_print_results(parser_t * this){
     } else
         puts("\n :: No valid character has been entered :: ");
     
-    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+    return 0;
 }
 
 void __print_one__(void * element){

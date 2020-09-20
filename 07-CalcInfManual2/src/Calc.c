@@ -28,7 +28,7 @@
 
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
-#include "Calc.h"
+#include "../inc/Calc.h"
 
 /*Global Token Counter*/
 int tokens_g;
@@ -38,6 +38,7 @@ calculator_t calculator_create(){
     calculator_t new;
     new.scanner = scanner_create();
     new.parser = parser_create();
+    new.solver = solver_create();
     new.tokens = new.index = buffer_clean(new.tbuffer);
     new.flags.fst = new.flags.running = true;
     new.flags.operand = new.flags.optor = false;
@@ -63,6 +64,7 @@ int calculator_GetNextToken(calculator_t * this){
     tokens_g = ++this->tokens;
     
     this->token_type        =                           calculator_validate_token(this);
+    solver_GetNextToken(&this->solver, this->tbuffer, this->token_type);
     this->previous_token    = this->token_parsed    =   this->token_type;
 
     parser_GetNextToken(&this->parser, this->tbuffer, this->token_parsed);
@@ -93,10 +95,12 @@ token_t calculator_validate_token(calculator_t * this){
 inline int calculator_print_results(calculator_t * this){
     scanner_syntax_check(&this->scanner);
     scanner_print(&this->scanner);
-    return parser_print_results(&this->parser);
+    parser_print_results(&this->parser);
+    return solver_print(&this->solver);
 }
 
 int calculator_delete(calculator_t * this){
+    solver_delete(&this->solver);
     parser_destroy(&this->parser);
     return 0;
 }

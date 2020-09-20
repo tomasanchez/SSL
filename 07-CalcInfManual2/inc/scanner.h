@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/20/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
@@ -52,6 +52,9 @@ typedef struct Scanner {
 
 /* Creates a scanner */
 scanner_t scanner_create();
+
+/* Deletes a scanner*/
+void scanner_delete(scanner_t *);
 
 /*Scans a character from*/
 token_t scanner_read(scanner_t *);

@@ -18,6 +18,11 @@
     The above copyright notice and this permission notice shall be included in all
     copies or substantial portions of the Software.
 
+    This file is a modify version of "queue.h" 2012 Sistemas Operativos - UTN FRBA.
+    In this version queue was updated to match last in first out accounting method
+    as queue represent a first in first out method, some functions were deleted and
+    others barely touched in order to obtain the last item instead of the first one.
+
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,6 +30,8 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+
+    
 
     last modified: 09/15/2020
 ------------------------------------------------------------------------------------ */
