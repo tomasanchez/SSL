@@ -34,7 +34,7 @@
 extern int tokens_g;
 
 solver_t solver_create(){
-    if(VERBOSE)
+    if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Creating solver...");
     solver_t this;
     this.operand_buffer     = (int *) malloc(sizeof(int));
@@ -43,7 +43,7 @@ solver_t solver_create(){
     this.operator_stack     = stack_create();
     *this.operand_buffer = *this.operator_buffer = this.final_result       = 0;
     
-    if(VERBOSE)
+    if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Solver created!");
 
     return this;
@@ -71,7 +71,7 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
     char token_operator = '\0';
     int token_integer = 0;
 
-    if(VERBOSE)
+    if(VERBOSE && SOLVER)
         printf("[DEBUG] :: [SOLVER] :: Evaluating '%s'\n", tok);
 
     switch (type)
@@ -79,8 +79,8 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
     case OPERAND:
         token_integer = atoi(tok);
         *this->operand_buffer = token_integer;
-        //if(VERBOSE)
-            //printf("[DEBUG] :: [SOLVER] :: '%d' -> '%d' :: tBuffer -> integerStack\n", token_integer, *this->operand_buffer);
+        if(VERBOSE && SOLVER)
+            printf("[DEBUG] :: [SOLVER] :: '%d' -> '%d' :: tBuffer -> integerStack\n", token_integer, *this->operand_buffer);
         stack_push(this->operand_stack, this->operand_buffer);
         this->operand_buffer = malloc(sizeof(int));
         *this->operand_buffer = 0;
@@ -89,13 +89,15 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
     case OPERATOR:
         token_operator = *tok;
         if(token_operator == ')'){
+            if(VERBOSE && SOLVER)
+                puts("[DEBUG] :: [SOLVER] :: Solving Parenthesis...");
             solver_handle_parenthesis(this);
             return 0;
         }
         else{
             *this->operator_buffer = token_operator;
-            if(VERBOSE)
-                printf("[DEBUG] :: [SOLVER] :: '%c' -> '%c' :: tBuffer -> Operand Buffer\n", token_operator, *this->operand_buffer);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: '%c' -> '%c' :: tBuffer -> operatorBuffer\n", token_operator, *this->operator_buffer);
             stack_push(this->operator_stack, this->operator_buffer);
             this->operator_buffer = malloc(sizeof(char));
             *this->operator_buffer = 0;
@@ -113,35 +115,41 @@ int __solve__(solver_t * this, char * optor){
 
     b = (int *) stack_pop(this->operand_stack);    
     a = (int *) stack_pop(this->operand_stack);
-    if(VERBOSE)
+    if(VERBOSE && SOLVER)
             puts("[DEBUG] :: [SOLVER] :: Solving...");
     
     switch (*optor)
         {
         case '+':
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solving '%d+%d'...\n", *a, *b);
             *this->operand_buffer = *a + *b;
-            if(VERBOSE)
-                printf("[DEBUG] :: [SOLVER] :: Solved '%d+%d' :: Resulting '%d'\n", *a, *b, *this->operand_buffer);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
             break;
         case '*':
-            *this->operand_buffer = *a * *b;
-            if(VERBOSE)
-                printf("[DEBUG] :: [SOLVER] :: Solved '%d*%d' :: Resulting '%d'\n", *a, *b, *this->operand_buffer);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solving '%d' * '%d'...\n", *a, *b);
+            *this->operand_buffer = (*a) * (*b);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
             break;
         case '-':
+        if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solving '%d' - '%d'...\n", *a, *b);
             *this->operand_buffer = *a - *b;
-            if(VERBOSE)
-                printf("[DEBUG] :: [SOLVER] :: Solved '%d-%d' :: Resulting '%d'\n", *a, *b, *this->operand_buffer);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
             break;
         default:
-            if(VERBOSE)
-                printf("[DEBUG] :: [SOLVER] :: '%c' is not an arithmetic operator", *optor);
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: '%c' is not an arithmetic operator\n", *optor);
             return -1;
             break;
         }
 
     stack_push(this->operand_stack, this->operand_buffer);
-    this->operand_buffer = malloc(sizeof(int));
+    //this->operand_buffer = malloc(sizeof(int));
     free(a);
     free(b);
     free(optor);
@@ -150,12 +158,20 @@ int __solve__(solver_t * this, char * optor){
 
 int solver_handle_parenthesis(solver_t * this){
 
-    char  * optor; (char *) stack_pop(this->operator_stack);
+    char  * optor = (char *) stack_pop(this->operator_stack);
+
+    if(VERBOSE && SOLVER)
+        printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: First operator is <'%c'>\n", *optor );
     
     while(*optor != '('){
         __solve__(this, optor);
         optor = (char *) stack_pop(this->operator_stack);
+        if(VERBOSE && SOLVER)
+            printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: Popped operator is <'%c'>\n", *optor );
     }
+
+    if(VERBOSE && SOLVER)
+        puts("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: Parenthesis was solved");
 
     // Optor should be '('
     if(optor)
@@ -177,7 +193,7 @@ int solver_update(solver_t * this){
         else
             __solve__(this, optor);
     }
-    if(VERBOSE)
+    if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Everything was solved");
 
     //if(optor){

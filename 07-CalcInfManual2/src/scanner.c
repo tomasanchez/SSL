@@ -36,6 +36,39 @@ extern int tokens_g;
 /*Valid operators*/
 const char optor_list[] = {'(',')','*','+','-'};
 
+int token_count(char * str){
+
+    bool optor, parenthesis, operand;
+    operand = optor = parenthesis = false;
+
+    int count = 0;
+
+    for(int i = 0; str[i] != '\0'; i++){
+        
+        if(char_is_operator(str[i])){
+            if(!optor){
+                parenthesis = operand = false;
+                optor = true;
+                count++;
+            }
+        }
+        else if(char_is_parenthesis(str[i])){
+            if(!parenthesis){
+                parenthesis = true;
+                operand = optor = false;
+                count++;
+            }
+        }
+        else if(!operand){
+            operand = true;
+            parenthesis = optor = false;
+            count++;
+        }
+
+    }
+    return count;
+}
+
 int buffer_clean(char * buffer){
 
     for (int i = 0; i < buffer_size; i++){
@@ -104,7 +137,7 @@ int scanner_syntax_check(scanner_t * this){
 
 
 inline scanner_t scanner_create(){
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         puts("[DEBUG] :: [SCANNER] :: Creating scanner...");
     scanner_t new;
     new.tokens = 0;
@@ -112,14 +145,14 @@ inline scanner_t scanner_create(){
     new.flags.fst = new.flags.optor = true;
     new.flags.operand = new.flags.overwritten = false;
     new.error = NONE;
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         puts("[DEBUG] :: [SCANNER] :: Scanner created!...");
     return new;
 }
 
 int scanner_read(scanner_t * this){
     int c;
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         puts("[DEBUG] :: [SCANNER] :: Reading from stdin:");
     
     printf(" :: > ");
@@ -135,8 +168,10 @@ int scanner_read(scanner_t * this){
         if (this->flags.fst)
             this->flags.fst = false;
     }
+
+    this->tokens = token_count(this->ibuffer);
     this->index = 0;
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         printf("[DEBUG] :: [SCANNER] :: Read << '%s' >> with <<'%d' tokens >>\n", this->ibuffer, this->tokens);
 
     return 0;
@@ -144,7 +179,7 @@ int scanner_read(scanner_t * this){
 
 token_t scanner_valid(scanner_t * this, int c){
     
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         puts("[DEBUG] :: [SCANNER] :: Validating character ...");
 
     if(char_is_number(c)){
@@ -156,7 +191,7 @@ token_t scanner_valid(scanner_t * this, int c){
     return OPERAND;
     }
         
-    else if (char_is_operator(c)|| char_is_parenthesis(c)){
+    else if (char_is_operator(c) || char_is_parenthesis(c)){
         if(this->flags.operand || this->flags.fst){
             this->tokens++;
             this->flags.optor   = true;
@@ -173,7 +208,7 @@ token_t scanner_valid(scanner_t * this, int c){
         return OPERANDV;
     }
     
-    if(VERBOSE)
+    if(VERBOSE && SCANNER)
         puts("[DEBUG] :: [SCANNER] :: << Invalid character >> :: IGNORING...");
 
     return INVALID;
@@ -195,7 +230,7 @@ int scanner_check_buffer(scanner_t * this){
 inline bool char_is_number(int c){
         
     if ( (c >= '0') && (c <= '9')){
-        if(VERBOSE)
+        if(VERBOSE && SCANNER)
             printf("[DEBUG] :: [SCANNER] :: '%c' is a Number\n", c);
         return true;
     } 
@@ -207,7 +242,7 @@ inline bool char_is_variable(int c){
 
 
     if( ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) ){
-        if(VERBOSE)
+        if(VERBOSE && SCANNER)
             printf("[DEBUG] :: [SCANERR] :: '%c' is a Variable\n", c);
         return true;
     }
@@ -222,7 +257,7 @@ inline bool char_is_operator(int c){
 
     for(int i = 0 ; i < operator_size; i++){
         if(optor_list[i] == c){
-            if(VERBOSE)
+            if(VERBOSE && SCANNER)
                 printf("[DEBUG] :: [SCANNER] :: '%c' is Operator\n", c);
             return true;
         }
@@ -239,7 +274,7 @@ inline bool char_is_parenthesis(int c){
 
 inline int scanner_GetNextToken(char * dest, scanner_t * this){
 
-    if(VERBOSE){
+    if(VERBOSE && SCANNER){
         puts(":: ============================================================================ ::");
         printf("[DEBUG] :: [SCANNER] :: Getting Next Tokens :: ibuffer = '%s'.\n", this->ibuffer);
     }
@@ -273,7 +308,7 @@ inline int scanner_GetNextToken(char * dest, scanner_t * this){
         }
     }
 
-    if(VERBOSE){
+    if(VERBOSE && SCANNER){
         printf("[DEBUG] :: [SCANNER] :: '%d' ---> '%c' :: index   ---> ibuffer.\n", this->index, this->ibuffer[this->index]);
         printf("[DEBUG] :: [SCANNER] :: '%s' ---> '%s' :: ibuffer ---> tbuffer.\n", this->ibuffer, dest);
     }

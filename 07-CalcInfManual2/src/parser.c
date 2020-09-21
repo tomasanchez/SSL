@@ -29,7 +29,7 @@
     last modified: 09/12/2020
 ------------------------------------------------------------------------------------*/
 
-#include "parser.h"
+#include "../inc/parser.h"
 
 extern int tokens_g;
 int tokens_gp = 0;
@@ -66,7 +66,7 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
         this->read_token->str[i] = src[i];
     }
 
-    if(VERBOSE)
+    if(VERBOSE && PARSER)
         printf("[DEBUG] :: [PARSER] %s --> %s :: tbuffer ---> obuffer.\n", src, this->read_token->str);
     
     tokens_gp++;
@@ -80,7 +80,7 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
     }
         
     
-    if(VERBOSE)
+    if(VERBOSE && PARSER)
         printf("[DEBUG] :: [PARSER] :: Is token '%s' valid ? :: '%s'.\n", this->read_token->str, this->read_token->valid? "YES" : "NO");
     
     this->previous_token = parsed_type;
@@ -110,7 +110,7 @@ bool __token_is_valid__(token_t new, token_t previous){
 
 int parser_print_results(parser_t * this){
 
-    if(VERBOSE)
+    if(VERBOSE && PARSER)
         puts("[DEBUG] Printing results ...\n");
 
     if( tokens_g > 0){

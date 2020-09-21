@@ -36,6 +36,9 @@
 #include "stack.h"
 
 #define VERBOSE 1
+#define SCANNER 0
+#define PARSER  0
+#define SOLVER  1
 
 typedef enum token{
     INVALID = -1,
@@ -65,3 +68,6 @@ bool char_is_variable(int);
 
 /*Checks if char is '(' or ')'*/
 bool char_is_parenthesis(int);
+
+/*Counts token in a string*/
+int token_count(char *);
