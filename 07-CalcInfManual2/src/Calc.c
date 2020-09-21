@@ -39,11 +39,9 @@ calculator_t calculator_create(){
     new.scanner = scanner_create();
     new.parser = parser_create();
     new.solver = solver_create();
-    new.tokens = new.index = buffer_clean(new.tbuffer);
+    tokens_g = new.tokens = new.index = buffer_clean(new.tbuffer);
     new.flags.fst = new.flags.running = true;
-    new.flags.operand = new.flags.optor = false;
-    new.token_type = new.previous_token = new.token_parsed = OPERAND;
-    tokens_g = 0;
+    new.token_type = new.previous_token = OPERAND;
     return new;
 }
 
@@ -65,9 +63,9 @@ int calculator_GetNextToken(calculator_t * this){
     
     this->token_type        =                           calculator_validate_token(this);
     solver_GetNextToken(&this->solver, this->tbuffer, this->token_type);
-    this->previous_token    = this->token_parsed    =   this->token_type;
+    this->previous_token    =   this->token_type;
 
-    parser_GetNextToken(&this->parser, this->tbuffer, this->token_parsed);
+    parser_GetNextToken(&this->parser, this->tbuffer, this->token_type);
 
     this->index = buffer_clean(this->tbuffer);
 

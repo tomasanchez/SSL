@@ -216,3 +216,20 @@ int solver_print(solver_t * this){
     }
     return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }
+
+int __precedence__(char ch){ 
+    switch (ch) 
+    { 
+    case '+': 
+    case '-': 
+        return 1; 
+  
+    case '*': 
+    case '/': 
+        return 2; 
+  
+    case '^': 
+        return 3; 
+    } 
+    return -1; 
+}

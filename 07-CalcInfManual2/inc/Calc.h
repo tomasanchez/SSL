@@ -26,7 +26,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 09/21/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
@@ -34,7 +34,7 @@
 #include "parser.h"
 
 typedef struct Flags{
-    bool fst,optor, operand, running;
+    bool fst, running;
 } cflags_t;
 
 typedef struct Calculator{
@@ -42,7 +42,7 @@ typedef struct Calculator{
     parser_t parser;
     solver_t solver;
     cflags_t flags;
-    token_t token_type, previous_token, token_parsed;
+    token_t token_type, previous_token;
     char tbuffer[buffer_size];
     int index, tokens;
 } calculator_t;
@@ -53,10 +53,10 @@ calculator_t calculator_create();
 /*Checks if calculator is active*/
 bool calculator_is_running(calculator_t *);
 
-/*Updates lvalues of calculator*/
+/*Modifies lvalues of calculator*/
 int calculator_update(calculator_t *);
 
-/*Scans characters into the calculator until '\n' is pushed*/
+/*Scans and loads characters from stdin until end of line*/
 int calculator_read(calculator_t *);
 
 /*Checks if a new token has been detected*/
@@ -68,7 +68,7 @@ int calculator_GetNextToken(calculator_t *);
 /*Writes resultos to stdout*/
 int calculator_print_results(calculator_t *);
 
-/*Closes program*/
+/*Destroys and frees memory usage*/
 int calculator_delete(calculator_t *);
 
 /*Checks what kind of token is*/
