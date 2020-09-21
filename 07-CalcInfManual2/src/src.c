@@ -33,26 +33,6 @@
 
 int main(void){
 
-    /*stack_t * this = stack_create();
-
-    int * number;
-    
-
-    for(int i=0; i< 10; i++){
-        number = malloc(sizeof(int));
-        *number = i;
-        stack_push(this, number);
-    }
-
-    while(!stack_is_empty(this)){
-        int * n = stack_pop(this);
-        printf(" >>%d<<\n",  *n);
-        free(n);
-    }
-
-    stack_delete_and_delete_elements(this, free);*/
-
-
     calculator_t this_calculator = calculator_create();
 
     calculator_read(&this_calculator);
