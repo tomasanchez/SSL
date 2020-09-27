@@ -32,6 +32,8 @@
 #include "../inc/parser.h"
 
 extern int tokens_g;
+
+// Token counter for parser
 int tokens_gp = 0;
 
 parser_t parser_create(){

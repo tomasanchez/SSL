@@ -61,3 +61,6 @@ int solver_print(solver_t *);
 
 /*Solve math expression*/
 int __solve__(solver_t *, char *);
+
+/*Determines precedence of operators*/
+int __precedence__(char);
