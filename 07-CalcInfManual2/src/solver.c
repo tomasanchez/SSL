@@ -33,16 +33,21 @@
 
 extern int tokens_g;
 
+tok_t * __tok_create__(int token, token_t type){
+    tok_t * this = malloc(sizeof(tok_t));
+    this->token = token;
+    this->type = type;
+    return this;
+}
+
 solver_t solver_create(){
     if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Creating solver...");
     solver_t this;
-    this.operand_buffer     = (int *) malloc(sizeof(int));
-    this.operand_stack      = stack_create();
-    this.operator_buffer    = (char *) malloc(sizeof(char));
-    this.operator_stack     = stack_create();
-    *this.operand_buffer = *this.operator_buffer = this.final_result       = 0;
-    
+    this.token = NULL;
+    this->output_queue = queue_create();
+    this->operator_stack = stack_create();
+
     if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Solver created!");
 
@@ -51,13 +56,11 @@ solver_t solver_create(){
 
 void solver_delete(solver_t * this){
     //Freeing buffers
-    free(this->operand_buffer);
-    free(this->operator_buffer);
     // Deleting stacks
-    if(!stack_is_empty(this->operand_stack))
-        stack_delete_and_delete_elements(this->operand_stack, free);
+    if(!queue_is_empty(this->output_queue))
+        queue_destroy_and_destroy_elements(this->output_queue, free);
     else
-        stack_delete(this->operand_stack);
+        queue_destroy(this->output_queue);
 
     if(!stack_is_empty(this->operator_stack))    
         stack_delete_and_delete_elements(this->operator_stack, free);
@@ -68,32 +71,31 @@ void solver_delete(solver_t * this){
 
 int solver_GetNextToken(solver_t * this, char * tok, token_t type){
 
-    char token_operator = '\0';
-    int token_integer = 0;
-
     if(VERBOSE && SOLVER)
         printf("[DEBUG] :: [SOLVER] :: Evaluating '%s'\n", tok);
 
     switch (type)
     {
     case OPERAND:
-        token_integer = atoi(tok);
-        *this->operand_buffer = token_integer;
+        this->token = __tok_create__(atoi(tok), OPERAND);
         if(VERBOSE && SOLVER)
-            printf("[DEBUG] :: [SOLVER] :: '%d' -> '%d' :: tBuffer -> integerStack\n", token_integer, *this->operand_buffer);
-        stack_push(this->operand_stack, this->operand_buffer);
-        this->operand_buffer = malloc(sizeof(int));
-        *this->operand_buffer = 0;
+            printf("[DEBUG] :: [SOLVER] :: '%d' -> '%d' :: tBuffer -> outputQueue\n", atoi(tok), this->token->token);
+        queue_push(this->output_queue, this->token);
         break;
     case PARENTHESIS:
     case OPERATOR:
-        token_operator = *tok;
-        if(token_operator == ')'){
+        this->token = __tok_create__(*tok, type);
+
+        /*Parenthesis treatment*/
+        if(*tok == ')'){
             if(VERBOSE && SOLVER)
                 puts("[DEBUG] :: [SOLVER] :: Solving Parenthesis...");
+                /* Stack -> output Queue*/
             solver_handle_parenthesis(this);
             return 0;
         }
+
+
         else{
             *this->operator_buffer = token_operator;
             if(VERBOSE && SOLVER)

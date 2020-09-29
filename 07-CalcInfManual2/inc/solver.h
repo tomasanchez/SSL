@@ -33,10 +33,14 @@
 
 #include "scanner.h"
 
+typedef struct Tok{
+    int token;
+    token_t type;
+}tok_t;
+
 typedef struct Solver{
-    int     * operand_buffer;
-    char    * operator_buffer;
-    stack_t * operand_stack;
+    tok_t * token;
+    t_queue * output_queue;
     stack_t * operator_stack;
     int final_result;
 }solver_t;
@@ -64,3 +68,6 @@ int __solve__(solver_t *, char *);
 
 /*Determines precedence of operators*/
 int __precedence__(char);
+
+/*Creates a tok with the passed token and its type*/
+tok_t * __tok_create__(int token, token_t type);

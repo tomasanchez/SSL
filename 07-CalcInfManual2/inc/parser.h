@@ -31,13 +31,6 @@
 #pragma once
 #include "all.h"
 
-typedef struct pToken{
-    int index;
-    bool valid;
-    token_t type;
-    char str[buffer_size];
-}ptoken_t;
-
 typedef struct Parser{
     t_list * token_list;
     ptoken_t * read_token;
@@ -66,9 +59,3 @@ bool __token_is_valid__(token_t, token_t);
 
 /* Checks if a number is Decimal or an unique variable*/
 bool __is_valid_operand__(char *);
-
-/*  Private Function :: Creates an element for a list*/
-ptoken_t * __ptoken_create__();
-
-/*  Private Function :: Destroys an element for a list*/
-void __ptoken_destroy__(void *);

@@ -41,6 +41,11 @@
 #define PARSER  0
 #define SOLVER  1
 
+/*Defines size of scanner number buffer*/
+#define  buffer_size 32
+/*Current number of valid operators*/
+#define operator_size 5
+
 typedef enum token{
     INVALID = -1,
     OPERATOR,
@@ -50,10 +55,12 @@ typedef enum token{
     EOL
 }token_t;
 
-/*Defines size of scanner number buffer*/
-#define  buffer_size 32
-/*Current number of valid operators*/
-#define operator_size 5
+typedef struct pToken{
+    int index;
+    bool valid;
+    token_t type;
+    char str[buffer_size];
+}ptoken_t;
 
 /*Initializes a buffer*/
 int buffer_clean(char * buffer);
@@ -72,3 +79,9 @@ bool char_is_parenthesis(int);
 
 /*Counts token in a string*/
 int token_count(char *);
+
+/*  Private Function :: Creates an element for a list*/
+ptoken_t * __ptoken_create__(void);
+
+/*  Private Function :: Destroys an element for a list*/
+void __ptoken_destroy__(void *);
