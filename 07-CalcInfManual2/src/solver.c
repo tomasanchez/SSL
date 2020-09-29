@@ -45,8 +45,8 @@ solver_t solver_create(){
         puts("[DEBUG] :: [SOLVER] :: Creating solver...");
     solver_t this;
     this.token = NULL;
-    this->output_queue = queue_create();
-    this->operator_stack = stack_create();
+    this.output_queue = queue_create();
+    this.operator_stack = stack_create();
 
     if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: Solver created!");
@@ -70,7 +70,7 @@ void solver_delete(solver_t * this){
 }
 
 int solver_GetNextToken(solver_t * this, char * tok, token_t type){
-
+    tok_t * previous = NULL;
     if(VERBOSE && SOLVER)
         printf("[DEBUG] :: [SOLVER] :: Evaluating '%s'\n", tok);
 
@@ -95,14 +95,21 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
             return 0;
         }
 
+        previous = stack_pop(this->operator_stack);
+        
+        if(__precedence__(previous->token) < __precedence__(this->token->token)){
 
-        else{
-            *this->operator_buffer = token_operator;
             if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: '%c' -> '%c' :: tBuffer -> operatorBuffer\n", token_operator, *this->operator_buffer);
-            stack_push(this->operator_stack, this->operator_buffer);
-            this->operator_buffer = malloc(sizeof(char));
-            *this->operator_buffer = 0;
+                printf("[DEBUG] :: [SOLVER] :: Precendence of '%c' <  Precende of '%c'\n", previous->token, this->token->token);
+
+            stack_push(this->operator_stack,previous);
+            stack_push(this->operator_stack, this->token);
+        }else{
+            if(VERBOSE && SOLVER)
+                printf("[DEBUG] :: [SOLVER] :: Precendence of '%c' >  Precende of '%c'\n", previous->token, this->token->token);
+            
+            stack_push(this->operator_stack,previous);
+            queue_push(this->output_queue, this->token);
         }
     default:
         break;
@@ -160,24 +167,27 @@ int __solve__(solver_t * this, char * optor){
 
 int solver_handle_parenthesis(solver_t * this){
 
-    char  * optor = (char *) stack_pop(this->operator_stack);
+    this->token = (tok_t *) stack_pop(this->operator_stack);
 
     if(VERBOSE && SOLVER)
-        printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: First operator is <'%c'>\n", *optor );
+        printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: First operator is <'%c'>\n", this->token->token );
     
-    while(*optor != '('){
-        __solve__(this, optor);
-        optor = (char *) stack_pop(this->operator_stack);
+    while(this->token->token != '('){
+        /*Moving all operators to output queue*/
+        queue_push(this->output_queue, this->token);
         if(VERBOSE && SOLVER)
-            printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: Popped operator is <'%c'>\n", *optor );
+            printf("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: Moved <'%c'> :: Stack -> Queue\n", this->token->token);
+        this->token = (tok_t *) stack_pop(this->operator_stack);
     }
 
     if(VERBOSE && SOLVER)
         puts("[DEBUG] :: [SOLVER] :: [PARENTHESIS_HANDLER] :: Parenthesis was solved");
 
     // Optor should be '('
-    if(optor)
-        free(optor);
+    if(this->token)
+        free(this->token);
+    
+    this->token = NULL;
 
     return 0;
 }
