@@ -89,7 +89,7 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
         /*Parenthesis treatment*/
         if(*tok == ')'){
             if(VERBOSE && SOLVER)
-                puts("[DEBUG] :: [SOLVER] :: Solving Parenthesis...");
+                puts("[DEBUG] :: [SOLVER] :: Handling Parenthesis...");
                 /* Stack -> output Queue*/
             solver_handle_parenthesis(this);
             return 0;
@@ -119,36 +119,28 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
 }
 
 
-int __solve__(solver_t * this, char * optor){
-    int * a, *b;
+int __solve__(int a, int b, char optor){
 
-    b = (int *) stack_pop(this->operand_stack);    
-    a = (int *) stack_pop(this->operand_stack);
     if(VERBOSE && SOLVER)
             puts("[DEBUG] :: [SOLVER] :: Solving...");
     
-    switch (*optor)
+    switch (optor)
         {
         case '+':
             if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: Solving '%d+%d'...\n", *a, *b);
-            *this->operand_buffer = *a + *b;
-            if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
+                printf("[DEBUG] :: [SOLVER] :: Solving '%d+%d'...\n", a, b);
+
+            return a+b;
             break;
         case '*':
             if(VERBOSE && SOLVER)
                 printf("[DEBUG] :: [SOLVER] :: Solving '%d' * '%d'...\n", *a, *b);
-            *this->operand_buffer = (*a) * (*b);
-            if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
+            return a*b;
             break;
         case '-':
-        if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: Solving '%d' - '%d'...\n", *a, *b);
-            *this->operand_buffer = *a - *b;
             if(VERBOSE && SOLVER)
-                printf("[DEBUG] :: [SOLVER] :: Solved -> Resulting <'%d'>\n", *this->operand_buffer);
+                printf("[DEBUG] :: [SOLVER] :: Solving '%d' - '%d'...\n", *a, *b);
+            return a-b;
             break;
         default:
             if(VERBOSE && SOLVER)
@@ -157,11 +149,6 @@ int __solve__(solver_t * this, char * optor){
             break;
         }
 
-    stack_push(this->operand_stack, this->operand_buffer);
-    //this->operand_buffer = malloc(sizeof(int));
-    free(a);
-    free(b);
-    free(optor);
     return 0;
 }
 
@@ -194,11 +181,20 @@ int solver_handle_parenthesis(solver_t * this){
 
 int solver_update(solver_t * this){
 
-    char  * optor;
+    tok_t operator;
 
-    while (!stack_is_empty(this->operator_stack))
+    while(!stack_is_empty(this->operator_stack)){
+        this->token = (tok_t *) stack_pop(this->operator_stack);
+        queue_push(this->output_queue, this->token);
+    }
+
+
+    while (!queue_is_empty(this->output_queue))
     {
-        optor = (char *) stack_pop(this->operator_stack);
+        this->token = queue_pop(this->output_queue);
+
+        if(this->token->type == OPERAND){
+        }
 
         if(*optor == ')')
             solver_handle_parenthesis(this);
