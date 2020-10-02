@@ -36,7 +36,7 @@
 #include "stack.h"
 #include "queue.h"
 
-#define VERBOSE 0
+#define VERBOSE 1
 #define SCANNER 0
 #define PARSER  0
 #define SOLVER  1

@@ -1,27 +1,28 @@
-==1056== Memcheck, a memory error detector
-==1056== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1056== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==1056== Command: ./test.exe
-==1056== Parent PID: 1038
-==1056== 
-==1056== 
-==1056== HEAP SUMMARY:
-==1056==     in use at exit: 4 bytes in 1 blocks
-==1056==   total heap usage: 20 allocs, 19 frees, 2,394 bytes allocated
-==1056== 
-==1056== 4 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==1056==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1056==    by 0x10A4CE: solver_GetNextToken (solver.c:85)
-==1056==    by 0x108B5B: calculator_GetNextToken (Calc.c:65)
-==1056==    by 0x108BC5: calculator_update (Calc.c:78)
-==1056==    by 0x10A854: main (src.c:40)
-==1056== 
-==1056== LEAK SUMMARY:
-==1056==    definitely lost: 4 bytes in 1 blocks
-==1056==    indirectly lost: 0 bytes in 0 blocks
-==1056==      possibly lost: 0 bytes in 0 blocks
-==1056==    still reachable: 0 bytes in 0 blocks
-==1056==         suppressed: 0 bytes in 0 blocks
-==1056== 
-==1056== For counts of detected and suppressed errors, rerun with: -v
-==1056== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==985== Memcheck, a memory error detector
+==985== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==985== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==985== Command: ./test.exe
+==985== Parent PID: 965
+==985== 
+==985== 
+==985== HEAP SUMMARY:
+==985==     in use at exit: 8 bytes in 1 blocks
+==985==   total heap usage: 32 allocs, 31 frees, 2,648 bytes allocated
+==985== 
+==985== 8 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==985==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==985==    by 0x10A488: __tok_create__ (solver.c:37)
+==985==    by 0x10A68A: solver_GetNextToken (solver.c:88)
+==985==    by 0x108B45: calculator_GetNextToken (Calc.c:65)
+==985==    by 0x108BAF: calculator_update (Calc.c:78)
+==985==    by 0x10AC10: main (src.c:40)
+==985== 
+==985== LEAK SUMMARY:
+==985==    definitely lost: 8 bytes in 1 blocks
+==985==    indirectly lost: 0 bytes in 0 blocks
+==985==      possibly lost: 0 bytes in 0 blocks
+==985==    still reachable: 0 bytes in 0 blocks
+==985==         suppressed: 0 bytes in 0 blocks
+==985== 
+==985== For counts of detected and suppressed errors, rerun with: -v
+==985== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

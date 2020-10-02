@@ -63,8 +63,8 @@ int solver_update(solver_t *);
 /*Print results*/
 int solver_print(solver_t *);
 
-/*Solve math expression*/
-int __solve__(solver_t *, char *);
+/*Solve math expression a (operator) b, operator in {+,-,*}*/
+int __solve__(int a, int b, char operator);
 
 /*Determines precedence of operators*/
 int __precedence__(char);
