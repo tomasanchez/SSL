@@ -97,28 +97,29 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
         }
 
         /*Pattern matching for '(' */
-        if(!stack_is_empty(this->operator_stack))
-            previous = stack_pop(this->operator_stack);
-        else{
+        if(this->token->token == '('|| stack_is_empty(this->operator_stack)){
             stack_push(this->operator_stack, this->token);
-            return 0;
+            return 0;  
         }
-            
-        
+
+        previous = stack_pop(this->operator_stack);
+
         if(__precedence__(previous->token) < __precedence__(this->token->token)){
 
             if(VERBOSE && SOLVER){
                 printf("[DEBUG] :: [SOLVER] :: Precendence of '%c' <  Precende of '%c'\n", previous->token, this->token->token);
-                printf("[DEBUG] :: [SOLVER] :: Stack pushing = ['%c'|'%c']\n", previous->token, this->token->token);
+                printf("[DEBUG] :: [SOLVER] :: Stack::['%c'|'%c']\n", previous->token, this->token->token);
             }
             stack_push(this->operator_stack,previous);
             stack_push(this->operator_stack, this->token);
         }else{
             if(VERBOSE && SOLVER){
                 printf("[DEBUG] :: [SOLVER] :: Precendence of '%c' >  Precende of '%c'\n", previous->token, this->token->token);
+                printf("[DEBUG] :: [SOLVER] :: Stack ::['%c']\n", this->token->token);
+                printf("[DEBUG] :: [SOLVER] :: Queue :: <<'%c'>>\n", previous->token);
             }
-            stack_push(this->operator_stack,previous);
-            queue_push(this->output_queue, this->token);
+            stack_push(this->operator_stack, this->token);
+            queue_push(this->output_queue, previous);
         }
     default:
         break;
@@ -194,7 +195,12 @@ int solver_update(solver_t * this){
     /*Second operand*/
     tok_t  * b = NULL;
 
+    if(VERBOSE && SOLVER)
+        puts("[DEBUG] :: [SOLVER] :: [UPDATE] :: Calculating...");
+
     while(!stack_is_empty(this->operator_stack)){
+        if(VERBOSE && SOLVER)
+            puts("[DEBUG] :: [SOLVER] :: [UPDATE] :: Emptying stack...");
         this->token = (tok_t *) stack_pop(this->operator_stack);
         queue_push(this->output_queue, this->token);
     }
@@ -209,9 +215,10 @@ int solver_update(solver_t * this){
         }
         else{
             /* As stack is LIFO, b should pop first*/
-            b = (tok_t *) stack_pop(this->operator_stack);
-            a = (tok_t *) stack_pop(this->operator_stack);
-
+            if(stack_size(this->operator_stack) >= 2){
+                b = (tok_t *) stack_pop(this->operator_stack);
+                a = (tok_t *) stack_pop(this->operator_stack);
+            }
             /*Overwritting operator, now is an operand*/
             this->token->token = __solve__(a->token, b->token, this->token->token);
             this->token->type = OPERAND;
