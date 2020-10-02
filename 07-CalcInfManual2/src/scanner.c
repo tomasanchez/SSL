@@ -93,7 +93,7 @@ int scanner_syntax_check(scanner_t * this){
     // Expression starting with operator
     if( (operator && first_element != '-') || (first_element == '-' && this->ibuffer[1] != '\0') ){
         this->error = INVALID_OPERATOR;
-        return 0;
+        return false;
     }
         
     for (int i = 1; this->ibuffer[i] != '\0'; i++){
@@ -103,7 +103,7 @@ int scanner_syntax_check(scanner_t * this){
                 
                 if(id){
                     this->error = NON_DECIMAL;
-                    return 0;
+                    return false;
                 }
 
                 operator = id = false;
@@ -114,7 +114,7 @@ int scanner_syntax_check(scanner_t * this){
             if(char_is_variable(this->ibuffer[i])){
                 if( id ||integer){
                     this->error = NON_DECIMAL;
-                    return 0;
+                    return false;
                 }
                 operator = integer = false;
                 id = true;
@@ -124,7 +124,7 @@ int scanner_syntax_check(scanner_t * this){
             if(char_is_operator(this->ibuffer[i])){
                 if( operator ){
                     this->error = MULTIPLE_OPERATORS;
-                    return 0;
+                    return false;
                 }
 
                 id = integer = false;
@@ -132,7 +132,7 @@ int scanner_syntax_check(scanner_t * this){
             }
     }
 
-    return 1;
+    return true;
 }
 
 

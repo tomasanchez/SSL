@@ -252,7 +252,7 @@ int solver_print(solver_t * this){
         puts(":=-----------------::========::-----------------=:\n");
         printf(" :: :: > > %d", this->final_result);
     }
-    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+    return 0;
 }
 
 int __precedence__(char ch){ 

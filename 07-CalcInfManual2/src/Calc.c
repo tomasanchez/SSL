@@ -74,10 +74,13 @@ int calculator_GetNextToken(calculator_t * this){
 
 int calculator_update(calculator_t * this){
 
-    while( calculator_is_running(this)){
+    if(scanner_syntax_check(&this->scanner)){
+
+        while( calculator_is_running(this)){
         calculator_GetNextToken(this);
+        }
+        solver_update(&this->solver);
     }
-    solver_update(&this->solver);
     calculator_print_results(this);
     return 0;
 }
@@ -91,10 +94,14 @@ token_t calculator_validate_token(calculator_t * this){
 }
 
 inline int calculator_print_results(calculator_t * this){
-    scanner_syntax_check(&this->scanner);
     scanner_print(&this->scanner);
-    parser_print_results(&this->parser);
-    return solver_print(&this->solver);
+
+    if(scanner_syntax_check(&this->scanner)){
+        parser_print_results(&this->parser);
+        solver_print(&this->solver);
+    }
+
+    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }
 
 int calculator_delete(calculator_t * this){
