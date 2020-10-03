@@ -164,6 +164,8 @@ int __solve__(int a, int b, char optor){
 
 int solver_handle_parenthesis(solver_t * this){
 
+    free(this->token);
+    this->token= NULL;
     this->token = (tok_t *) stack_pop(this->operator_stack);
 
     if(VERBOSE && SOLVER)
