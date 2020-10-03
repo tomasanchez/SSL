@@ -98,13 +98,14 @@ bool __token_is_valid__(token_t new, token_t previous){
     switch (new)
     {
     case OPERAND:
-        return (previous == OPERAND || previous == OPERATOR) ? true : false;
+        return (previous == OPERAND || previous == OPERATOR || previous == PARENTHESIS) ? true : false;
         break;
     case OPERANDV:
-        return previous == OPERATOR ? true : false;
+        return previous == OPERATOR || previous == PARENTHESIS ? true : false;
     case OPERATOR:
-        return (previous == OPERAND || previous == OPERANDV) ? true : false;
-    
+        return (previous == OPERAND || previous == OPERANDV || previous == PARENTHESIS) ? true : false;
+    case PARENTHESIS:
+        return (previous == OPERAND || previous == OPERATOR || previous == OPERANDV) ? true : false;
     default:
         return false;
     }
