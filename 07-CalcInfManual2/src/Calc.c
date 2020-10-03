@@ -36,9 +36,11 @@ int tokens_g;
 calculator_t calculator_create(){
     puts(" :: == A Simple Infix Manual Calculator == :: ");
     calculator_t new;
+    /*Creating all objects that make a calculator*/
     new.scanner = scanner_create();
     new.parser = parser_create();
     new.solver = solver_create();
+    /*Initializing char buffer[]*/
     tokens_g = new.tokens = new.index = buffer_clean(new.tbuffer);
     new.flags.fst = new.flags.running = true;
     new.token_type = new.previous_token = OPERAND;
@@ -58,15 +60,18 @@ inline int calculator_new_token(calculator_t * this){
 
 int calculator_GetNextToken(calculator_t * this){
 
+    /*Gets scanned token*/
     scanner_GetNextToken(this->tbuffer, &this->scanner);
     tokens_g = ++this->tokens;
     
+    /*Gets token type*/
     this->token_type        =                           calculator_validate_token(this);
     solver_GetNextToken(&this->solver, this->tbuffer, this->token_type);
     this->previous_token    =   this->token_type;
 
     parser_GetNextToken(&this->parser, this->tbuffer, this->token_type);
 
+    /*Empties buffer*/
     this->index = buffer_clean(this->tbuffer);
 
     return 0;
@@ -74,6 +79,7 @@ int calculator_GetNextToken(calculator_t * this){
 
 int calculator_update(calculator_t * this){
 
+    /*If there is any syntax error, nothing else should work*/
     if(scanner_syntax_check(&this->scanner)){
 
         while( calculator_is_running(this)){

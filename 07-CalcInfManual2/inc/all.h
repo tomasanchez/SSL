@@ -46,6 +46,7 @@
 /*Current number of valid operators*/
 #define operator_size 5
 
+/*Enumerates the types of tokens Operand, Operator, Invalid, etc*/
 typedef enum token{
     INVALID = -1,
     OPERATOR,
@@ -82,6 +83,3 @@ int token_count(char *);
 
 /*  Private Function :: Creates an element for a list*/
 ptoken_t * __ptoken_create__(void);
-
-/*  Private Function :: Destroys an element for a list*/
-void __ptoken_destroy__(void *);

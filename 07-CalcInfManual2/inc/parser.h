@@ -40,8 +40,8 @@ typedef struct Parser{
 /*Creates a new usable parser*/
 parser_t parser_create();
 
-/*Adds token to the list*/
-int parser_GetNextToken(parser_t *, char *, token_t);
+/*Adds token to the list, returns if parsed token is valid or not*/
+bool parser_GetNextToken(parser_t *, char *, token_t);
 
 /*Writes parsed tokens to stdout, telling if valid or not*/
 int parser_print_results(parser_t *);

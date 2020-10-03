@@ -52,17 +52,15 @@ ptoken_t * __ptoken_create__(){
     return new;
 }
 
-void __ptoken_destroy__(void * element){
-    free (element);
-}
-
 inline void parser_destroy(parser_t * this){
     free(this->read_token);
-    list_destroy_and_destroy_elements(this->token_list, __ptoken_destroy__);
+    /*As no items are removed, elements need to be deleted with the list*/
+    list_destroy_and_destroy_elements(this->token_list, free);
 }
 
-int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
+bool parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
 
+    /*Copies buffer*/
     for (int i = 0; src[i] != '\0'; i++)
     {
         this->read_token->str[i] = src[i];
@@ -71,10 +69,12 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
     if(VERBOSE && PARSER)
         printf("[DEBUG] :: [PARSER] %s --> %s :: tbuffer ---> obuffer.\n", src, this->read_token->str);
     
+    /*Count as parsed token*/
     tokens_gp++;
     this->read_token->type = parsed_type;
     this->read_token->valid = __token_is_valid__(this->read_token->type, this->previous_token);
 
+    /*Operands requiere an additional validation, for example verifies if its decimel*/
     if(parsed_type == OPERAND){
         sprintf(this->read_token->str, "%d", atoi(this->read_token->str));
         if(this->read_token->valid)
@@ -87,14 +87,18 @@ int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
     
     this->previous_token = parsed_type;
     
+    bool validation = this->read_token->valid;
+
     list_add(this->token_list, this->read_token);
 
     this->read_token = __ptoken_create__();
     
-    return this->read_token->valid;
+    return validation;
 }
 
 bool __token_is_valid__(token_t new, token_t previous){
+
+    /*Verifies according to the last token analyzed*/
     switch (new)
     {
     case OPERAND:

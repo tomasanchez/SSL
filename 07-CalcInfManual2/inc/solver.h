@@ -33,15 +33,21 @@
 
 #include "scanner.h"
 
+/*Token handler*/
 typedef struct Tok{
     int token;
     token_t type;
 }tok_t;
 
+/*Object that can solve expressions*/
 typedef struct Solver{
+    /*Current token buffered*/
     tok_t * token;
+    /*Queue*/
     t_queue * output_queue;
+    /*Stack*/
     stack_t * operator_stack;
+    /*Value obtained after all calculations were applied*/
     int final_result;
 }solver_t;
 
