@@ -1,4 +1,4 @@
-# [06] - [Calculadora Infija: Construccion manual][CALC]
+# 06 - [Calculadora Infija: Construccion manual][CALC]
 
 ## Objetivos
 
