@@ -32,6 +32,7 @@
 #pragma once
 #include "parser.h"
 
+/*Sintax error types*/
 typedef enum Syntax_Error{
     INVALID_OPERATOR = -1,
     NONE,
@@ -43,10 +44,13 @@ typedef struct Sflags{
     bool fst, optor, operand, overwritten;
 } sflags_t;
 
+/*Input handler*/
 typedef struct Scanner {
+    /*Input buffer*/
     char ibuffer[buffer_size];
     int index, tokens;
     sflags_t flags;
+    /*Errors detected*/
     syntax_error_t error;
 } scanner_t;
 

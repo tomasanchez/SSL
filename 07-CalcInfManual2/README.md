@@ -2,7 +2,6 @@
 
 ## Objetivos
 
-
 - A partir de la primera version, ahora poder permitir realizar operaciones y uso de parentesis.
 
 ## Temas
@@ -11,6 +10,7 @@
 - Implementación del nivel Léxico y Sintáctico.
 - Implementación de **Scanner**.
 - Implementación de **Parser**.
+- Resolucion de expresiones
 
 ## Problema
 
