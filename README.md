@@ -1,4 +1,4 @@
-# Sintaxis y Semántica de los Lenguajes
+# Sintaxis y Semántica de los Lenguajes - ES
 
 En este respositorio se encuentran los entregas, trabajos, y examenes solicitados a lo largo del 2020.
 
@@ -26,14 +26,14 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 |           | [07-CalcInfManual2]       |               |
 
 <!-- Examenes - Links -->
-[Examen-00]:(ResolucionDeExamenes/Examen00.md)
+[Examen-00]:./ResolucionDeExamenes/Examen00.md
 
 <!-- TPs Individuales - Links -->
-[00-CHelloWolrd]:(00-CHelloWorld/README.md)
-[01-UsoDeC]:(01-UsoDeC/README.md)
-[02-HelloCppVHelloC]:(02-HelloCppvHelloC/REAMDE.md)
-[03-FasesErrores]:(03-FasesErrores/README.md)
-[04-Strings]:(04-Strings/README.md)
-[05-wl]:(05-wl/README.md)
-[06-CalcInfManual]:(06-CalcInfManual/README.md)
-[07-CalcInfManual2]:(07-CalcInfManual2/Calc.md)
+[00-CHelloWolrd]:./00-CHelloWorld/README.md
+[01-UsoDeC]:./01-UsoDeC/README.md
+[02-HelloCppVHelloC]:./02-HelloCppvHelloC/REAMDE.md
+[03-FasesErrores]:./03-FasesErrores/README.md
+[04-Strings]:./04-Strings/README.md
+[05-wl]:./05-wl/README.md
+[06-CalcInfManual]:./06-CalcInfManual/README.md
+[07-CalcInfManual2]:./07-CalcInfManual2/Calc.md
