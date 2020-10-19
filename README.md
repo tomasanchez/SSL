@@ -1,6 +1,6 @@
-# Sintaxis y Semántica de los Lenguajes - ES
+# Sintaxis y Semántica de los Lenguajes
 
-En este respositorio se encuentran los entregas, trabajos, y examenes solicitados a lo largo del 2020.
+En este respositorio se encuentran los entregas, trabajos, y examenes solicitados, resueltos por mi a lo largo del 2020 durante la cursada del Sintaxis y Semtantica de los Lenguajes de Programacion, K2051 a cargo del docente Ing. Jose Maria Sola.
 
 ## Datos Personales
 
@@ -37,3 +37,5 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 [05-wl]:./05-wl/README.md
 [06-CalcInfManual]:./06-CalcInfManual/README.md
 [07-CalcInfManual2]:./07-CalcInfManual2/Calc.md
+
+<!-- TPs Grupales - Links -->
