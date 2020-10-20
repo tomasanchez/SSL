@@ -29,4 +29,4 @@ Analice la siguiente expresion C: `(lim x->0)`
   Como ejemplo: `lim(0, x);` resultaria en `0`.
 
 - **Agregar un espacio modificaria la cantidad de lexemas?**
-  Si: `lim(x --> 0)` a `lim(x - -> 0)` o `l im(x --> 0)` tendriamos un lexema mas y errores de sintaxis. Para el primer caso evaluaria `x - `, esperando otra expresion, sin envargo al segurile `->` hay un quiebre; En el segundo caso, se leeria `l im` supone a `l` como un *type*.
+  Si: `lim(x --> 0)` a `lim(x - -> 0)` o `l im(x --> 0)` tendriamos un lexema mas y errores de sintaxis. Para el primer caso evaluaria `x - ` sin embargo **NO habria mas lexemas** ya que de `x -- >` cambia a `x - ->`; En el segundo caso, se leeria `l im` supone a `l` como un *type*.
