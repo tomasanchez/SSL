@@ -91,8 +91,6 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
         queue_push(this->output_queue, this->token);
         break;
     case PARENTHESIS:
-        /*No break, as '(' does need to be pushed*/
-    case OPERATOR:
         /*As ')' is not needed, we do not allocate memory for it*/
         if(*tok == ')'){
             if(VERBOSE && SOLVER)
@@ -101,6 +99,9 @@ int solver_GetNextToken(solver_t * this, char * tok, token_t type){
             solver_handle_parenthesis(this);
             return 0;
         }
+        /*No break, as '(' does need to be pushed*/
+    case OPERATOR:
+        
         /*We create a new tok, just to be pushed*/
         this->token = __tok_create__(*tok, type);
 
