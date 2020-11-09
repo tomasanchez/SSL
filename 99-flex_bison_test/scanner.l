@@ -1,24 +1,23 @@
 %{
-/* Reconoce números enteros y palabras alfabéticas; además,
-cuenta las ocurrencias de ambos */
-#include <stdio.h>
-int nros, pals;
+/*C - Code*/
+#include "scanner.h"
+int totalTokens_g;
 void getToken();
 %}
 
 %option noyywrap
 
 %%
-[0-9]+ { puts(yytext); nros++;}
-[a-zA-Z]+ { pals++; }
-[+*-]+    { puts(yytext);}
-.|\n
+[0-9]+      { puts(yytext); totalTokens_g++;}
+[a-zA-Z]+   { totalTokens_g++;}
+[+*-]+      { puts(yytext); totalTokens_g++;}
+.|\n        {return 0;}
 %%
 
-int main(void) {
-yylex();
-printf("Se reconocieron:\n");
-printf("%d Numeros y\n", nros);
-printf("%d Palabras.\n\n", pals);
-return 0;
+int scanner_GetNextToken(char *){
+
+}
+
+void scanner_sendNumber(){
+
 }
