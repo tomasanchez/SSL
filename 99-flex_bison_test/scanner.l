@@ -1,8 +1,7 @@
 %{
 /*C - Code*/
-#include "scanner.h"
+#include <stdio.h>
 int totalTokens_g;
-void getToken();
 %}
 
 %option noyywrap
@@ -14,10 +13,7 @@ void getToken();
 .|\n        {return 0;}
 %%
 
-int scanner_GetNextToken(char *){
-
-}
-
-void scanner_sendNumber(){
-
+int main(){
+    puts("Hello World!");
+    yylex();
 }

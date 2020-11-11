@@ -474,13 +474,11 @@ char yytext[YYLMAX];
 char *yytext_ptr;
 #line 1 "scanner.l"
 #line 2 "scanner.l"
-/* Reconoce números enteros y palabras alfabéticas; además,
-cuenta las ocurrencias de ambos */
+/*C - Code*/
 #include <stdio.h>
-int nros, pals;
-void getToken();
-#line 483 "lex.yy.c"
-#line 484 "lex.yy.c"
+int totalTokens_g;
+#line 481 "lex.yy.c"
+#line 482 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -697,9 +695,9 @@ YY_DECL
 		}
 
 	{
-#line 11 "scanner.l"
+#line 9 "scanner.l"
 
-#line 703 "lex.yy.c"
+#line 701 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -768,31 +766,31 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "scanner.l"
-{ puts(yytext); nros++;}
+#line 10 "scanner.l"
+{ puts(yytext); totalTokens_g++;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 13 "scanner.l"
-{ pals++; }
+#line 11 "scanner.l"
+{ totalTokens_g++;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 14 "scanner.l"
-{ puts(yytext);}
+#line 12 "scanner.l"
+{ puts(yytext); totalTokens_g++;}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 15 "scanner.l"
-{puts(yytext);};
+#line 13 "scanner.l"
+{return 0;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 16 "scanner.l"
+#line 14 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 796 "lex.yy.c"
+#line 794 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1807,13 +1805,10 @@ void yyfree (void * ptr )
 			free( (char *) ptr );	/* see yyrealloc() for (char *) cast */
 }
 
-#line 16 "scanner.l"
+#line 14 "scanner.l"
 
 
-int main(void) {
-yylex();
-printf("Se reconocieron:\n");
-printf("%d Numeros y\n", nros);
-printf("%d Palabras.\n\n", pals);
-return 0;
+int main(){
+    puts("Hello World!");
+    yylex();
 }
