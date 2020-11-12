@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.c
+    parser.h
 
-    Interface to communicate automatic scanner with calculator
+    Manual Parser for Infix Calculator w/ Automatic Scanner.
 
     MIT License
 
@@ -26,12 +26,22 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/09/2020
+    last modified: 11/12/2020
 ------------------------------------------------------------------------------------ */
 
-#include "../inc/scanner.h"
+#pragma once
+#include "all.h"
 
-int scanner_GetNextToken(int value, token_id_t type){
-    
-    puts(value);
-}
+/*Object Parser*/
+typedef struct Parser{
+    t_list * token_list;
+    ptoken_t * read_token;
+    token_id_t previous_token;
+    bool valid_expression;
+}parser_t;
+
+/*Starts oParser*/
+int parser_create();
+
+/*Deletes oParser freeing memory usage*/
+int parser_delete();

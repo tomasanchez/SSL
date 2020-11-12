@@ -30,19 +30,7 @@
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef enum TokenIDs{
-    OPERAND,
-    OPERATOR
-}token_id_t;
-
-/*Scanner functions*/
-
-
+#include "parser.h"
 
 /*Loads new token from scanner buffer*/
-int scanner_GetNextToken(char *, token_id_t);
+int scanner_GetNextToken(int , token_id_t);
