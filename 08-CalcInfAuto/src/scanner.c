@@ -32,6 +32,5 @@
 #include "../inc/scanner.h"
 
 int scanner_GetNextToken(int value, token_id_t type){
-    
-    puts(value);
+    parser_GetNextToken(value, type);
 }

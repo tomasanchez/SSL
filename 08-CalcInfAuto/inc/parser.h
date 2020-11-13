@@ -45,3 +45,9 @@ int parser_create();
 
 /*Deletes oParser freeing memory usage*/
 int parser_delete();
+
+/*Parses a new token*/
+bool parser_GetNextToken(int , token_id_t);
+
+/*Prints all token parsed*/
+int parser_print_results();

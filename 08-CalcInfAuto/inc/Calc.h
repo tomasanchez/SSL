@@ -44,5 +44,8 @@ int calculator_create();
 /*Scans and loads characters from stdin until end of line*/
 int calculator_read();
 
+/*Updates calculator an solves expression*/
+int calculator_update();
+
 /*Shows Finish message*/
 int calculator_delete();

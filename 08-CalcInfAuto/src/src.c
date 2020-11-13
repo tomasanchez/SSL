@@ -35,6 +35,7 @@ int main(){
 
     calculator_create();
     calculator_read();
+    calculator_update();
     calculator_delete();
 
 }

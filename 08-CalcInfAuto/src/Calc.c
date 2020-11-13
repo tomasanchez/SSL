@@ -29,9 +29,12 @@
     last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
 
-#include "Calc.h"
+#include "../inc/Calc.h"
 
 int calculator_create(){
+
+    parser_create();
+
     return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
 }
 
@@ -39,6 +42,12 @@ int calculator_read(){
     return  yylex();
 }
 
+int calculator_update(){
+    parser_print_results();
+    return OK;
+}
+
 int calculator_delete(){
+    parser_delete();
     return puts("\n- :: © 2020 TOMS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }

@@ -6,6 +6,7 @@ CC = gcc
 CFLAGS = -std=c18 -g3
 INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
+AUTO = ./auto/*.c
 
 OUTPUT = Calculator.exe
 LEAKS = leaks.log

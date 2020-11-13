@@ -35,7 +35,7 @@
 extern int totalTokens_g;
 
 /*Local Parser*/
-parser_t oParser;
+parser_t * oParser;
 unsigned int cTokens;
 unsigned int rBrackets = 0;
 unsigned int lBrackets = 0;
@@ -64,17 +64,21 @@ bool __is_valid_operand__(char *);
 */
 
 int parser_create(){
-    oParser.token_list = list_create();
-    oParser.read_token = __ptoken_create__();
-    oParser.previous_token = OPERATOR;
-    oParser.valid_expression = true;
+
+    oParser = malloc(sizeof(parser_t));
+
+    oParser->token_list = list_create();
+    oParser->read_token = __ptoken_create__();
+    oParser->previous_token = OPERATOR;
+    oParser->valid_expression = true;
+    
     return OK;
 }
 
 int parser_delete(){
-    free(oParser.read_token);
+    free(oParser->read_token);
     /*As no items are removed, elements need to be deleted with the list*/
-    list_destroy_and_destroy_elements(oParser.token_list, free);
+    list_destroy_and_destroy_elements(oParser->token_list, free);
     return OK;
 }
 
@@ -93,12 +97,10 @@ ptoken_t * __ptoken_create__(){
 ===============================================================================================================================
 */
 
-
-
 bool parser_GetNextToken(int src, token_id_t parsed_type){
 
-    oParser.read_token->value = src;
-    oParser.read_token->type = parsed_type;
+    oParser->read_token->value = src;
+    oParser->read_token->type = parsed_type;
 
     if(parsed_type == LBRACKET)
         ++lBrackets;
@@ -106,25 +108,25 @@ bool parser_GetNextToken(int src, token_id_t parsed_type){
     if(parsed_type == RBRACKET)
         ++rBrackets;
 
-    oParser.read_token->valid = __token_is_valid__(parsed_type, oParser.previous_token);
+    oParser->read_token->valid = __token_is_valid__(parsed_type, oParser->previous_token);
 
-    oParser.valid_expression = oParser.valid_expression && oParser.read_token->valid;
+    oParser->valid_expression = oParser->valid_expression && oParser->read_token->valid;
 
     if(VERBOSE && PARSER && parsed_type == OPERAND)
-        printf("[DEBUG] :: [PARSER] %d --> %d :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser.read_token->value, oParser.read_token->valid? "YES" : "NO");
+        printf("[DEBUG] :: [PARSER] %d --> %d :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser->read_token->value, oParser->read_token->valid? "YES" : "NO");
     
     if(VERBOSE && PARSER && parsed_type != OPERAND)
-        printf("[DEBUG] :: [PARSER] %c --> %c :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser.read_token->value, oParser.read_token->valid? "YES" : "NO");
+        printf("[DEBUG] :: [PARSER] %c --> %c :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser->read_token->value, oParser->read_token->valid? "YES" : "NO");
 
     /*Count as parsed token*/
     cTokens++;
     
     /*Storing*/
-    oParser.previous_token = parsed_type;
-    list_add(oParser.token_list, oParser.read_token);
-    oParser.read_token = __ptoken_create__();
+    oParser->previous_token = parsed_type;
+    list_add(oParser->token_list, oParser->read_token);
+    oParser->read_token = __ptoken_create__();
     
-    return oParser.valid_expression;
+    return oParser->valid_expression;
 }
 
 bool __token_is_valid__(token_id_t new, token_id_t previous){
@@ -148,5 +150,56 @@ bool __token_is_valid__(token_id_t new, token_id_t previous){
             return (previous == OPERAND || previous == VARIABLE) && rBrackets <= lBrackets;
         default:
             return false;
+    }
+}
+
+bool expression_is_valid(){
+    if (lBrackets != rBrackets)
+        return false;
+}
+
+int parser_print_results(){
+
+    if(VERBOSE && PARSER)
+        puts("[DEBUG] Printing results ...\n");
+
+    if( totalTokens_g > 0){
+        puts("\n:=-----------------::========::-----------------=:");
+        puts(" :: :: :: :: :: :: :: PARSER :: :: :: :: :: :: :: ");
+        puts(":=-----------------::========::-----------------=:\n");
+        if( totalTokens_g > 1)
+            list_iterate(oParser->token_list, __print_token__);
+        else
+            list_iterate(oParser->token_list, __print_one__);
+    } else
+        puts("\n :: No valid character has been entered :: ");
+    
+    return OK;
+}
+
+void __print_one__(void * element){
+
+    ptoken_t * this_token = (ptoken_t *) element;
+
+    if(this_token->type != OPERAND)
+        printf(">> PARSED :: Invalid expression :: '%c' ::\n", this_token->value);
+    else
+        printf(">> PARSED :: [VALID] :: '%d' :: Operand.\n", this_token->value);
+}
+
+void __print_token__(void * element){
+
+    ptoken_t * this_token = (ptoken_t *) element;
+
+    if(this_token->valid){
+        if(this_token->type == OPERAND)
+            printf(">> PARSED :: [ VALID ] :: '%d'\t:: OPERAND.\n", this_token->value);
+        else
+            printf(">> PARSED :: [ VALID ] :: '%c'\t:: OPERATOR.\n", this_token->value);
+    } else{
+        if(this_token->type == OPERAND)
+            printf(">> PARSED :: [INVALID] :: '%d'\t:: OPERAND.\n", this_token->value);
+        else
+            printf(">> PARSED :: [INVALID] :: '%c'\t:: OPERATOR.\n", this_token->value);
     }
 }
