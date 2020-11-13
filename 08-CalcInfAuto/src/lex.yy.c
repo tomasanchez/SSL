@@ -785,7 +785,7 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 14 "auto/scanner.l"
-{ scanner_GetNextToken(*yytext, LBRACKET);}
+{ scanner_GetNextToken(*yytext, LBRACKET); totalTokens_g++;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */

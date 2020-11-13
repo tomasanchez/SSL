@@ -145,20 +145,21 @@ bool __token_is_valid__(token_id_t new, token_id_t previous){
         case OPERATOR:
             return previous == OPERAND || previous == VARIABLE || previous == RBRACKET ;
         case LBRACKET:
-            return previous == OPERATOR;
+            return previous == OPERATOR || previous == LBRACKET;
         case RBRACKET:
-            return (previous == OPERAND || previous == VARIABLE) && rBrackets <= lBrackets;
+            return (previous == OPERAND || previous == VARIABLE || previous == RBRACKET) && rBrackets <= lBrackets;
         default:
             return false;
     }
 }
 
 bool expression_is_valid(){
-    if (lBrackets != rBrackets)
-        return false;
+    return lBrackets == rBrackets;
 }
 
 int parser_print_results(){
+
+    oParser->valid_expression = oParser->valid_expression && lBrackets == rBrackets;
 
     if(VERBOSE && PARSER)
         puts("[DEBUG] Printing results ...\n");
@@ -171,8 +172,11 @@ int parser_print_results(){
             list_iterate(oParser->token_list, __print_token__);
         else
             list_iterate(oParser->token_list, __print_one__);
+        printf("\n:== Expression is %s ==:\n", oParser->valid_expression? "VALID" : "INVALID");
     } else
         puts("\n :: No valid character has been entered :: ");
+    
+
     
     return OK;
 }

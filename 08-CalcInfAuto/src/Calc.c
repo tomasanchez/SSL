@@ -39,6 +39,7 @@ int calculator_create(){
 }
 
 int calculator_read(){
+    printf("  : > ");
     return  yylex();
 }
 
@@ -49,5 +50,5 @@ int calculator_update(){
 
 int calculator_delete(){
     parser_delete();
-    return puts("\n- :: © 2020 TOMS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }

@@ -139,7 +139,7 @@ void __print_one__(void * element){
     ptoken_t * this_token = (ptoken_t *) element;
 
     if(this_token->type != OPERAND)
-    printf(">> PARSED :: Invalid expression :: '%s' :: Operator.\n", this_token->str);
+    printf(">> PARSED :: Invalid expression :: '%s' ::\n", this_token->str);
     else
     printf(">> PARSED :: [VALID] :: '%s' :: Operand.\n", this_token->str);
 }
