@@ -34,6 +34,7 @@
 int calculator_create(){
 
     parser_create();
+    solver_create();
 
     return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
 }
@@ -45,10 +46,15 @@ int calculator_read(){
 
 int calculator_update(){
     parser_print_results();
+    if(! parser_has_error()){
+        solver_update();
+        solver_print();
+    }
     return OK;
 }
 
 int calculator_delete(){
     parser_delete();
+    solver_delete();
     return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }

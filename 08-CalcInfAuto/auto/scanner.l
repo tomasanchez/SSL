@@ -12,6 +12,7 @@ bool allOK = true;
 [a-zA-Z]+       { scanner_GetNextToken(*yytext, VARIABLE); totalTokens_g++;}
 [+*-]+          { scanner_GetNextToken(*yytext, OPERATOR); totalTokens_g++;}
 [(]             { scanner_GetNextToken(*yytext, LBRACKET); totalTokens_g++;}
+[)]             { scanner_GetNextToken(*yytext, RBRACKET); totalTokens_g++;}
 [\n|<<EOF>>]    { return 0;}
 .               { puts("Undefined Symbol: Exiting..."); exit(-1);}
 %%

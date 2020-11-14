@@ -30,7 +30,10 @@
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "parser.h"
+#include "solver.h"
+
+/*Calls Flex Scanner*/
+int yylex();
 
 /*Loads new token from scanner buffer*/
 int scanner_GetNextToken(int , token_id_t);

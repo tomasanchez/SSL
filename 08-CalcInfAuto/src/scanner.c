@@ -32,5 +32,7 @@
 #include "../inc/scanner.h"
 
 int scanner_GetNextToken(int value, token_id_t type){
-    parser_GetNextToken(value, type);
+    if(parser_GetNextToken(value, type))
+        solver_GetNextToken(value, type);
+    return OK;
 }

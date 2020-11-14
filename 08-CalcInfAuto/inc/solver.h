@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    Calc.h
+    solver.h
 
-    Infix Automatic Calculator header
+    solver for infix automatic-scanner calculator.
 
     MIT License
 
@@ -26,21 +26,42 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/09/2020
+    last modified: 11/13/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include "scanner.h"
+#include "parser.h"
 
-/*Show welcome message*/
-int calculator_create();
+/*Token handler*/
+typedef struct Token{
+    int token;
+    token_id_t type;
+}token_t;
 
-/*Scans and loads characters from stdin until end of line*/
-int calculator_read();
+/*Object that can solve expressions*/
+typedef struct Solver{
+    /*Current token buffered*/
+    token_t * token;
+    /*Queue*/
+    t_queue * output_queue;
+    /*Stack*/
+    stack_t * operator_stack;
+    /*Value obtained after all calculations were applied*/
+    int final_result;
+}solver_t;
 
-/*Updates calculator an solves expression*/
-int calculator_update();
+/*Creates a solver*/
+int solver_create();
 
-/*Shows Finish message*/
-int calculator_delete();
+/*Frees memory usage form solver*/
+int solver_delete();
+
+/*Stores next token*/
+int solver_GetNextToken(int, token_id_t);
+
+/*Solves expression*/
+int solver_update();
+
+/*Print results*/
+int solver_print();

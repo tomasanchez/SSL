@@ -153,8 +153,8 @@ bool __token_is_valid__(token_id_t new, token_id_t previous){
     }
 }
 
-bool expression_is_valid(){
-    return lBrackets == rBrackets;
+bool parser_has_error(){
+    return !oParser->valid_expression;
 }
 
 int parser_print_results(){
