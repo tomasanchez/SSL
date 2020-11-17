@@ -30,7 +30,7 @@
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "all.h"
+#include "solver.h"
 
 /*Object Parser*/
 typedef struct Parser{
@@ -43,6 +43,12 @@ typedef struct Parser{
 /*Starts oParser*/
 int parser_create();
 
+/*Reads and parses expression*/
+int parser_parse();
+
+/*Evaluates expression*/
+int parser_update();
+
 /*Deletes oParser freeing memory usage*/
 int parser_delete();
 
@@ -51,6 +57,8 @@ bool parser_GetNextToken(int , token_id_t);
 
 /*Prints all token parsed*/
 int parser_print_results();
+
+
 
 /*Tells if parse has error*/
 bool parser_has_error();

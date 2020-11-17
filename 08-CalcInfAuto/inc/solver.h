@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "parser.h"
+#include "all.h"
 
 /*Token handler*/
 typedef struct Token{

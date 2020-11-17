@@ -31,30 +31,23 @@
 
 #include "../inc/Calc.h"
 
-int calculator_create(){
+inline int calculator_create(){
 
     parser_create();
-    solver_create();
 
     return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
 }
 
-int calculator_read(){
+inline int calculator_read(){
     printf("  : > ");
-    return  yylex();
+    return  parser_parse();
 }
 
-int calculator_update(){
-    parser_print_results();
-    if(! parser_has_error()){
-        solver_update();
-        solver_print();
-    }
-    return OK;
+inline int calculator_update(){
+    return parser_update();
 }
 
 int calculator_delete(){
     parser_delete();
-    solver_delete();
     return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }

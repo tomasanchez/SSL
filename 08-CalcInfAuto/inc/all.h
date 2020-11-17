@@ -66,3 +66,6 @@ typedef struct pToken{
     token_id_t type;
     unsigned int value;
 }ptoken_t;
+
+/*Calls Flex Scanner*/
+int yylex();

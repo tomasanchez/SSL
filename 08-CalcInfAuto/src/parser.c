@@ -72,14 +72,15 @@ int parser_create(){
     oParser->previous_token = OPERATOR;
     oParser->valid_expression = true;
     
-    return OK;
+    return solver_create();;
 }
 
 int parser_delete(){
     free(oParser->read_token);
     /*As no items are removed, elements need to be deleted with the list*/
     list_destroy_and_destroy_elements(oParser->token_list, free);
-    return OK;
+
+    return solver_delete();
 }
 
 
@@ -91,11 +92,27 @@ ptoken_t * __ptoken_create__(){
     return new;
 }
 
+inline int parser_parse(){
+    return yylex();
+}
+
+int parser_update(){
+
+    parser_print_results();
+    if(! parser_has_error()){
+        solver_update();
+        solver_print();
+    }
+    
+    return OK;
+}
+
 /*
 ===============================================================================================================================
 ============================================= TOKENS HANDLING =================================================================
 ===============================================================================================================================
 */
+
 
 bool parser_GetNextToken(int src, token_id_t parsed_type){
 
