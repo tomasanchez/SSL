@@ -2,7 +2,6 @@
 /*C - Code*/
 #include "scanner.h"
 int totalTokens_g;
-bool allOK = true;
 %}
 
 %option noyywrap

@@ -43,19 +43,22 @@ unsigned int lBrackets = 0;
 /*Private Functions*/
 
 /*  Private Function :: writes a token to stdout*/
-void __print_token__(void *);
+static void __print_token__(void *);
 
 /*  Private Function :: wirtes unique token to stdout*/
-void __print_one__(void * element);
+static void __print_one__(void * element);
 
 /*  Private Function :: Validates a token*/
-bool __token_is_valid__(token_id_t, token_id_t);
+static bool __token_is_valid__(token_id_t, token_id_t);
 
 /*  Private Function :: Creates an element for a list*/
-ptoken_t * __ptoken_create__(void);
+static ptoken_t * __ptoken_create__(void);
 
-/* Checks if a number is Decimal or an unique variable*/
-bool __is_valid_operand__(char *);
+/* Private Function :: Prints all token parsed*/
+static int __print_results__();
+
+/* Private Function :: Tells if parse has error*/
+static bool __has_error__();
 
 /*
 ===============================================================================================================================
@@ -84,7 +87,7 @@ int parser_delete(){
 }
 
 
-ptoken_t * __ptoken_create__(){
+static ptoken_t * __ptoken_create__(){
     ptoken_t * new = malloc(sizeof(ptoken_t));
     new->value = '+';
     new->type = OPERATOR;
@@ -98,8 +101,8 @@ inline int parser_parse(){
 
 int parser_update(){
 
-    parser_print_results();
-    if(! parser_has_error()){
+    __print_results__();
+    if(! __has_error__()){
         solver_update();
         solver_print();
     }
@@ -146,7 +149,7 @@ bool parser_GetNextToken(int src, token_id_t parsed_type){
     return oParser->valid_expression;
 }
 
-bool __token_is_valid__(token_id_t new, token_id_t previous){
+static bool __token_is_valid__(token_id_t new, token_id_t previous){
 
     /*
         Valid Expression:
@@ -170,11 +173,11 @@ bool __token_is_valid__(token_id_t new, token_id_t previous){
     }
 }
 
-bool parser_has_error(){
+static inline bool __has_error__(){
     return !oParser->valid_expression;
 }
 
-int parser_print_results(){
+static int __print_results__(){
 
     oParser->valid_expression = oParser->valid_expression && lBrackets == rBrackets;
 
@@ -198,7 +201,7 @@ int parser_print_results(){
     return OK;
 }
 
-void __print_one__(void * element){
+static void __print_one__(void * element){
 
     ptoken_t * this_token = (ptoken_t *) element;
 
@@ -208,7 +211,7 @@ void __print_one__(void * element){
         printf(">> PARSED :: [VALID] :: '%d' :: Operand.\n", this_token->value);
 }
 
-void __print_token__(void * element){
+static void __print_token__(void * element){
 
     ptoken_t * this_token = (ptoken_t *) element;
 
