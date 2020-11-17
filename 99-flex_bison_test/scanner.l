@@ -1,19 +1,27 @@
 %{
-/*C - Code*/
+#include <stdlib.h>
 #include <stdio.h>
-int totalTokens_g;
+#include <string.h>
+#include "mem.h"
+#include "parser.tab.h"
 %}
+
+/* Stop the error "undefined reference to 'yywrap'" from Flex */
+%option noyywrap
 
 %option noyywrap
 
 %%
-[0-9]+      { puts(yytext); totalTokens_g++;}
-[a-zA-Z]+   { totalTokens_g++;}
-[+*-]+      { puts(yytext); totalTokens_g++;}
-.|\n        {return 0;}
+[ \t]
+[0-9]+         					                { yylval.num = atoi(yytext); return NUMBER; }
+[+]                         					{ return ADD; }
+[-]                         					{ return SUB; }
+[*]                         					{ return MUL; }
+[=]												{ return EQUALS; }
+[(]											    { return L_BRACKET; }
+[)]												{ return R_BRACKET; }
+("let")|("LET")									{ return LET; }
+[a-zA-Z0-9]+  									{ yylval.index = add_variable(yytext); return VARIABLE;}
+[\n|<<EOF>>]                        			{ return EOL; }
+. 											    { yyerror("Undefined symbol"); exit(-1); } 
 %%
-
-int main(){
-    puts("Hello World!");
-    yylex();
-}
