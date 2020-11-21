@@ -43,10 +43,13 @@
     // Private:
 
         // Last token
-        int lastToken;
+        int currentToken;
 
         // Gets next token from scanner
         static void match(int);
+
+        // Handles error parsing
+        static void yyperror();
 
         // <INPUT>
         static void input();
@@ -57,11 +60,17 @@
         // <EXPR>
         static void expr();
 
-        // <MUL>
-        static void mul();
+        // <TERMS>
+        static void terms();
 
-        // <ADD>
-        static void add();
+        // <TERM>
+        static void term();
+
+        // <FACTORS>
+        static void factors();
+
+        // NUMBER || VAR
+        static void factor();
 
 
 /*};--------------------------------*/
@@ -76,11 +85,16 @@
 int yyparse(){
 
     /*
-        <Input>   ->   EOF     |   <Input> <Line>
-        <Line>    ->  EOL     |   <Expr> EOL
-        <Expr>    ->  NUMBER  |   VAR     |   <Expr> MUL <Expr>   |   <Expr> ADD <Expr> 
+        <Input>     ->   EOF        |   <Input> <Line>
+        <Line>      ->  EOL         |   <Expr> EOL
+        <Expr>      ->  <Terms>
+        <Terms>     ->  <Term>      | <Term> ADD <Terms>
+        <Term>      ->  <Factors>
+        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
+        <Factor>    -> NUM          | VAR
 
-        Inspired on GNU BISON Manual
+
+        Based on GNU BISON Manual
         (https://www.gnu.org/software/bison/manual/bison.pdf)
     */
    input();
@@ -88,26 +102,17 @@ int yyparse(){
     return 0;
 }
 
-static void match(int tokenID){
+static void yyperror(){
+    puts("Parse error.");
+    exit(1);
+}
 
-    if( tokenID == getNextToken()){
-
-        switch (tokenID)
-        {
-            case EOF:
-                exit(0);
-                break;
-    
-            default:
-                puts("SI");
-                break;
-        }
-
-    } else{
-        puts("Parse error");
-        exit(1);
-    }
-    
+static inline void match(int tokenID){
+    puts("Entered match");
+    if((currentToken = getNextToken()) == tokenID)
+        return;
+    else
+        yyperror();
 }
 
 /*
@@ -120,10 +125,6 @@ static void input(){
     /*
         <Input>   ->   EOF     |   <Input> <Line>
     */
-   
-   if( (lastToken = getNextToken()) == EOF)
-        match(EOF);
-    else
         line();
 }
 
@@ -131,17 +132,73 @@ static void line(){
     /*
         <Line>    ->  EOL     |   <Expr> EOL
     */
-
-   match(EOL);
-
-   expr();
-   match(EOL);
-
+        expr(); match(EOL);
 }
 
 static void expr(){
+    /*
+        <Expr>    ->  <Terms>
+    */
+   terms();
+}
 
-    match(NUMBER);
+static void terms(){
+    /*
+        <Terms>     ->  <Term>      | <Term> ADD <Terms>
+    */
+   
+    term();
 
-    match(VAR);
+    match(ADD); terms();
+
+}
+
+static void term(){
+    /*
+        <Term>      ->  <Factors>
+    */
+
+    factors();
+}
+
+static void factors(){
+    /*
+        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
+    */
+   factor();
+
+   switch (getNextToken())
+   {
+   case MUL:
+        puts("Parsed *");
+        factors();
+       break;
+   case ADD:
+        puts("Parsed +");
+        ungetc('+', stdin);
+        return;
+   default:
+        puts("Entering...");
+        return;
+       break;
+   }
+
+}
+
+static void factor(){
+    /*
+        <Factor>    -> NUMBER | VAR
+    */
+
+   switch (getNextToken()){
+        case NUMBER:
+            puts("Parsed Number");
+            return;
+        case VAR:
+            puts("Parsed Variable");
+            return;
+        default:
+            yyperror();
+   }
+
 }

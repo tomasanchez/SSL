@@ -77,33 +77,55 @@
 
 int getNextToken(){
 
-    int c = 0, i = 0;
+    int c, i = 0;
 
     /*Until End Of File*/
     while( yyval.num != EOF && (c = getchar()) != EOF ){
 
         switch (c)
         {
-        case '+':
-            pushToken();
-            return ADD;
-        case '*':
-            pushToken();
-            return MUL;
-        case '\n':
-            pushToken();
-            return NUMBER;
-        default:
-            if( isNumber(c) || isLetter(c) ){
-                yytext[i++] = c;
+            case ' ':
+            case '\t':
                 continue;
-            }
-            if( isSpace(c))
-                continue;
-            else
-                yyerror(c);
+            case '+':
+                return ADD;
+            case '*':
+                return MUL;
+            case '\n':
+                return EOL;
+            default:
+                    /* Inside Number */
+                    while (isNumber(c))
+                    {
+                        yytext[i++] = c;
+
+                        c = getchar();
+
+                        if(! isNumber(c)){
+                            ungetc(c, stdin);
+                            pushToken();
+                            return NUMBER;
+                        }
+                    }
+                    
+                    /*Inside variable name*/
+                    while(isLetter(c)){
+                        yytext[i++] = c;
+
+                        c = getchar();
+
+                        if(! isLetter(c)){
+                            ungetc(c, stdin);
+                            pushToken();
+                            return VAR;
+                        }
+
+                    }
+
+                    yyerror(c);
         }
     }
+
     yyval.num = EOF;
     return EOF;
 }
