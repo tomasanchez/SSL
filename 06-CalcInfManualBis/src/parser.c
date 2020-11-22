@@ -85,7 +85,7 @@
 int yyparse(){
 
     /*
-        <Input>     ->   EOF        |   <Input> <Line>
+        <Input>     ->              |   <Input> <Line>
         <Line>      ->  EOL         |   <Expr> EOL
         <Expr>      ->  <Terms>
         <Terms>     ->  <Term>      | <Term> ADD <Terms>
@@ -104,15 +104,34 @@ int yyparse(){
 
 static void yyperror(){
     puts("Parse error.");
-    exit(1);
+    puts("Calculator exited with parse error.");
+    exit(2);
 }
 
 static inline void match(int tokenID){
     puts("Entered match");
-    if((currentToken = getNextToken()) == tokenID)
-        return;
-    else
-        yyperror();
+    currentToken == getNextToken();
+    
+    switch (tokenID)
+    {
+    case NUMBER:
+    case VAR:
+            if(currentToken == tokenID)
+                return;
+            else
+                yyperror;
+        break;
+    case ADD:
+    case MUL:
+            if(currentToken == tokenID)
+                return;
+            else if(currentToken == EOL)
+                return;
+        break;
+    default:
+            yyperror();
+        break;
+    }
 }
 
 /*
@@ -149,6 +168,7 @@ static void terms(){
    
     term();
 
+    //TODO LONG JUMPS
     match(ADD); terms();
 
 }
@@ -166,22 +186,8 @@ static void factors(){
         <Factors>   -> <Factor>     | <Factor> MUL <Factors>
     */
    factor();
-
-   switch (getNextToken())
-   {
-   case MUL:
-        puts("Parsed *");
-        factors();
-       break;
-   case ADD:
-        puts("Parsed +");
-        ungetc('+', stdin);
-        return;
-   default:
-        puts("Entering...");
-        return;
-       break;
-   }
+   
+   //TODO LONG JUMPS
 
 }
 
@@ -189,16 +195,5 @@ static void factor(){
     /*
         <Factor>    -> NUMBER | VAR
     */
-
-   switch (getNextToken()){
-        case NUMBER:
-            puts("Parsed Number");
-            return;
-        case VAR:
-            puts("Parsed Variable");
-            return;
-        default:
-            yyperror();
-   }
-
+   match(NUMBER);
 }
