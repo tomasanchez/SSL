@@ -40,6 +40,8 @@
 
 /*Token IDs*/
 typedef enum Token{
+
+    EPSILON,
     //\n
     EOL,
     //[0-9]+
@@ -67,3 +69,6 @@ typedef union Value{
 
 /*Reads from stdin*/
 int getNextToken();
+
+/*Ungets token*/
+int ungetPreviousToken(int);
