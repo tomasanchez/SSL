@@ -31,14 +31,14 @@
 
 #include "Calc.h"
 
-/*
+
 int main(int argc, char **argv){
     return yyparse();
-}*/
+}
 
-#include <stdio.h>
-#include <setjmp.h>//c standard library header
-jmp_buf env; // for saving longjmp environment
+
+
+/*
 main()
 {
     int r, a=100;
@@ -63,4 +63,4 @@ int B()
     if (getchar()=='y')
     longjmp(env, 1234);
     printf("exit B()\n");
-}
+}*/

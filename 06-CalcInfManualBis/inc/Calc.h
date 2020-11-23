@@ -31,4 +31,5 @@
 
 #pragma once
 
-#include "parser.h"
+#include "parser.h" // For yyparse()
+

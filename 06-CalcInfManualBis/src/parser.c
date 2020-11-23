@@ -44,6 +44,7 @@
 
         // Last token
         int currentToken;
+        jmp_buf env_input, env_line; // for saving longjmp environment
 
         // Gets next token from scanner
         static void match(int);
@@ -108,9 +109,10 @@ static void yyperror(){
     exit(2);
 }
 
-static inline void match(int tokenID){
+static void match(int tokenID){
     puts("Entered match");
-    currentToken == getNextToken();
+    int it_token = getNextToken();
+    currentToken == it_token;
     
     switch (tokenID)
     {
@@ -120,6 +122,24 @@ static inline void match(int tokenID){
                 return;
             else
                 yyperror;
+        break;
+    case EOL:
+            if(it_token == tokenID)
+                return;
+            else{
+                ungetPreviousToken(it_token);
+                longjmp(env_input, 1);
+            }
+    case EOF:
+            if(it_token == tokenID){
+                puts("No input");
+                return;
+            }
+            else{
+                ungetPreviousToken(it_token);
+                longjmp(env_input, 1);
+            }
+                
         break;
     case ADD:
     case MUL:
@@ -142,16 +162,31 @@ static inline void match(int tokenID){
 
 static void input(){
     /*
-        <Input>   ->   EOF     |   <Input> <Line>
+        <Input>   ->        |   <Input> <Line>
     */
-        line();
+
+        
+        if(!setjmp(env_input)){
+            match(EOF);
+            return;
+        }else
+            line();
 }
 
 static void line(){
     /*
         <Line>    ->  EOL     |   <Expr> EOL
     */
+
+    if(!setjmp(env_line)){
+        match(EOL);
+        puts("No line");
+        return;
+    }else
+    {
+        puts("In expression");
         expr(); match(EOL);
+    } 
 }
 
 static void expr(){
