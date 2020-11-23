@@ -94,6 +94,7 @@ int getNextToken(){
             case '\n':
                 return EOL;
             default:
+                   
                     /* Inside Number */
                     while (isNumber(c))
                     {
@@ -102,6 +103,7 @@ int getNextToken(){
                         c = getchar();
 
                         if(! isNumber(c)){
+                            puts("Number");
                             ungetc(c, stdin);
                             pushToken();
                             return NUMBER;
@@ -130,6 +132,31 @@ int getNextToken(){
     return EOF;
 }
 
+int ungetPreviousToken(int type){
+    switch (type)
+    {
+    case NUMBER:
+        sprintf(yytext, "%d", yyval.num);
+        for(int i = 0; i < strlen(yytext); i++){
+            ungetc(yytext[i], stdin);
+        }
+        memset(yytext, 0, BUFFER_SIZE);
+        return NUMBER;
+    case VAR:
+        return VAR;
+    case EOL:
+        ungetc('\n', stdin);
+        return EOL;
+    case MUL:
+        ungetc('*',stdin);
+        return MUL;
+    case ADD:
+        ungetc('+', stdin);
+    default:
+        break;
+    }
+}
+
 void yyerror(int c){
     printf("Syntax Error: Undefined Symbol '%c'\nCalculator exited with syntax error.\n", c);
     exit(1);
@@ -145,7 +172,6 @@ static int pushToken(){
     yyval.num = atoi(yytext);
 
     memset(yytext, 0, BUFFER_SIZE);
-
     return 0;
 }
 
