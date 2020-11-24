@@ -117,7 +117,6 @@ int getNextToken(){
 
                         if(! isLetter(c)){
                             ungetc(c, stdin);
-                            pushToken();
                             return VAR;
                         }
 
@@ -142,6 +141,7 @@ int ungetPreviousToken(int type){
         memset(yytext, 0, BUFFER_SIZE);
         return NUMBER;
     case VAR:
+            ungetc('A', stdin);
         return VAR;
     case EOL:
         ungetc('\n', stdin);

@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    Calc.h
+    Calc.c
 
-    Infix Manual Calculator header
+    calculator interface for infix calculator.
 
     MIT License
 
@@ -28,17 +28,16 @@
 
     last modified: 11/17/2020
 ------------------------------------------------------------------------------------ */
+#include "Calc.h"
 
-#pragma once
+inline int calc_init(){
+    return puts(" :: == A Simple Infix Manual Calculator == :: \n");
+}
 
-#include "parser.h" // For yyparse()
+inline int calc_run(){
+    return yyparse();
+}
 
-/*Starts a calculator*/
-int calc_init();
-
-/*Runs a calculation*/
-int calc_run();
-
-/*Stops a calculator*/
-int calc_stop();
-
+inline int calc_stop(){
+    puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+}

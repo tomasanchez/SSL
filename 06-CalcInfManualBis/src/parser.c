@@ -187,30 +187,32 @@ static void input(){
         <Input>   ->        |   <Input> <Line>
     */
 
-        
+        puts("IN INPUT");
         if(!setjmp(env_input)){
-            puts("Matching eof");
             match(EOF);
             return;
-        }else
+        }else{
             line();
+            input();
+        }
+
+        puts("EXIT INPUT");
 }
 
 static void line(){
     /*
         <Line>    ->  EOL     |   <Expr> EOL
     */
-
+   puts("IN LINE");
     if(!setjmp(env_line)){
-        puts("Matching eol");
         match(EOL);
-        puts("No line");
         return;
     }else
     {
         expr();
         match(EOL);
-    } 
+    }
+    puts("EXIT LINE");
 }
 
 static void expr(){

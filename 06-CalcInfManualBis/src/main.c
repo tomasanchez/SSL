@@ -33,7 +33,9 @@
 
 
 int main(int argc, char **argv){
-    return yyparse();
+    calc_init();
+    calc_run();
+    calc_stop();
 }
 
 
