@@ -44,7 +44,9 @@
 
         // Last token
         int currentToken;
-        jmp_buf env_input, env_line; // for saving longjmp environment
+
+        // Saving long jumps
+        jmp_buf env_input, env_line, env_factors, env_terms;
 
         // Gets next token from scanner
         static void match(int);
@@ -110,7 +112,6 @@ static void yyperror(){
 }
 
 static void match(int tokenID){
-    puts("Entered match");
     int it_token = getNextToken();
     currentToken == it_token;
     
@@ -118,7 +119,7 @@ static void match(int tokenID){
     {
     case NUMBER:
     case VAR:
-            if(currentToken == tokenID)
+            if(it_token == NUMBER || it_token == VAR)
                 return;
             else
                 yyperror;
@@ -128,7 +129,7 @@ static void match(int tokenID){
                 return;
             else{
                 ungetPreviousToken(it_token);
-                longjmp(env_input, 1);
+                longjmp(env_line, 1);
             }
     case EOF:
             if(it_token == tokenID){
@@ -142,11 +143,32 @@ static void match(int tokenID){
                 
         break;
     case ADD:
+            switch (it_token)
+            {
+            case ADD:
+                return;
+            case EOL:
+                ungetPreviousToken(it_token);
+                longjmp(env_terms, 1);
+                break;
+            default:
+                yyperror();
+                break;
+            }
     case MUL:
-            if(currentToken == tokenID)
+            switch (it_token)
+            {
+            case MUL:
                 return;
-            else if(currentToken == EOL)
-                return;
+            case EOL:
+            case ADD:
+                ungetPreviousToken(it_token);
+                longjmp(env_factors, 1);
+                break;
+            default:
+                yyperror();
+                break;
+            }
         break;
     default:
             yyperror();
@@ -167,6 +189,7 @@ static void input(){
 
         
         if(!setjmp(env_input)){
+            puts("Matching eof");
             match(EOF);
             return;
         }else
@@ -179,13 +202,14 @@ static void line(){
     */
 
     if(!setjmp(env_line)){
+        puts("Matching eol");
         match(EOL);
         puts("No line");
         return;
     }else
     {
-        puts("In expression");
-        expr(); match(EOL);
+        expr();
+        match(EOL);
     } 
 }
 
@@ -193,34 +217,46 @@ static void expr(){
     /*
         <Expr>    ->  <Terms>
     */
+   puts("IN EXPR");
    terms();
+   puts("EXIT EXPR");
 }
 
 static void terms(){
     /*
         <Terms>     ->  <Term>      | <Term> ADD <Terms>
     */
-   
+   puts("IN TERMS");
     term();
 
-    //TODO LONG JUMPS
-    match(ADD); terms();
-
+    if(!setjmp(env_terms)){
+        match(ADD);
+        terms();
+    }
+    puts("EXIT TERMS");
 }
 
 static void term(){
     /*
         <Term>      ->  <Factors>
     */
-
+    puts("IN TERM");
     factors();
+    puts("EXIT TERM");
 }
 
 static void factors(){
     /*
         <Factors>   -> <Factor>     | <Factor> MUL <Factors>
     */
+   puts("IN FACTORS");
    factor();
+
+   if(!setjmp(env_factors)){
+       match(MUL);
+       factors();
+   }
+   puts("EXIT FACTORS");
    
    //TODO LONG JUMPS
 
@@ -230,5 +266,7 @@ static void factor(){
     /*
         <Factor>    -> NUMBER | VAR
     */
+   puts("IN FACTOR");
    match(NUMBER);
+   puts("EXIT FACTOR");
 }
