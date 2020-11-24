@@ -103,7 +103,6 @@ int getNextToken(){
                         c = getchar();
 
                         if(! isNumber(c)){
-                            puts("Number");
                             ungetc(c, stdin);
                             pushToken();
                             return NUMBER;
