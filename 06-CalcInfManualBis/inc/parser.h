@@ -31,7 +31,6 @@
 #pragma once
 
 #include "scanner.h"
-#include <setjmp.h> // For LongJmps
 
 /*Types of lexical transissions*/
 typedef enum Type{

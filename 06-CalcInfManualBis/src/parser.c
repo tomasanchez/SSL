@@ -45,8 +45,8 @@
         // Last token
         int currentToken;
 
-        // Saving long jumps
-        jmp_buf env_input, env_line, env_factors, env_terms;
+        //Stores previous token
+        value_t yytoken;
 
         // Gets next token from scanner
         static void match(int);
@@ -55,7 +55,7 @@
         static void yyperror();
 
         // <INPUT>
-        static void input();
+        static void lines();
 
         // <LINE>
         static void line();
@@ -88,7 +88,7 @@
 int yyparse(){
 
     /*
-        <Input>     ->              |   <Input> <Line>
+        <Lines>     ->              |    <Line> <Lines>
         <Line>      ->  EOL         |   <Expr> EOL
         <Expr>      ->  <Terms>
         <Terms>     ->  <Term>      | <Term> ADD <Terms>
@@ -100,7 +100,7 @@ int yyparse(){
         Based on GNU BISON Manual
         (https://www.gnu.org/software/bison/manual/bison.pdf)
     */
-   input();
+   lines();
 
     return 0;
 }
@@ -112,68 +112,12 @@ static void yyperror(){
 }
 
 static void match(int tokenID){
-    int it_token = getNextToken();
-    currentToken == it_token;
-    
-    switch (tokenID)
-    {
-    case NUMBER:
-    case VAR:
-            if(it_token == NUMBER || it_token == VAR)
-                return;
-            else
-                yyperror;
-        break;
-    case EOL:
-            if(it_token == tokenID)
-                return;
-            else{
-                ungetPreviousToken(it_token);
-                longjmp(env_line, 1);
-            }
-    case EOF:
-            if(it_token == tokenID){
-                puts("No input");
-                return;
-            }
-            else{
-                ungetPreviousToken(it_token);
-                longjmp(env_input, 1);
-            }
-                
-        break;
-    case ADD:
-            switch (it_token)
-            {
-            case ADD:
-                return;
-            case EOL:
-                ungetPreviousToken(it_token);
-                longjmp(env_terms, 1);
-                break;
-            default:
-                yyperror();
-                break;
-            }
-    case MUL:
-            switch (it_token)
-            {
-            case MUL:
-                return;
-            case EOL:
-            case ADD:
-                ungetPreviousToken(it_token);
-                longjmp(env_factors, 1);
-                break;
-            default:
-                yyperror();
-                break;
-            }
-        break;
-    default:
-            yyperror();
-        break;
-    }
+    yytoken.num = getNextToken();
+
+    if(yytoken.num == tokenID)
+        return;
+    else
+        yyperror();
 }
 
 /*
@@ -182,36 +126,46 @@ static void match(int tokenID){
 ===============================================================================================================================
 */
 
-static void input(){
+static void lines(){ // <Lines>
     /*
-        <Input>   ->        |   <Input> <Line>
+        <Lines>   ->        |   <Input> <Line>
+    
+        getNextToken()
+        if (EOF)
+            exit();
+        else
+            line();
+    
     */
 
-        puts("IN INPUT");
-        if(!setjmp(env_input)){
-            match(EOF);
+        
+        //Read token
+        printf("> ");
+        yytoken.num = peekNextToken();
+        puts("IN LINES");
+        if(yytoken.num == EOF){
+            puts("EXIT LINES");
             return;
-        }else{
-            line();
-            input();
         }
+        
+        line(); lines();
 
-        puts("EXIT INPUT");
+        puts("EXIT LINES");
 }
 
 static void line(){
     /*
         <Line>    ->  EOL     |   <Expr> EOL
     */
+
    puts("IN LINE");
-    if(!setjmp(env_line)){
-        match(EOL);
+
+    if(yytoken.num == EOL){
         return;
-    }else
-    {
-        expr();
-        match(EOL);
     }
+    
+    expr(); match(EOL);
+    
     puts("EXIT LINE");
 }
 
@@ -228,14 +182,19 @@ static void terms(){
     /*
         <Terms>     ->  <Term>      | <Term> ADD <Terms>
     */
-   puts("IN TERMS");
-    term();
+    puts("IN TERMS");
 
-    if(!setjmp(env_terms)){
+    term();
+    yytoken.num = peekNextToken();
+    if(yytoken.num == ADD){
         match(ADD);
+        puts("::MATCHED ADD::");
         terms();
     }
+
     puts("EXIT TERMS");
+    return;
+
 }
 
 static void term(){
@@ -251,14 +210,15 @@ static void factors(){
     /*
         <Factors>   -> <Factor>     | <Factor> MUL <Factors>
     */
-   puts("IN FACTORS");
-   factor();
-
-   if(!setjmp(env_factors)){
-       match(MUL);
-       factors();
-   }
-   puts("EXIT FACTORS");
+    puts("IN FACTORS");
+    factor();
+    yytoken.num = peekNextToken();
+    if(yytoken.num == MUL){
+        match(MUL);
+        puts("::MATCHED MUL::");
+        factors();
+    }
+    puts("EXIT FACTORS");
    
    //TODO LONG JUMPS
 
@@ -266,9 +226,27 @@ static void factors(){
 
 static void factor(){
     /*
-        <Factor>    -> NUMBER | VAR
+        <Factor>    -> NUMBER | VAR |   ( EXPR )
+
     */
    puts("IN FACTOR");
-   match(NUMBER);
+   yytoken.num = peekNextToken();
+   printf("ID es... %d\n",yytoken.num);
+    switch (yytoken.num)
+    {
+    case NUMBER:
+        match(NUMBER);
+        puts("::MATCHED NUMBER::");
+        return;
+
+    case VAR:
+        match(VAR);
+        puts("::MATCHED VAR::");
+        return;
+    
+    default:
+        yyperror();
+        break;
+    }
    puts("EXIT FACTOR");
 }
