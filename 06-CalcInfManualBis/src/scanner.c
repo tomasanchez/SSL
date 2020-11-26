@@ -80,8 +80,7 @@ int getNextToken(){
     int c, i = 0;
 
     /*Until End Of File*/
-    while( yyval.num != EOF && (c = getchar()) != EOF ){
-
+    while((c=getchar()) != EOF){
         switch (c)
         {
             case ' ':
@@ -130,30 +129,82 @@ int getNextToken(){
     return EOF;
 }
 
-int ungetPreviousToken(int type){
-    switch (type)
-    {
-    case NUMBER:
-        sprintf(yytext, "%d", yyval.num);
-        for(int i = 0; i < strlen(yytext); i++){
-            ungetc(yytext[i], stdin);
+int peekNextToken(){
+    int c = 0, i = 0;
+    int size = i;
+
+    char buffer[BUFFER_SIZE];
+
+    memset(buffer, 0, BUFFER_SIZE);
+
+    while((c = getchar()) != EOF){
+        //Reads from stdin
+        
+
+        switch (c)
+        {
+        case ' ':   //Eats spaces
+        case '\t':
+                continue;
+            break;
+        case '+':
+            ungetc('+', stdin);
+            return ADD;
+        case '*':
+            ungetc('*', stdin);
+            return MUL;
+        case '\n':
+            ungetc('\n', stdin);
+            return EOL;
+        case EOF:
+            ungetc(EOF, stdin);
+            return EOF;
+        default:
+                /* Inside Number */
+                while (isNumber(c))
+                    {
+                        
+                        buffer[i++] = c;
+
+                        c = getchar();
+
+                        if(! isNumber(c)){
+                            size = i;
+
+                            ungetc(c, stdin);
+
+                            for( --i ; 0 <= i; i--){
+                                ungetc(buffer[i], stdin);
+                            }
+                            
+                            return NUMBER;
+                        }
+                    }
+
+                    /*Inside Identifier*/
+                    while(isLetter(c)){
+
+                        buffer[i++] = c;
+
+                        c = getchar();
+
+                        if(! isLetter(c)){
+                            size = i;
+
+                            ungetc(c, stdin);
+
+                            for( --i ; 0 <= i; i--){
+                                ungetc(buffer[i], stdin);
+                                memset(buffer, 0, BUFFER_SIZE);
+                            }
+                            
+                            return VAR;
+                        }
+                    }
+            break;
         }
-        memset(yytext, 0, BUFFER_SIZE);
-        return NUMBER;
-    case VAR:
-            ungetc('A', stdin);
-        return VAR;
-    case EOL:
-        ungetc('\n', stdin);
-        return EOL;
-    case MUL:
-        ungetc('*',stdin);
-        return MUL;
-    case ADD:
-        ungetc('+', stdin);
-    default:
-        break;
     }
+    return EOF;
 }
 
 void yyerror(int c){

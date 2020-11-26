@@ -70,5 +70,8 @@ typedef union Value{
 /*Reads from stdin*/
 int getNextToken();
 
+/*Peeks token from stdin*/
+int peekNextToken();
+
 /*Ungets token*/
 int ungetPreviousToken(int);
