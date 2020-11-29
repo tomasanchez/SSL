@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    parser.h
+    Calc.c
 
-    parser for infix calculator.
+    Infix With Automatic Scanner Calculator
 
     MIT License
 
@@ -26,20 +26,35 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
-#pragma once
 
-#include "scanner.h"
+#include "../inc/Calc.h"
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
+int calculator_create(){
 
-/*Exporting*/
+    parser_create();
+    solver_create();
 
-/*Parses expression*/
-int yyparse();
+    return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
+}
+
+int calculator_read(){
+    printf("  : > ");
+    return  yylex();
+}
+
+int calculator_update(){
+    parser_print_results();
+    if(! parser_has_error()){
+        solver_update();
+        solver_print();
+    }
+    return OK;
+}
+
+int calculator_delete(){
+    parser_delete();
+    solver_delete();
+    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+}

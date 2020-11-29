@@ -26,50 +26,52 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 11/17/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "parser.h"
 
-typedef enum Syntax_Error{
-    INVALID_OPERATOR = -1,
-    NONE,
-    NON_DECIMAL,
-    MULTIPLE_OPERATORS
-}syntax_error_t;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
-typedef struct Sflags{
-    bool fst, optor, operand, overwritten;
-} sflags_t;
+#define VERBOSE_SCANNER 1
 
-typedef struct Scanner {
-    char ibuffer[buffer_size];
-    int index, tokens;
-    sflags_t flags;
-    syntax_error_t error;
-} scanner_t;
+/*Token IDs*/
+typedef enum Token{
 
-/* Creates a scanner */
-scanner_t scanner_create();
+    EPSILON,
+    //\n
+    EOL,
+    //[0-9]+
+    NUMBER,
+    //[a-zA-Z]
+    VAR,
+    //( + )
+    ADD,
+    //( * )
+    MUL,
+    //( . )
+    UNDEFINED
+}token_t;
 
-/*Scans a character from*/
-token_t scanner_read(scanner_t *);
+/*Token value*/
+typedef union Value{
+    /*Number*/
+    int num;
 
-/*Checks if is a valid scan*/
-int scanner_valid(scanner_t *, int);
+    /*TODO: Index of Variable*/
+    int index;
+}value_t;
 
-/*Investigates if buffer is being overwritten*/
-int scanner_check_buffer(scanner_t *);
+/*Exporting...*/
 
-/*Loads new token from scanner buffer*/
-int scanner_GetNextToken(char *, scanner_t *);
+/*Reads from stdin*/
+int getNextToken();
 
-/*Looks for Syntax errors*/
-int scanner_syntax_check(scanner_t *);
+/*Peeks token from stdin*/
+int peekNextToken();
 
-/*Prints if any syntax erorors*/
-int scanner_print(scanner_t *);
-
-/*Prints header for scanner*/
-int __put_scanner_header__();
+/*Ungets token*/
+int ungetPreviousToken(int);

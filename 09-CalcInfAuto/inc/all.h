@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    Calc.h
+    all.h
 
-    Infix Manual Calculator header
+    Infix Automatic Calculator header
 
     MIT License
 
@@ -26,19 +26,43 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/12/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include "parser.h" // For yyparse()
+#include <stdio.h>
+#include <string.h>
 
-/*Starts a calculator*/
-int calc_init();
+#include "stack.h"
+#include "queue.h"
 
-/*Runs a calculation*/
-int calc_run();
+/* Verbose stdout */
+#define VERBOSE 0
+#define SCANNER 0
+#define PARSER  0
+#define SOLVER  0
 
-/*Stops a calculator*/
-int calc_stop();
+/*Error handling*/
+#define OK 0
+#define ERROR -1
 
+
+/*Defines size of scanner number buffer*/
+#define  buffer_size 32
+
+/*Lexical ID*/
+typedef enum TokenIDs{
+    OPERAND,
+    VARIABLE,
+    OPERATOR,
+    LBRACKET,
+    RBRACKET
+}token_id_t;
+
+/*Parsed tokens data struct*/
+typedef struct pToken{
+    bool valid;
+    token_id_t type;
+    unsigned int value;
+}ptoken_t;

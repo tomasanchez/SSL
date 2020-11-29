@@ -26,49 +26,19 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/10/2020
+    last modified: 11/17/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
-#include "scanner.h"
-#include "parser.h"
 
-typedef struct Flags{
-    bool fst,optor, operand, running;
-} cflags_t;
+#include "parser.h" // For yyparse()
 
-typedef struct Calculator{
-    scanner_t scanner;
-    parser_t parser;
-    cflags_t flags;
-    token_t token_type, previous_token, token_parsed;
-    char tbuffer[buffer_size];
-    int index, tokens;
-} calculator_t;
+/*Starts a calculator*/
+int calc_init();
 
-/*Starts a calculator ready to run*/
-calculator_t calculator_create();
+/*Runs a calculation*/
+int calc_run();
 
-/*Checks if calculator is active*/
-bool calculator_is_running(calculator_t *);
+/*Stops a calculator*/
+int calc_stop();
 
-/*Updates lvalues of calculator*/
-int calculator_update(calculator_t *);
-
-/*Scans characters into the calculator until '\n' is pushed*/
-int calculator_read(calculator_t *);
-
-/*Checks if a new token has been detected*/
-int calculator_new_token(calculator_t *);
-
-/*Allow communication between parser and scanner*/
-int calculator_GetNextToken(calculator_t *);
-
-/*Writes resultos to stdout*/
-int calculator_print_results(calculator_t *);
-
-/*Closes program*/
-int calculator_delete(calculator_t *);
-
-/*Checks what kind of token is*/
-token_t calculator_validate_token(calculator_t *);

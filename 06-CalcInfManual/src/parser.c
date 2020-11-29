@@ -26,151 +26,227 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/12/2020
-------------------------------------------------------------------------------------*/
+    last modified: 11/17/2020
+------------------------------------------------------------------------------------ */
 
-#include "parser.h"
+#include "../inc/parser.h"
 
-extern int tokens_g;
-int tokens_gp = 0;
 
-parser_t parser_create(){
-    parser_t new;
-    new.token_list = list_create();
-    new.read_token = __ptoken_create__();
-    new.previous_token = OPERATOR;
-    return new;  
+/*
+===============================================================================================================================
+============================================== Parser Design =================================================================
+===============================================================================================================================
+*/
+
+/*class Parser{---------------------*/
+
+    // Private:
+
+        // Last token
+        int currentToken;
+
+        //Stores previous token
+        value_t yytoken;
+
+        // Gets next token from scanner
+        static void match(int);
+
+        // Handles error parsing
+        static void yyperror();
+
+        // <INPUT>
+        static void lines();
+
+        // <LINE>
+        static void line();
+
+        // <EXPR>
+        static void expr();
+
+        // <TERMS>
+        static void terms();
+
+        // <TERM>
+        static void term();
+
+        // <FACTORS>
+        static void factors();
+
+        // NUMBER || VAR
+        static void factor();
+
+
+/*};--------------------------------*/
+
+
+/*
+===============================================================================================================================
+============================================== Exported Functions =============================================================
+===============================================================================================================================
+*/
+
+int yyparse(){
+
+    /*
+        <Lines>     ->              |    <Line> <Lines>
+        <Line>      ->  EOL         |   <Expr> EOL
+        <Expr>      ->  <Terms>
+        <Terms>     ->  <Term>      | <Term> ADD <Terms>
+        <Term>      ->  <Factors>
+        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
+        <Factor>    -> NUM          | VAR
+
+
+        Based on GNU BISON Manual
+        (https://www.gnu.org/software/bison/manual/bison.pdf)
+    */
+   lines();
+
+    return 0;
 }
 
-ptoken_t * __ptoken_create__(){
-    ptoken_t * new = malloc(sizeof(ptoken_t));
-    new->index = buffer_clean(new->str);
-    new->type = OPERATOR;
-    new->valid = false;
-    return new;
+static void yyperror(){
+    puts("Parse error.");
+    puts("Calculator exited with parse error.");
+    exit(2);
 }
 
-void __ptoken_destroy__(void * element){
-    free (element);
+static void match(int tokenID){
+    yytoken.num = getNextToken();
+
+    if(yytoken.num == tokenID)
+        return;
+    else
+        yyperror();
 }
 
-inline void parser_destroy(parser_t * this){
-    free(this->read_token);
-    list_destroy_and_destroy_elements(this->token_list, __ptoken_destroy__);
+/*
+===============================================================================================================================
+============================================== Lexical Transitions =============================================================
+===============================================================================================================================
+*/
+
+static void lines(){ // <Lines>
+    /*
+        <Lines>   ->        |   <Input> <Line>
+    
+        getNextToken()
+        if (EOF)
+            exit();
+        else
+            line();
+    
+    */
+
+        
+        //Read token
+        printf("> ");
+        yytoken.num = peekNextToken();
+        puts("IN LINES");
+        if(yytoken.num == EOF){
+            puts("EXIT LINES");
+            return;
+        }
+        
+        line(); lines();
+
+        puts("EXIT LINES");
 }
 
-int parser_GetNextToken(parser_t * this, char * src, token_t parsed_type){
+static void line(){
+    /*
+        <Line>    ->  EOL     |   <Expr> EOL
+    */
 
-    for (int i = 0; src[i] != '\0'; i++)
-    {
-        this->read_token->str[i] = src[i];
+   puts("IN LINE");
+
+    if(yytoken.num == EOL){
+        return;
+    }
+    
+    expr(); match(EOL);
+    
+    puts("EXIT LINE");
+}
+
+static void expr(){
+    /*
+        <Expr>    ->  <Terms>
+    */
+   puts("IN EXPR");
+   terms();
+   puts("EXIT EXPR");
+}
+
+static void terms(){
+    /*
+        <Terms>     ->  <Term>      | <Term> ADD <Terms>
+    */
+    puts("IN TERMS");
+
+    term();
+    yytoken.num = peekNextToken();
+    if(yytoken.num == ADD){
+        match(ADD);
+        puts("::MATCHED ADD::");
+        terms();
     }
 
-    if(VERBOSE)
-        printf("[DEBUG] :: [PARSER] %s --> %s :: tbuffer ---> obuffer.\n", src, this->read_token->str);
-    tokens_gp++;
-    this->read_token->type = parsed_type;
-    this->read_token->valid = __token_is_valid__(this->read_token->type, this->previous_token);
+    puts("EXIT TERMS");
+    return;
 
-    if(parsed_type == OPERAND && this->read_token->valid){
-        this->read_token->valid = __is_valid_operand__(src);
-    }
-    if(VERBOSE)
-        printf("[DEBUG] :: [PARSER] :: Is token '%s' valid ? :: '%s'.\n", this->read_token->str, this->read_token->valid? "YES" : "NO");
-    
-    this->previous_token = parsed_type;
-    
-    list_add(this->token_list, this->read_token);
-
-    this->read_token = __ptoken_create__();
-    
-    return this->read_token->valid;
 }
 
-bool __token_is_valid__(token_t new, token_t previous){
-    switch (new)
+static void term(){
+    /*
+        <Term>      ->  <Factors>
+    */
+    puts("IN TERM");
+    factors();
+    puts("EXIT TERM");
+}
+
+static void factors(){
+    /*
+        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
+    */
+    puts("IN FACTORS");
+    factor();
+    yytoken.num = peekNextToken();
+    if(yytoken.num == MUL){
+        match(MUL);
+        puts("::MATCHED MUL::");
+        factors();
+    }
+    puts("EXIT FACTORS");
+   
+   //TODO LONG JUMPS
+
+}
+
+static void factor(){
+    /*
+        <Factor>    -> NUMBER | VAR |   ( EXPR )
+
+    */
+   puts("IN FACTOR");
+   yytoken.num = peekNextToken();
+   printf("ID es... %d\n",yytoken.num);
+    switch (yytoken.num)
     {
-    case OPERAND:
-        return (previous == OPERAND || previous == OPERATOR) ? true : false;
-        break;
-    case OPERANDV:
-        return previous == OPERATOR ? true : false;
-    case OPERATOR:
-        return (previous == OPERAND || previous == OPERANDV) ? true : false;
+    case NUMBER:
+        match(NUMBER);
+        puts("::MATCHED NUMBER::");
+        return;
+
+    case VAR:
+        match(VAR);
+        puts("::MATCHED VAR::");
+        return;
     
     default:
-        return false;
+        yyperror();
+        break;
     }
-}
-
-int parser_print_results(parser_t * this){
-
-    if(VERBOSE)
-        puts("[DEBUG] Printing results ...\n");
-
-    if( tokens_g > 0){
-        puts("\n:=-----------------::========::-----------------=:");
-        puts(" :: :: :: :: :: :: :: PARSER :: :: :: :: :: :: :: ");
-        puts(":=-----------------::========::-----------------=:\n");
-        if( tokens_g > 1)
-            list_iterate(this->token_list, __print_token__);
-        else
-            list_iterate(this->token_list, __print_one__);
-    } else
-        puts("\n :: No valid character has been entered :: ");
-    
-    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
-}
-
-void __print_one__(void * element){
-
-    ptoken_t * this_token = (ptoken_t *) element;
-
-    if(this_token->type != OPERAND)
-    printf(">> PARSED :: Invalid expression :: '%s' :: Operator.\n", this_token->str);
-    else
-    printf(">> PARSED :: [VALID] :: '%s' :: Operand.\n", this_token->str);
-}
-
-void __print_token__(void * element){
-
-    ptoken_t * this_token = (ptoken_t *) element;
-
-    if(this_token->valid){
-        printf(">> PARSED :: [ VALID ] :: '%s'\t:: %s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
-    } else{
-        printf(">> PARSED :: [INVALID] :: '%s'\t:: %s.\n", this_token->str, this_token->type == OPERAND ? "Operand" : "Operator");
-    }
-}
-
-bool __is_valid_operand__(char * this){
-
-    bool integer, id;
-
-    integer = char_is_number(*this);
-    id = !integer;
-
-    //Patterng matching
-    if( id && this[1] != '\0')
-        return false;
-
-    for (int i = 1; this[i] != '\0'; i++){
-
-            // Checking for non-decimal imputs
-            if( char_is_number(this[i])){
-                if(id)
-                    return false;
-                id = false;
-                integer = !id;
-            }
-
-            if(char_is_variable(this[i])){
-                if(integer)
-                    return false;
-                integer = true;
-                id = !integer;
-            }
-    }
-
-    return true;
+   puts("EXIT FACTOR");
 }

@@ -265,7 +265,7 @@ int solver_print(solver_t * this){
         puts("\n:=-----------------::========::-----------------=:");
         puts(" :: :: :: :: :: :: :: RESULTS :: :: :: :: :: :: :: ");
         puts(":=-----------------::========::-----------------=:\n");
-        printf(" :: :: > > %d", this->final_result);
+        printf(" :: :: > > %d\n", this->final_result);
     }
     return 0;
 }

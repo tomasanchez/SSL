@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    parser.h
+    scanner.h
 
-    parser for infix calculator.
+    Infix Automatic Calculator scanner header
 
     MIT License
 
@@ -26,20 +26,14 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
+
 #pragma once
+#include "solver.h"
 
-#include "scanner.h"
+/*Calls Flex Scanner*/
+int yylex();
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
-
-/*Exporting*/
-
-/*Parses expression*/
-int yyparse();
+/*Loads new token from scanner buffer*/
+int scanner_GetNextToken(int , token_id_t);

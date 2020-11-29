@@ -19,10 +19,15 @@ extern FILE* yyin;
 /* Bison declarations */
 
 /* 
-If you have used %union to specify a variety of data types, then you must declare a choice among these 
+When using %union specifying multiples data types, a choice must be declared among these 
 types for each terminal or nonterminal symbol that can have a semantic value. 
-Then each time you use $$ or $n, its data type is determined by which symbol it refers to in the rule. 
+Then each time you use $$ or $n, its data type is determined by which symbol it refers to in the rule.
 (http://dinosaur.compilertools.net/bison/bison_6.html)
+
+Where 
+$$ - In an action, the semantic value of the left-hand side of the rule. See Section 3.4.6[Actions], page 59.
+$n - In an action, the semantic value of then-th symbol of the right-hand side of the rule.See Section 3.4.6 [Actions], page 59.
+(https://www.gnu.org/software/bison/manual/bison.pdf)
 */
 %union {
 	int index;
@@ -41,7 +46,7 @@ Then each time you use $$ or $n, its data type is determined by which symbol it 
 %type<num> calc
 %type<num> expr
 
-/*Operators precedence*/
+/*Operators Association*/
 %left SUB 
 %left ADD
 %left MUL 

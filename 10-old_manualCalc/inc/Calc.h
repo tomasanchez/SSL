@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    parser.h
+    Calc.h
 
-    parser for infix calculator.
+    Infix Manual Calculator header
 
     MIT License
 
@@ -26,20 +26,37 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 09/10/2020
 ------------------------------------------------------------------------------------ */
+
 #pragma once
-
 #include "scanner.h"
+#include "parser.h"
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
+typedef struct Flags{
+    bool fst,optor, operand, running;
+} cflags_t;
 
-/*Exporting*/
+typedef struct Calculator{
+    
+    parser_t parser; 
+        scanner_t scanner;
+    cflags_t flags;
+        token_t token_type, previous_token, token_parsed;
+    char tbuffer[buffer_size];
+    int index, tokens;
+} calculator_t;
 
-/*Parses expression*/
-int yyparse();
+/*Public*/
+
+/*Starts a calculator ready to run*/
+calculator_t calculator_create();
+
+/*Updates lvalues of calculator*/
+int calculator_update(calculator_t *);
+
+/*Scans characters into the calculator until '\n' is pushed*/
+int calculator_read(calculator_t *);
+
+/*Closes program*/
+int calculator_delete(calculator_t *);

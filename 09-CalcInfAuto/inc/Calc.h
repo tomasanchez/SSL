@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    all.h
+    Calc.h
 
-    Infix Manual Calculator header
+    Infix Automatic Calculator header
 
     MIT License
 
@@ -26,39 +26,21 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 09/12/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "list.h"
+#include "scanner.h"
 
-#define VERBOSE 0
+/*Show welcome message*/
+int calculator_create();
 
-typedef enum token{
-    INVALID = -1,
-    OPERATOR,
-    OPERAND,
-    OPERANDV,
-    EOL
-}token_t;
+/*Scans and loads characters from stdin until end of line*/
+int calculator_read();
 
-/*Defines size of scanner number buffer*/
-#define  buffer_size 32
-/*Current number of valid operators*/
-#define operator_size 3
+/*Updates calculator an solves expression*/
+int calculator_update();
 
-/*Initializes a buffer*/
-int buffer_clean(char * buffer);
-
-/*Checks if is a valid number Number = [0..9]*/
-bool char_is_number(int);
-
-/*Checks if is a valid operator, from the operator list*/
-bool char_is_operator(int);
-
-/*Checks if scanner is a Variable = [a..z,A..Z]*/
-bool char_is_variable(int);
+/*Shows Finish message*/
+int calculator_delete();

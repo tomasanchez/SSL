@@ -26,20 +26,52 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
 #pragma once
+#include "all.h"
 
-#include "scanner.h"
+typedef struct pToken{
+    int index;
+    bool valid;
+    token_t type;
+    char str[buffer_size];
+}ptoken_t;
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
+typedef struct Parser{
+    t_list * token_list;
+    ptoken_t * read_token;
+    token_t previous_token;
+}parser_t;
 
-/*Exporting*/
+/*Creates a new usable parser*/
+parser_t parser_create();
 
-/*Parses expression*/
-int yyparse();
+/*Adds token to the list*/
+int parser_GetNextToken(parser_t *, char *, token_t);
+
+/*Writes parsed tokens to stdout, telling if valid or not*/
+int parser_print_results(parser_t *);
+
+/*Frees memory usage*/
+void parser_destroy(parser_t *);
+
+
+//TODO mover del .h
+
+/*  Private Function :: writes a token to stdout*/
+void __print_token__(void *);
+/*  Private Function :: wirtes unique token to stdout*/
+void __print_one__(void * element);
+
+/*  Private Function :: Validates a token*/
+bool __token_is_valid__(token_t, token_t);
+
+/* Checks if a number is Decimal or an unique variable*/
+bool __is_valid_operand__(char *);
+
+/*  Private Function :: Creates an element for a list*/
+ptoken_t * __ptoken_create__();
+
+/*  Private Function :: Destroys an element for a list*/
+void __ptoken_destroy__(void *);

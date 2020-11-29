@@ -77,6 +77,25 @@ FEXPR -> OPERAND | OPERAND • EXPR
 EXPR  -> OPERATOR • FEXPR
 ```
 
+Valid Expression:
+    EXPRESSION -> ( EXPRESSION ) | OPERATION
+    OPERATION -> OPERAND | OPERAND OPERATOR EXPRESSION
+
+    Expression -> Terminos
+    Terminos -> Termino | Termino + Terminos
+    Termino -> Factores
+    Factores -> Factor | Factor * Factores
+    Factor -> NUM | VAR | ( Expression )
+
+    a * b + c
+
+    a + b * c
+
+    (a + b) * c
+
+    ASRD - Analisis Sintactitco Recursvio Descendente
+```
+
 ## Solucion
 
 Opte por una la siguiente resolucion:

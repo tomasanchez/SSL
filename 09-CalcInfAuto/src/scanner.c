@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    parser.h
+    scanner.c
 
-    parser for infix calculator.
+    Interface to communicate automatic scanner with calculator
 
     MIT License
 
@@ -26,20 +26,13 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
-#pragma once
 
-#include "scanner.h"
+#include "../inc/scanner.h"
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
-
-/*Exporting*/
-
-/*Parses expression*/
-int yyparse();
+int scanner_GetNextToken(int value, token_id_t type){
+    if(parser_GetNextToken(value, type))
+        solver_GetNextToken(value, type);
+    return OK;
+}

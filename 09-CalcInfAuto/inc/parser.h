@@ -2,7 +2,7 @@
 
     parser.h
 
-    parser for infix calculator.
+    Manual Parser for Infix Calculator w/ Automatic Scanner.
 
     MIT License
 
@@ -26,20 +26,31 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/12/2020
 ------------------------------------------------------------------------------------ */
+
 #pragma once
+#include "all.h"
 
-#include "scanner.h"
+/*Object Parser*/
+typedef struct Parser{
+    t_list * token_list;
+    ptoken_t * read_token;
+    token_id_t previous_token;
+    bool valid_expression;
+}parser_t;
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
+/*Starts oParser*/
+int parser_create();
 
-/*Exporting*/
+/*Deletes oParser freeing memory usage*/
+int parser_delete();
 
-/*Parses expression*/
-int yyparse();
+/*Parses a new token*/
+bool parser_GetNextToken(int , token_id_t);
+
+/*Prints all token parsed*/
+int parser_print_results();
+
+/*Tells if parse has error*/
+bool parser_has_error();

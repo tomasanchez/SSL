@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    parser.h
+    all.h
 
-    parser for infix calculator.
+    Infix Manual Calculator header
 
     MIT License
 
@@ -26,20 +26,42 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 09/12/2020
 ------------------------------------------------------------------------------------ */
+
+
+// TODO Volar all.h
+
 #pragma once
 
-#include "scanner.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "list.h"
 
-/*Types of lexical transissions*/
-typedef enum Type{
-    Input,
-    Line,
-    Expr
-}type_t;
+#define VERBOSE 0
 
-/*Exporting*/
+typedef enum token{
+    INVALID = -1,
+    OPERATOR,
+    OPERAND,
+    OPERANDV,
+    EOL
+}token_t;
 
-/*Parses expression*/
-int yyparse();
+/*Defines size of scanner number buffer*/
+#define  buffer_size 32
+/*Current number of valid operators*/
+#define operator_size 3
+
+/*Initializes a buffer*/
+int buffer_clean(char * buffer);
+
+/*Checks if is a valid number Number = [0..9]*/
+bool char_is_number(int);
+
+/*Checks if is a valid operator, from the operator list*/
+bool char_is_operator(int);
+
+/*Checks if scanner is a Variable = [a..z,A..Z]*/
+bool char_is_variable(int);
