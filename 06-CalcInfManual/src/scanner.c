@@ -139,8 +139,6 @@ int peekNextToken(){
 
     while((c = getchar()) != EOF){
         //Reads from stdin
-        
-
         switch (c)
         {
         case ' ':   //Eats spaces
@@ -201,6 +199,8 @@ int peekNextToken(){
                             return VAR;
                         }
                     }
+
+                    yyerror(c);
             break;
         }
     }

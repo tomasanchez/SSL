@@ -106,8 +106,7 @@ int yyparse(){
 }
 
 static void yyperror(){
-    puts("Parse error.");
-    puts("Calculator exited with parse error.");
+    puts("Syntax error.\nCalculator exited with syntax error during parsing.");
     exit(2);
 }
 
@@ -137,11 +136,10 @@ static void lines(){ // <Lines>
             line();
     
     */
-
-        
         //Read token
         printf("> ");
         yytoken.num = peekNextToken();
+
         puts("IN LINES");
         if(yytoken.num == EOF){
             puts("EXIT LINES");
@@ -231,7 +229,7 @@ static void factor(){
     */
    puts("IN FACTOR");
    yytoken.num = peekNextToken();
-   printf("ID es... %d\n",yytoken.num);
+
     switch (yytoken.num)
     {
     case NUMBER:
@@ -248,5 +246,6 @@ static void factor(){
         yyperror();
         break;
     }
+
    puts("EXIT FACTOR");
 }
