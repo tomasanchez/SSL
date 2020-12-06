@@ -61,7 +61,8 @@
         /*Tells if character is a letter*/
         static bool isLetter(int);
 
-        static bool isSpace(int);
+        /*Tells if id corresponds to let*/
+        static bool isLet(char *);
 
         /*Stores tokens*/
         static int pushToken();
@@ -90,6 +91,10 @@ int getNextToken(){
                 return ADD;
             case '*':
                 return MUL;
+            case '(':
+                return L_BRACKET;
+            case ')':
+                return R_BRACKET;
             case '\n':
                 return EOL;
             default:
@@ -116,7 +121,7 @@ int getNextToken(){
 
                         if(! isLetter(c)){
                             ungetc(c, stdin);
-                            return VAR;
+                            return isLet(yytext)? LET : VAR;
                         }
 
                     }
@@ -151,6 +156,12 @@ int peekNextToken(){
         case '*':
             ungetc('*', stdin);
             return MUL;
+        case '(':
+            ungetc('(', stdin);
+            return L_BRACKET;
+        case ')':
+            ungetc(')', stdin);
+            return R_BRACKET;    
         case '\n':
             ungetc('\n', stdin);
             return EOL;
@@ -193,10 +204,8 @@ int peekNextToken(){
 
                             for( --i ; 0 <= i; i--){
                                 ungetc(buffer[i], stdin);
-                                memset(buffer, 0, BUFFER_SIZE);
                             }
-                            
-                            return VAR;
+                            return isLet(buffer)? LET : VAR;
                         }
                     }
 
@@ -241,4 +250,16 @@ static inline bool isLetter(int c){
 
 static inline bool isSpace(int c){
     return c == '\t' || c == ' ';
+}
+
+static bool isLet(char * str){
+
+    // Being "L E T \0" needs space for 4 chars
+    char strUpper[4] = "";
+
+    for(int i = 0; i < 4; i++){
+        strUpper[i] = toupper(str[i]);
+    }
+
+    return strcmp("LET", strUpper) == 0;
 }

@@ -31,6 +31,7 @@
 
 #pragma once
 
+#include <ctype.h> //For toupper
 #include "memory.h"
 
 #define VERBOSE_SCANNER 1
@@ -53,6 +54,8 @@ typedef enum Token{
     L_BRACKET,
     //[ ) ]
     R_BRACKET,
+    // [let||LET]
+    LET,
     //[ . ]
     UNDEFINED
 }token_t;
