@@ -245,6 +245,8 @@ static void factor(){
         match(L_BRACKET);
         expr();
         match(R_BRACKET);
+    case R_BRACKET:
+        return;
     default:
         yyperror();
         break;
