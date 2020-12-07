@@ -31,6 +31,7 @@
 
 #include "../inc/parser.h"
 
+extern value_t yyval;
 
 /*
 ===============================================================================================================================
@@ -43,7 +44,10 @@
     // Private:
 
         // Last token
-        int currentToken;
+        struct Tokens{
+            // Following scheme of bison
+            int $$, $1, $2, $3, $4;
+        }ls_token;
 
         //Stores previous token
         value_t yytoken;
@@ -87,6 +91,10 @@
 
 int yyparse(){
 
+    // Initial status
+    ls_token.$$ = 0;
+    ls_token.$1 = ls_token.$2 = ls_token.$3 = ls_token.$4 = -1;
+
     /*
         <Lines>     ->              |    <Line> <Lines>
         <Line>      ->  EOL         |   <Expr> EOL
@@ -126,16 +134,7 @@ static void match(int tokenID){
 */
 
 static void lines(){ // <Lines>
-    /*
-        <Lines>   ->        |   <Input> <Line>
-    
-        getNextToken()
-        if (EOF)
-            exit();
-        else
-            line();
-    
-    */
+
         //Read token
         printf("> ");
         yytoken.num = peekNextToken();
@@ -242,6 +241,10 @@ static void factor(){
         puts("::MATCHED VAR::");
         return;
     
+    case L_BRACKET:
+        match(L_BRACKET);
+        expr();
+        match(R_BRACKET);
     default:
         yyperror();
         break;
