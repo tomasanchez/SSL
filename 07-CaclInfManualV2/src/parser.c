@@ -71,19 +71,19 @@ extern value_t yyval;
         static void line();
 
         // <EXPR>
-        static void expr();
+        static int expr();
 
         // <TERMS>
-        static void terms();
+        static int terms();
 
         // <TERM>
-        static void term();
+        static int term();
 
         // <FACTORS>
-        static void factors();
+        static int factors();
 
         // NUMBER || VAR
-        static void factor();
+        static int factor();
 
 
 /*};--------------------------------*/
@@ -145,20 +145,14 @@ static void lines(){ // <Lines>
         printf("> ");
         yytoken.num = peekNextToken();
 
-        puts("IN LINES");
         if(yytoken.num == EOF){
-            puts("EXIT LINES");
             return;
         }
         
         line();
-        
-        if(yytoken.num != EOL)
-            printf(" = %d\n", ls_token.$$);
 
         lines();
 
-        puts("EXIT LINES");
 }
 
 static void line(){
@@ -166,113 +160,96 @@ static void line(){
         <Line>    ->  EOL     |   <Expr> EOL
     */
 
-   puts("IN LINE");
-
     if(yytoken.num == EOL){
         puts("Please, enter an expression");
         match(EOL);
         return;
     }
     
-    expr(); match(EOL);
+    int $$ = expr();
     
-    puts("EXIT LINE");
+    printf(" = %d\n", $$);
+
+    match(EOL);
+    
 }
 
-static void expr(){
+static int expr(){
     /*
         <Expr>    ->  <Terms>
     */
-   puts("IN EXPR");
-   terms();
-   puts("EXIT EXPR");
+   return terms();
 }
 
-static void terms(){
+static int terms(){
     /*
         <Terms>     ->  <Term>      | <Term> ADD <Terms>
     */
-    puts("IN TERMS");
 
-    term();
+    int $$ = term();
+
     yytoken.num = peekNextToken();
     if(yytoken.num == ADD){
         match(ADD);
-        puts("::MATCHED ADD::");
-        terms();
+        $$ += terms();
     }
 
-    puts("EXIT TERMS");
-    return;
+    return $$;
 
 }
 
-static void term(){
+static int term(){
     /*
         <Term>      ->  <Factors>
     */
-    puts("IN TERM");
-    factors();
-    puts("EXIT TERM");
+    return factors();
 }
 
-static void factors(){
+static int factors(){
     /*
         <Factors>   -> <Factor>     | <Factor> MUL <Factors>
     */
-    puts("IN FACTORS");
-    factor();
+    int $$ = factor();
+
     yytoken.num = peekNextToken();
     if(yytoken.num == MUL){
         match(MUL);
-        puts("::MATCHED MUL::");
-        factors();
+        $$ *= factors();
     }
-    puts("EXIT FACTORS");
    
-   //TODO LONG JUMPS
-
+    return $$;
 }
 
-static void factor(){
+static int factor(){
     /*
         <Factor>    -> NUMBER | VAR |   ( EXPR )
 
     */
-   puts("IN FACTOR");
+
+   int $$;
+
    yytoken.num = peekNextToken();
 
     switch (yytoken.num)
     {
     case NUMBER:
         match(NUMBER);
-
-        if(isInitial(ls_token.$1))
-            ls_token.$$ = ls_token.$1 = yyval.num;
-        else
-            ls_token.$$ = ls_token.$3 = yyval.num;
-        
-
-        puts("::MATCHED NUMBER::");
-        return;
+        return yyval.num;
 
     case VAR:
         match(VAR);
-        puts("::MATCHED VAR::");
-        return;
+        return -1;
     
     case L_BRACKET:
         match(L_BRACKET);
-        expr();
+        $$ = expr();
         match(R_BRACKET);
     case R_BRACKET:
-        return;
+        return $$;
     default:
         yyperror();
         break;
     }
-
-   puts("EXIT FACTOR");
 }
 
 /*
