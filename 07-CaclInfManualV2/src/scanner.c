@@ -80,6 +80,11 @@ int getNextToken(){
 
     int c, i = 0;
 
+    //Clear buffers
+    memset(yytext, 0, BUFFER_SIZE);
+    yyval.index = 0;
+    yyval.num = 0;
+
     /*Until End Of File*/
     while((c=getchar()) != EOF){
         switch (c)
@@ -91,6 +96,8 @@ int getNextToken(){
                 return ADD;
             case '*':
                 return MUL;
+            case '=':
+                return  EQ;
             case '(':
                 return L_BRACKET;
             case ')':
@@ -121,7 +128,14 @@ int getNextToken(){
 
                         if(! isLetter(c)){
                             ungetc(c, stdin);
-                            return isLet(yytext)? LET : VAR;
+
+                            if(isLet(yytext))
+                                return LET;
+                            else
+                            {
+                                yyval.index = add_variable(yytext);
+                                return VAR;
+                            }
                         }
 
                     }
@@ -156,6 +170,9 @@ int peekNextToken(){
         case '*':
             ungetc('*', stdin);
             return MUL;
+        case '=':
+            ungetc('=', stdin);
+            return EQ;
         case '(':
             ungetc('(', stdin);
             return L_BRACKET;
@@ -205,7 +222,14 @@ int peekNextToken(){
                             for( --i ; 0 <= i; i--){
                                 ungetc(buffer[i], stdin);
                             }
-                            return isLet(buffer)? LET : VAR;
+                            if (isLet(buffer))
+                                return LET;
+                            else
+                            {
+                                //yyval.index = add_variable(buffer);
+                                //printf("PEEK INDEX is %d\n", yyval.index);
+                                return VAR;
+                            }
                         }
                     }
 

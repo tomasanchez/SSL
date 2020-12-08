@@ -50,6 +50,8 @@ typedef enum Token{
     ADD,
     //[ * ]
     MUL,
+    //[=]
+    EQ,
     //[ ( ]
     L_BRACKET,
     //[ ) ]

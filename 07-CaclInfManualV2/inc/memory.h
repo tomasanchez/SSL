@@ -36,8 +36,13 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define VAR_SIZE 100
+
 /* Add a variable name to the memory store */
 int add_variable(char* var_name);
 
 /* Set a variables value in the memory store */
 int set_variable(int index, int val);
+
+/* Finds variable value */
+int get_variable(int index);

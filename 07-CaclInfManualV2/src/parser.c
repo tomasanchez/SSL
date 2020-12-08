@@ -32,7 +32,6 @@
 #include "../inc/parser.h"
 
 extern value_t yyval;
-
 /*
 ===============================================================================================================================
 ============================================== Parser Design =================================================================
@@ -43,14 +42,8 @@ extern value_t yyval;
 
     // Private:
 
-        // Last token
-        struct Tokens{
-            // Following scheme of bison
-            int $$, $1, $2, $3, $4;
-        }ls_token;
-
         //Stores previous token
-        value_t yytoken;
+        static value_t yytoken;
 
         /*Tells if $x has initial value*/
         static bool isInitial(int);    
@@ -70,8 +63,14 @@ extern value_t yyval;
         // <LINE>
         static void line();
 
+        // <CALC>
+        static int calc();
+
         // <EXPR>
         static int expr();
+        
+        // <ASSIGMENT>
+        static int assignment();
 
         // <TERMS>
         static int terms();
@@ -97,19 +96,16 @@ extern value_t yyval;
 
 int yyparse(){
 
-    // Initial status
-    ls_token.$$ = 0;
-    ls_token.$1 = ls_token.$2 = ls_token.$3 = ls_token.$4 = -1;
-
     /*
-        <Lines>     ->              |    <Line> <Lines>
-        <Line>      ->  EOL         |   <Expr> EOL
-        <Expr>      ->  <Terms>
-        <Terms>     ->  <Term>      | <Term> ADD <Terms>
-        <Term>      ->  <Factors>
-        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
-        <Factor>    -> NUM          | VAR
-
+        <Lines>         ->              |    <Line> <Lines>
+        <Line>          ->  EOL         |   <Calc> EOL
+        <Calc>          ->  expr        |   <Assignment>
+        <Expr>          ->  <Terms>
+        <Terms>         ->  <Term>      | <Term> ADD <Terms>
+        <Term>          ->  <Factors>
+        <Factors>       ->  <Factor>     | <Factor> MUL <Factors>
+        <Factor>        ->  NUM          | VAR
+        <Assignment>    ->  LET VAR EQ <Calc>
 
         Based on GNU BISON Manual
         (https://www.gnu.org/software/bison/manual/bison.pdf)
@@ -157,20 +153,35 @@ static void lines(){ // <Lines>
 
 static void line(){
     /*
-        <Line>    ->  EOL     |   <Expr> EOL
+        <Line>    ->  EOL     |   <CALC> EOL
     */
 
+
+    // EOL
     if(yytoken.num == EOL){
-        puts("Please, enter an expression");
+        puts("Please, enter a calculation");
         match(EOL);
         return;
     }
     
-    int $$ = expr();
+    // <CALC> EOL
+    int $$ = calc();
     
     printf(" = %d\n", $$);
 
     match(EOL);
+    
+}
+
+static int calc(){
+    /*
+        <Line>    ->  <EXPR>     |   <CALC>
+    */
+
+    if(yytoken.num != LET)
+        return expr();
+    else
+        return assignment();
     
 }
 
@@ -226,7 +237,7 @@ static int factor(){
 
     */
 
-   int $$;
+   int $1, $2;
 
    yytoken.num = peekNextToken();
 
@@ -238,18 +249,33 @@ static int factor(){
 
     case VAR:
         match(VAR);
-        return -1;
+        $1 = yyval.index;
+        return get_variable($1);
     
     case L_BRACKET:
         match(L_BRACKET);
-        $$ = expr();
+        $2 = expr();
         match(R_BRACKET);
-    case R_BRACKET:
-        return $$;
+        return $2;
     default:
         yyperror();
         break;
     }
+}
+
+static int assignment(){
+    /*
+        <Assignment>    ->  LET VAR EQ <Calc>
+    */
+
+   int $2, $4;
+
+   match(LET);
+   match(VAR);
+   $2   = yyval.index;
+   match(EQ);
+   $4   = calc();
+   return set_variable($2, $4);
 }
 
 /*

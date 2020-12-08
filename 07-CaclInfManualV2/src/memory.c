@@ -29,15 +29,15 @@
     last modified: 12/06/2020
 ------------------------------------------------------------------------------------ */
 
-#include "memory.h"
+#include "../inc/memory.h"
 
 extern char* strdup(const char* _S);
 
 // Store variable names
-char* variable_names[100];
+char* variable_names[VAR_SIZE];
 
 // Flags for if the variables have been set
-int variable_set[100];
+int variable_set[VAR_SIZE];
 
 // Number of variables defined
 int variable_counter = 0;
@@ -68,6 +68,16 @@ set_variable(int index, int val){
 
 	variable_values[index] = val;
 	variable_set[index] = 1;
-	
 	return val;
+}
+
+int
+get_variable(int index){
+
+    if(variable_set[index])
+        return variable_values[index];
+    else{
+        puts("Variable has not been set");
+        return 0;
+    }
 }

@@ -39,5 +39,5 @@ inline int calc_run(){
 }
 
 inline int calc_stop(){
-    puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+    puts("\n\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }
