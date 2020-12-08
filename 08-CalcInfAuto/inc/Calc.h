@@ -2,7 +2,7 @@
 
     Calc.h
 
-    Infix Automatic Calculator header
+    Infix Manual Calculator header
 
     MIT License
 
@@ -26,21 +26,19 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/09/2020
+    last modified: 11/17/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include "scanner.h"
+#include "parser.h" // For yyparse()
 
-/*Show welcome message*/
-int calculator_create();
+/*Starts a calculator*/
+int calc_init();
 
-/*Scans and loads characters from stdin until end of line*/
-int calculator_read();
+/*Runs a calculation*/
+int calc_run();
 
-/*Updates calculator an solves expression*/
-int calculator_update();
+/*Stops a calculator*/
+int calc_stop();
 
-/*Shows Finish message*/
-int calculator_delete();

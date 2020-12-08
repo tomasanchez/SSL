@@ -1,26 +1,32 @@
-# 08 - CalcInfAuto
+# [07] - Calculadora Infija Automática
 
-Calculadora Infija con Scanner Automatico basado en [07-CalcInfManual](../07-CalcInfManual2/REAMDE.md).
+## Objetivos
 
-El  Scanner es generado por Flex, siendo asi una mejora de optimizacion a la version anterior.
+- A partir de la primera version, ahora poder permitir realizar operaciones y uso de parentesis.
 
-## Changelog
+## Temas
 
-- Calculator
-  - Ya no es una estructura, solo mascara funciones de interfaz
-  - Optimizacion de codigo: Se simplificaron todas sus funciones
+- Especificación del nivel Léxico y Sintáctico.
+- Implementación del nivel Léxico y Sintáctico.
+- Implementación de **Scanner**.
+- Implementación de **Parser**.
+- Resolucion de expresiones
 
-- Parser
-  - No dependede de la calculadora: object parser = **oParser**
-  - Mejor distincion de tokens
-  - Mejora de lectura: estetica de codigo
-  - Optimizacion de codigo: no existe mas buffer, no mas multiples chequeos de tipo de token
+## Problema
 
-- Solver
-  - No depende de la calculadora: object solver = **oSolver**
-  - Mejora de lectura: estetica de codigo
-  - Optimizacion de codigo: no existe mas buffer
+Análisis de expresiones aritméticas infijas simples que incluya:
 
-- Scanner
-  - Implementacion con Flex
-  - Mejor definicion de tokens
+- Números naturales con representación literal en base 10.
+- Identificadores de variables.
+- Adición.
+- Multiplicación.
+
+## Restricciones
+
+- El *scanner* y el *parser* deben estar lógicamente separados.
+- El  *parser*  se  comunica  con  el  *scanner*  con  la  operación  *GetNextToken*.
+- El *scanner* toma los caracteres de *stdin* con *getchar*.
+
+## Instrucciones
+
+Ejecutar `make compile` y luego `./Calculator.exe`

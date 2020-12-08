@@ -2,7 +2,7 @@
 
     Calc.c
 
-    Infix With Automatic Scanner Calculator
+    calculator interface for infix calculator.
 
     MIT License
 
@@ -26,28 +26,18 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/09/2020
+    last modified: 11/17/2020
 ------------------------------------------------------------------------------------ */
+#include "Calc.h"
 
-#include "../inc/Calc.h"
-
-inline int calculator_create(){
-
-    parser_create();
-
-    return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
+inline int calc_init(){
+    return puts(" :: == A Simple Infix Manual Calculator == :: \n");
 }
 
-inline int calculator_read(){
-    printf("  : > ");
-    return  parser_parse();
+inline int calc_run(){
+    return yyparse();
 }
 
-inline int calculator_update(){
-    return parser_update();
-}
-
-int calculator_delete(){
-    parser_delete();
-    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+inline int calc_stop(){
+    puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
 }

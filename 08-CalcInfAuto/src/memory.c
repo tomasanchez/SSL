@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    memory.c
 
-    scanner for infix calculator.
+    Memory for variable for infix calculator.
 
     MIT License
 
@@ -26,56 +26,58 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 12/06/2020
 ------------------------------------------------------------------------------------ */
 
-#pragma once
+#include "../inc/memory.h"
 
-#include <ctype.h> //For toupper
-#include "memory.h"
+extern char* strdup(const char* _S);
 
-#define VERBOSE_SCANNER 1
+// Store variable names
+char* variable_names[VAR_SIZE];
 
-/*Token IDs*/
-typedef enum Token{
-    //\n
-    EOL = 1,
-    //[0-9]+
-    NUMBER,
-    //[a-zA-Z]
-    VAR,
-    //[ + ]
-    ADD,
-    //[ * ]
-    MUL,
-    //[=]
-    EQ,
-    //[ ( ]
-    L_BRACKET,
-    //[ ) ]
-    R_BRACKET,
-    // [let||LET]
-    LET,
-    //[ . ]
-    UNDEFINED
-}token_t;
+// Flags for if the variables have been set
+int variable_set[VAR_SIZE];
 
-/*Token value*/
-typedef union Value{
-    /*Number*/
-    int num;
+// Number of variables defined
+int variable_counter = 0;
 
-    /*TODO: Index of Variable*/
-    int index;
-}value_t;
+// Store values of the variables
+int variable_values[100];
 
-/*Exporting...*/
+int 
+add_variable(char* var_name){
+	int x; // Index var
+	
+	/* Search for the variable and return its index if found */	
+	for (x = 0; x<variable_counter; x++) {
+		if (strcmp(var_name, variable_names[x]) == 0) {
+				return x;
+		}
+	}
 
-/*Reads from stdin*/
-int getNextToken();
+	/* Variable not found yet. */
+	/* Define it and add it to the end of the array. */
+	variable_counter++;
+	variable_names[x] = strdup(var_name);
+	return x;
+}
 
-/*Peeks token from stdin*/
-int peekNextToken();
+int
+set_variable(int index, int val){
 
-/*Displays error message*/
-void yyerror(int);
+	variable_values[index] = val;
+	variable_set[index] = 1;
+	return val;
+}
+
+int
+get_variable(int index){
+
+    if(variable_set[index])
+        return variable_values[index];
+    else{
+        puts("Variable has not been set");
+        return 0;
+    }
+}

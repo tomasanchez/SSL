@@ -2,7 +2,7 @@
 
     parser.c
 
-    Manual Parser for infix calculator.
+    parser for infix calculator.
 
     MIT License
 
@@ -26,205 +26,271 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/12/2020
-------------------------------------------------------------------------------------*/
+    last modified: 11/17/2020
+------------------------------------------------------------------------------------ */
 
 #include "../inc/parser.h"
 
-/*Global Token counter*/
-extern int totalTokens_g;
-
-/*Local Parser*/
-parser_t * oParser;
-unsigned int cTokens;
-unsigned int rBrackets = 0;
-unsigned int lBrackets = 0;
-
-/*Private Functions*/
-
-/*  Private Function :: writes a token to stdout*/
-static void __print_token__(void *);
-
-/*  Private Function :: wirtes unique token to stdout*/
-static void __print_one__(void * element);
-
-/*  Private Function :: Validates a token*/
-static bool __token_is_valid__(token_id_t, token_id_t);
-
-/*  Private Function :: Creates an element for a list*/
-static ptoken_t * __ptoken_create__(void);
-
-/* Private Function :: Prints all token parsed*/
-static int __print_results__();
-
-/* Private Function :: Tells if parse has error*/
-static bool __has_error__();
-
+extern value_t yylval;
 /*
 ===============================================================================================================================
-============================================= PARSER ALLOCATIONS  =============================================================
+============================================== Parser Design =================================================================
 ===============================================================================================================================
 */
 
-int parser_create(){
+/*class Parser{---------------------*/
 
-    oParser = malloc(sizeof(parser_t));
+    // Private:
 
-    oParser->token_list = list_create();
-    oParser->read_token = __ptoken_create__();
-    oParser->previous_token = OPERATOR;
-    oParser->valid_expression = true;
-    
-    return solver_create();;
-}
+        //Stores previous token
+        static value_t yytoken;
 
-int parser_delete(){
-    free(oParser->read_token);
-    /*As no items are removed, elements need to be deleted with the list*/
-    list_destroy_and_destroy_elements(oParser->token_list, free);
+        /*Tells if $x has initial value*/
+        static bool isInitial(int);    
 
-    return solver_delete();
-}
+        /*Sets $X with initial value*/
+        static void setInitial(int *);
+
+        // Gets next token from scanner
+        static void match(int);
+
+        // Handles error parsing
+        static void yyperror();
+
+        // <INPUT>
+        static void lines();
+
+        // <LINE>
+        static void line();
+
+        // <CALC>
+        static int calc();
+
+        // <EXPR>
+        static int expr();
+        
+        // <ASSIGMENT>
+        static int assignment();
+
+        // <TERMS>
+        static int terms();
+
+        // <TERM>
+        static int term();
+
+        // <FACTORS>
+        static int factors();
+
+        // NUMBER || VAR
+        static int factor();
 
 
-static ptoken_t * __ptoken_create__(){
-    ptoken_t * new = malloc(sizeof(ptoken_t));
-    new->value = '+';
-    new->type = OPERATOR;
-    new->valid = false;
-    return new;
-}
+/*};--------------------------------*/
 
-inline int parser_parse(){
-    return yylex();
-}
-
-int parser_update(){
-
-    __print_results__();
-    if(! __has_error__()){
-        solver_update();
-        solver_print();
-    }
-    
-    return OK;
-}
 
 /*
 ===============================================================================================================================
-============================================= TOKENS HANDLING =================================================================
+============================================== Exported Functions =============================================================
 ===============================================================================================================================
 */
 
-
-bool parser_GetNextToken(int src, token_id_t parsed_type){
-
-    oParser->read_token->value = src;
-    oParser->read_token->type = parsed_type;
-
-    if(parsed_type == LBRACKET)
-        ++lBrackets;
-
-    if(parsed_type == RBRACKET)
-        ++rBrackets;
-
-    oParser->read_token->valid = __token_is_valid__(parsed_type, oParser->previous_token);
-
-    oParser->valid_expression = oParser->valid_expression && oParser->read_token->valid;
-
-    if(VERBOSE && PARSER && parsed_type == OPERAND)
-        printf("[DEBUG] :: [PARSER] %d --> %d :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser->read_token->value, oParser->read_token->valid? "YES" : "NO");
-    
-    if(VERBOSE && PARSER && parsed_type != OPERAND)
-        printf("[DEBUG] :: [PARSER] %c --> %c :: oScanner ---> oPaser.\n :: -> Is token Valid? %s\n", src, oParser->read_token->value, oParser->read_token->valid? "YES" : "NO");
-
-    /*Count as parsed token*/
-    cTokens++;
-    
-    /*Storing*/
-    oParser->previous_token = parsed_type;
-    list_add(oParser->token_list, oParser->read_token);
-    oParser->read_token = __ptoken_create__();
-    
-    return oParser->valid_expression;
-}
-
-static bool __token_is_valid__(token_id_t new, token_id_t previous){
+int yyparse(){
 
     /*
-        Valid Expression:
-        EXPRESSION -> ( EXPRESSION ) | OPERATION
-        OPERATION -> OPERAND | OPERAND OPERATOR EXPRESSION
+        <Lines>         ->              |    <Line> <Lines>
+        <Line>          ->  EOL         |   <Calc> EOL
+        <Calc>          ->  expr        |   <Assignment>
+        <Expr>          ->  <Terms>
+        <Terms>         ->  <Term>      | <Term> ADD <Terms>
+        <Term>          ->  <Factors>
+        <Factors>       ->  <Factor>     | <Factor> MUL <Factors>
+        <Factor>        ->  NUM          | VAR
+        <Assignment>    ->  LET VAR EQ <Calc>
+
+        Based on GNU BISON Manual
+        (https://www.gnu.org/software/bison/manual/bison.pdf)
     */
-   
-    switch (new)
-    {
-        case VARIABLE:
-        case OPERAND:
-            return previous == OPERATOR || previous == LBRACKET;
-            break;
-        case OPERATOR:
-            return previous == OPERAND || previous == VARIABLE || previous == RBRACKET ;
-        case LBRACKET:
-            return previous == OPERATOR || previous == LBRACKET;
-        case RBRACKET:
-            return (previous == OPERAND || previous == VARIABLE || previous == RBRACKET) && rBrackets <= lBrackets;
-        default:
-            return false;
-    }
+   lines();
+
+    return 0;
 }
 
-static inline bool __has_error__(){
-    return !oParser->valid_expression;
+static void yyperror(){
+    puts("Syntax error.\nCalculator exited with syntax error during parsing.");
+    exit(2);
 }
 
-static int __print_results__(){
+static void match(int tokenID){
+    yytoken.num = getNextToken();
 
-    oParser->valid_expression = oParser->valid_expression && lBrackets == rBrackets;
-
-    if(VERBOSE && PARSER)
-        puts("[DEBUG] Printing results ...\n");
-
-    if( totalTokens_g > 0){
-        puts("\n:=-----------------::========::-----------------=:");
-        puts(" :: :: :: :: :: :: :: PARSER :: :: :: :: :: :: :: ");
-        puts(":=-----------------::========::-----------------=:\n");
-        if( totalTokens_g > 1)
-            list_iterate(oParser->token_list, __print_token__);
-        else
-            list_iterate(oParser->token_list, __print_one__);
-        printf("\n:== Expression is %s ==:\n", oParser->valid_expression? "VALID" : "INVALID");
-    } else
-        puts("\n :: No valid character has been entered :: ");
-    
-
-    
-    return OK;
-}
-
-static void __print_one__(void * element){
-
-    ptoken_t * this_token = (ptoken_t *) element;
-
-    if(this_token->type != OPERAND)
-        printf(">> PARSED :: Invalid expression :: '%c' ::\n", this_token->value);
+    if(yytoken.num == tokenID)
+        return;
     else
-        printf(">> PARSED :: [VALID] :: '%d' :: Operand.\n", this_token->value);
+        yyperror();
 }
 
-static void __print_token__(void * element){
+/*
+===============================================================================================================================
+============================================== Lexical Transitions =============================================================
+===============================================================================================================================
+*/
 
-    ptoken_t * this_token = (ptoken_t *) element;
+static void lines(){ // <Lines>
 
-    if(this_token->valid){
-        if(this_token->type == OPERAND)
-            printf(">> PARSED :: [ VALID ] :: '%d'\t:: OPERAND.\n", this_token->value);
-        else
-            printf(">> PARSED :: [ VALID ] :: '%c'\t:: OPERATOR.\n", this_token->value);
-    } else{
-        if(this_token->type == OPERAND)
-            printf(">> PARSED :: [INVALID] :: '%d'\t:: OPERAND.\n", this_token->value);
-        else
-            printf(">> PARSED :: [INVALID] :: '%c'\t:: OPERATOR.\n", this_token->value);
+        //Read token
+        printf("  > ");
+        yytoken.num = peekNextToken();
+
+        // 0 is standard flex return for EOF
+        if(yytoken.num == 0){
+            puts("End of File.\n    Closing...");
+            return;
+        }
+        
+        line();
+
+        lines();
+
+}
+
+static void line(){
+    /*
+        <Line>    ->  EOL     |   <CALC> EOL
+    */
+
+
+    // EOL
+    if(yytoken.num == EOL){
+        puts("Please, enter a calculation");
+        match(EOL);
+        return;
     }
+    
+    // <CALC> EOL
+    int $$ = calc();
+    
+    printf("  = %d\n", $$);
+
+    match(EOL);
+    
+}
+
+static int calc(){
+    /*
+        <Line>    ->  <EXPR>     |   <CALC>
+    */
+
+    if(yytoken.num != LET)
+        return expr();
+    else
+        return assignment();
+    
+}
+
+static int expr(){
+    /*
+        <Expr>    ->  <Terms>
+    */
+   return terms();
+}
+
+static int terms(){
+    /*
+        <Terms>     ->  <Term>      | <Term> ADD <Terms>
+    */
+
+    int $$ = term();
+
+    yytoken.num = peekNextToken();
+    if(yytoken.num == ADD){
+        match(ADD);
+        $$ += terms();
+    }
+
+    return $$;
+
+}
+
+static int term(){
+    /*
+        <Term>      ->  <Factors>
+    */
+    return factors();
+}
+
+static int factors(){
+    /*
+        <Factors>   -> <Factor>     | <Factor> MUL <Factors>
+    */
+    int $$ = factor();
+
+    yytoken.num = peekNextToken();
+    if(yytoken.num == MUL){
+        match(MUL);
+        $$ *= factors();
+    }
+   
+    return $$;
+}
+
+static int factor(){
+    /*
+        <Factor>    -> NUMBER | VAR |   ( EXPR )
+
+    */
+
+   int $1, $2;
+
+   yytoken.num = peekNextToken();
+
+    switch (yytoken.num)
+    {
+    case NUMBER:
+        match(NUMBER);
+        return yylval.num;
+
+    case VAR:
+        match(VAR);
+        $1 = yylval.index;
+        return get_variable($1);
+    
+    case L_BRACKET:
+        match(L_BRACKET);
+        $2 = expr();
+        match(R_BRACKET);
+        return $2;
+    default:
+        yyperror();
+        break;
+    }
+}
+
+static int assignment(){
+    /*
+        <Assignment>    ->  LET VAR EQ <Calc>
+    */
+
+   int $2, $4;
+
+   match(LET);
+   match(VAR);
+   $2   = yylval.index;
+   match(EQ);
+   $4   = calc();
+   return set_variable($2, $4);
+}
+
+/*
+===============================================================================================================================
+============================================== Internal Methods =============================================================
+===============================================================================================================================
+*/
+
+static inline bool isInitial(int n){
+    return n == -1;
+}
+
+static inline void setInitial(int * n){
+    int * ptr = n;
+    *ptr = -1;
 }

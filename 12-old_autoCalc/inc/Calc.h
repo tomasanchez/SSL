@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    Calc.h
 
-    scanner for infix calculator.
+    Infix Automatic Calculator header
 
     MIT License
 
@@ -26,56 +26,21 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include <ctype.h> //For toupper
-#include "memory.h"
+#include "scanner.h"
 
-#define VERBOSE_SCANNER 1
+/*Show welcome message*/
+int calculator_create();
 
-/*Token IDs*/
-typedef enum Token{
-    //\n
-    EOL = 1,
-    //[0-9]+
-    NUMBER,
-    //[a-zA-Z]
-    VAR,
-    //[ + ]
-    ADD,
-    //[ * ]
-    MUL,
-    //[=]
-    EQ,
-    //[ ( ]
-    L_BRACKET,
-    //[ ) ]
-    R_BRACKET,
-    // [let||LET]
-    LET,
-    //[ . ]
-    UNDEFINED
-}token_t;
+/*Scans and loads characters from stdin until end of line*/
+int calculator_read();
 
-/*Token value*/
-typedef union Value{
-    /*Number*/
-    int num;
+/*Updates calculator an solves expression*/
+int calculator_update();
 
-    /*TODO: Index of Variable*/
-    int index;
-}value_t;
-
-/*Exporting...*/
-
-/*Reads from stdin*/
-int getNextToken();
-
-/*Peeks token from stdin*/
-int peekNextToken();
-
-/*Displays error message*/
-void yyerror(int);
+/*Shows Finish message*/
+int calculator_delete();

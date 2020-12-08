@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    Calc.c
 
-    scanner for infix calculator.
+    Infix With Automatic Scanner Calculator
 
     MIT License
 
@@ -26,56 +26,28 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/09/2020
 ------------------------------------------------------------------------------------ */
 
-#pragma once
+#include "../inc/Calc.h"
 
-#include <ctype.h> //For toupper
-#include "memory.h"
+inline int calculator_create(){
 
-#define VERBOSE_SCANNER 1
+    parser_create();
 
-/*Token IDs*/
-typedef enum Token{
-    //\n
-    EOL = 1,
-    //[0-9]+
-    NUMBER,
-    //[a-zA-Z]
-    VAR,
-    //[ + ]
-    ADD,
-    //[ * ]
-    MUL,
-    //[=]
-    EQ,
-    //[ ( ]
-    L_BRACKET,
-    //[ ) ]
-    R_BRACKET,
-    // [let||LET]
-    LET,
-    //[ . ]
-    UNDEFINED
-}token_t;
+    return puts(" :: == A Simple Infix Calculator With Flex-Generated Scanner == :: ");
+}
 
-/*Token value*/
-typedef union Value{
-    /*Number*/
-    int num;
+inline int calculator_read(){
+    printf("  : > ");
+    return  parser_parse();
+}
 
-    /*TODO: Index of Variable*/
-    int index;
-}value_t;
+inline int calculator_update(){
+    return parser_update();
+}
 
-/*Exporting...*/
-
-/*Reads from stdin*/
-int getNextToken();
-
-/*Peeks token from stdin*/
-int peekNextToken();
-
-/*Displays error message*/
-void yyerror(int);
+int calculator_delete(){
+    parser_delete();
+    return puts("\n- :: © 2020 TOMAS SANCHEZ - <tosanchez@est.frba.utn.edu.ar> | :: | All rights reserved :: -");
+}

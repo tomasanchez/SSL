@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    memory.h
 
-    scanner for infix calculator.
+    Memory for variable for infix calculator.
 
     MIT License
 
@@ -26,56 +26,23 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 12/06/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
 
-#include <ctype.h> //For toupper
-#include "memory.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
-#define VERBOSE_SCANNER 1
+#define VAR_SIZE 100
 
-/*Token IDs*/
-typedef enum Token{
-    //\n
-    EOL = 1,
-    //[0-9]+
-    NUMBER,
-    //[a-zA-Z]
-    VAR,
-    //[ + ]
-    ADD,
-    //[ * ]
-    MUL,
-    //[=]
-    EQ,
-    //[ ( ]
-    L_BRACKET,
-    //[ ) ]
-    R_BRACKET,
-    // [let||LET]
-    LET,
-    //[ . ]
-    UNDEFINED
-}token_t;
+/* Add a variable name to the memory store */
+int add_variable(char* var_name);
 
-/*Token value*/
-typedef union Value{
-    /*Number*/
-    int num;
+/* Set a variables value in the memory store */
+int set_variable(int index, int val);
 
-    /*TODO: Index of Variable*/
-    int index;
-}value_t;
-
-/*Exporting...*/
-
-/*Reads from stdin*/
-int getNextToken();
-
-/*Peeks token from stdin*/
-int peekNextToken();
-
-/*Displays error message*/
-void yyerror(int);
+/* Finds variable value */
+int get_variable(int index);

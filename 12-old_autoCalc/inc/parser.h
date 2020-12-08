@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------------
 
-    scanner.h
+    parser.h
 
-    scanner for infix calculator.
+    Manual Parser for Infix Calculator w/ Automatic Scanner.
 
     MIT License
 
@@ -26,56 +26,31 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-    last modified: 11/17/2020
+    last modified: 11/12/2020
 ------------------------------------------------------------------------------------ */
 
 #pragma once
+#include "solver.h"
 
-#include <ctype.h> //For toupper
-#include "memory.h"
+/*Object Parser*/
+typedef struct Parser{
+    t_list * token_list;
+    ptoken_t * read_token;
+    token_id_t previous_token;
+    bool valid_expression;
+}parser_t;
 
-#define VERBOSE_SCANNER 1
+/*Starts oParser*/
+int parser_create();
 
-/*Token IDs*/
-typedef enum Token{
-    //\n
-    EOL = 1,
-    //[0-9]+
-    NUMBER,
-    //[a-zA-Z]
-    VAR,
-    //[ + ]
-    ADD,
-    //[ * ]
-    MUL,
-    //[=]
-    EQ,
-    //[ ( ]
-    L_BRACKET,
-    //[ ) ]
-    R_BRACKET,
-    // [let||LET]
-    LET,
-    //[ . ]
-    UNDEFINED
-}token_t;
+/*Reads and parses expression*/
+int parser_parse();
 
-/*Token value*/
-typedef union Value{
-    /*Number*/
-    int num;
+/*Evaluates expression*/
+int parser_update();
 
-    /*TODO: Index of Variable*/
-    int index;
-}value_t;
+/*Deletes oParser freeing memory usage*/
+int parser_delete();
 
-/*Exporting...*/
-
-/*Reads from stdin*/
-int getNextToken();
-
-/*Peeks token from stdin*/
-int peekNextToken();
-
-/*Displays error message*/
-void yyerror(int);
+/*Parses a new token*/
+bool parser_GetNextToken(int , token_id_t);
