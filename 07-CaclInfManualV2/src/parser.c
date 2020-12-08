@@ -52,6 +52,12 @@ extern value_t yyval;
         //Stores previous token
         value_t yytoken;
 
+        /*Tells if $x has initial value*/
+        static bool isInitial(int);    
+
+        /*Sets $X with initial value*/
+        static void setInitial(int *);
+
         // Gets next token from scanner
         static void match(int);
 
@@ -145,7 +151,12 @@ static void lines(){ // <Lines>
             return;
         }
         
-        line(); lines();
+        line();
+        
+        if(yytoken.num != EOL)
+            printf(" = %d\n", ls_token.$$);
+
+        lines();
 
         puts("EXIT LINES");
 }
@@ -158,6 +169,8 @@ static void line(){
    puts("IN LINE");
 
     if(yytoken.num == EOL){
+        puts("Please, enter an expression");
+        match(EOL);
         return;
     }
     
@@ -233,6 +246,13 @@ static void factor(){
     {
     case NUMBER:
         match(NUMBER);
+
+        if(isInitial(ls_token.$1))
+            ls_token.$$ = ls_token.$1 = yyval.num;
+        else
+            ls_token.$$ = ls_token.$3 = yyval.num;
+        
+
         puts("::MATCHED NUMBER::");
         return;
 
@@ -253,4 +273,19 @@ static void factor(){
     }
 
    puts("EXIT FACTOR");
+}
+
+/*
+===============================================================================================================================
+============================================== Internal Methods =============================================================
+===============================================================================================================================
+*/
+
+static inline bool isInitial(int n){
+    return n == -1;
+}
+
+static inline void setInitial(int * n){
+    int * ptr = n;
+    *ptr = -1;
 }
