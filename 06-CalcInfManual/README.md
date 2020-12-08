@@ -2,15 +2,15 @@
 
 ## Objetivos
 
-- Experimentar  el  diseño  de  la  especificación  de  lenguajes  a  nivel  léxico  ysintáctico.
-- Experimentar  la  implementación  manual  del  nivel  léxico  y  sintáctico  delenguajes.
+- Experimentar el diseño de la especificación  de lenguajes  a  nivel  léxico y sintáctico.
+- Experimentar la implementación manual del nivel léxico y sintáctico del lenguajes.
 
 ## Temas
 
 - Especificación del nivel Léxico y Sintáctico.
 - Implementación del nivel Léxico y Sintáctico.
-- Implementación de **Scanner**.
-- Implementación de **Parser**.
+- Implementación de  **Scanner**.
+- Implementación de  **Parser**.
 
 ## Problema
 
@@ -40,4 +40,4 @@ Análisis de expresiones aritméticas infijas simples que incluya:
 <br />
 <br />
 
-[CALC]:"https://github.com/tomasanchez/SSL/blob/master/06-CalcInfManual/Calc.md"
+[CALC]:"./Calc.md"

@@ -67,13 +67,11 @@ calc:
 	;
 
 expr:
-			SUB expr						{ $$ = -$2; }
-    	| 	NUMBER            				{ $$ = $1; }
+		 	NUMBER            				{ $$ = $1; }
 		| 	VARIABLE						{ $$ = variable_values[$1]; }
 		| 	expr MUL expr     				{ $$ = $1 * $3; }
 		| 	L_BRACKET expr R_BRACKET 		{ $$ = $2; }
 		| 	expr ADD expr     				{ $$ = $1 + $3; }
-		| 	expr SUB expr   				{ $$ = $1 - $3; }
     ;
 
 assignment: 
