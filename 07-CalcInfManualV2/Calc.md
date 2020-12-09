@@ -1,10 +1,10 @@
-# Calculadora Infija :: Construcción Manual
+# Calculadora Infija :: Construcción Manual V2
 
-Debo mencionar que mal interprete la consgina del trabajo practico: asumiendo que el objetvio era crear una calculadora, teniendo en cuenta los conceptos de scanner para el input, que verificase los caracteres validos; y el parser que estos esten en correcto orden, ver [`10-old_manualCalc`](../10-old_manualCalc/Calc.md).
+Debo mencionar que mal interprete la consgina del trabajo practico: asumiendo que el objetvio era crear una calculadora, teniendo en cuenta los conceptos de scanner para el input, que verificase los caracteres validos; y el parser que estos esten en correcto orden, ver [`11-old_manualCalc`](../11-old_manualCalc/Calc.md).
 
 ## Diseño Léxico
 
-Para esta primera iteración busque cumplir con la consigna implementando lo básico, con esto encontraremos los siguientes tokens:
+Contando con los tokens anteriores:
 
 - EOL
 - NUMBER
@@ -12,21 +12,38 @@ Para esta primera iteración busque cumplir con la consigna implementando lo bá
 - ADD
 - MUL
 
+Sumamos también:
+
+- EQ
+- LET
+- L_BRACKET
+- R_BRACKET
+
 Los mismos se hayan en [`scanner.h`](inc/scanner.h) bajo el enum `token_t`. Fragmento:
 
 ```c
 typedef enum Token{
+
+    EPSILON,
     //\n
     EOL,
     //[0-9]+
     NUMBER,
     //[a-zA-Z]
     VAR,
-    //( + )
+    //[ + ]
     ADD,
-    //( * )
+    //[ * ]
     MUL,
-    //( . )
+    //[=]
+    EQ,
+    //[ ( ]
+    L_BRACKET,
+    //[ ) ]
+    R_BRACKET,
+    // [let||LET]
+    LET,
+    //[ . ]
     UNDEFINED
 }token_t;
 ```
@@ -63,6 +80,16 @@ Variables
 VAR         = [a-zA-Z]+
 ```
 
+### LET
+
+Permite identificar una asignación
+
+```c
+<LET>   -> let | LET | Let
+    o bien
+LET =   (let)|(LET)|(Let)
+```
+
 ### ADD
 
 Sumatoria
@@ -80,7 +107,31 @@ Multiplicación
 ```c
 <MUL>   -> *
         o bien
-MUL     =   [*]
+MUL     = [*]
+```
+
+### EQ
+
+Asignación
+
+```c
+<EQ>    -> =
+        o bien
+EQ      = [=]
+```
+
+### BRACKETS
+
+Parentésis
+
+```c
+<L_BRACKET> -> (
+    o bien
+L_BRACKET   = [(]
+
+<R_BRAKCET> -> )
+    o bien
+R_BRACKET   -> [)]
 ```
 
 ## Diseño Sintáctico
@@ -92,44 +143,46 @@ Además, me inspire en el manual de [`BISON`](https://www.gnu.org/software/bison
 Si bien, esto se puede simplificar, para una mayor visibilidad encontramos el siguiente automáta:
 
 ```c
-    <Lines>     ->              |    <Line> <Lines>
-    <Line>      ->  EOL         |   <Expr> EOL
-    <Expr>      ->  <Terms>
-    <Terms>     ->  <Term>      | <Term> ADD <Terms>
-    <Term>      ->  <Factors>
-    <Factors>   ->  <Factor>    | <Factor> MUL <Factors>
-    <Factor>    ->  NUMBER      | VAR
+    <Lines>         ->              |    <Line> <Lines>
+    <Line>          ->  EOL         |   <Calc> EOL
+    <Calc>          ->  expr        |   <Assignment>
+    <Expr>          ->  <Terms>
+    <Terms>         ->  <Term>      | <Term> ADD <Terms>
+    <Term>          ->  <Factors>
+    <Factors>       ->  <Factor>    | <Factor> MUL <Factors>
+    <Factor>        ->  NUM         |      VAR       |      L_BRACKET <Expr> R_BRACKET
+    <Assignment>    ->  LET VAR EQ <Calc>
 ```
 
-Véase el suigiente framento de [`parcer.c`](./src/parser.c)
+Véase el suigiente framento de [`parcer.c`](src/parser.c)
 
 Donde a cada transición le corresponde una función.
 
 ```c
-        // Gets next token from scanner
-        static void match(int);
-
-        // Handles error parsing
-        static void yyperror();
-
-        // <INPUT>
+        // <LINES>
         static void lines();
 
         // <LINE>
         static void line();
 
+        // <CALC>
+        static int calc();
+
         // <EXPR>
-        static void expr();
+        static int expr();
+        
+        // <ASSIGMENT>
+        static int assignment();
 
         // <TERMS>
-        static void terms();
+        static int terms();
 
         // <TERM>
-        static void term();
+        static int term();
 
         // <FACTORS>
-        static void factors();
+        static int factors();
 
-        // NUMBER || VAR
-        static void factor();
+        // NUMBER || VAR || ( EXPR )
+        static int factor();
 ```

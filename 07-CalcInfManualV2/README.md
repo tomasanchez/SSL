@@ -1,8 +1,8 @@
-# [07] - Calculadora Infima :: Construccion Manual V2
+# [07] - [Calculadora Infija :: Construccion Manual V2][CALC]
 
 ## Objetivos
 
-- A partir de la primera version, ahora poder permitir realizar operaciones y uso de parentesis.
+- A partir de la primera version, ahora poder permitir realizar operaciones y uso de paréntesis.
 
 ## Temas
 
@@ -26,3 +26,5 @@ Análisis de expresiones aritméticas infijas simples que incluya:
 - El *scanner* y el *parser* deben estar lógicamente separados.
 - El  *parser*  se  comunica  con  el  *scanner*  con  la  operación  *GetNextToken*.
 - El *scanner* toma los caracteres de *stdin* con *getchar*.
+
+[CALC]:./Calc.md

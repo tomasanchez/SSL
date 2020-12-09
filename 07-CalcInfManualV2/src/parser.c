@@ -104,7 +104,7 @@ int yyparse(){
         <Terms>         ->  <Term>      | <Term> ADD <Terms>
         <Term>          ->  <Factors>
         <Factors>       ->  <Factor>     | <Factor> MUL <Factors>
-        <Factor>        ->  NUM          | VAR
+        <Factor>        ->  NUM          | VAR       |      L_BRACKET <Expr> R_BRACKET
         <Assignment>    ->  LET VAR EQ <Calc>
 
         Based on GNU BISON Manual
