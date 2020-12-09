@@ -15,9 +15,9 @@ int fileno(FILE *);
 
 %%
 [ \t]
-[0-9]+         					                { yylval.num = atoi(yytext); return NUMBER; }
-[+]                         					{ return ADD; }
-[*]                         					{ return MUL; }
+[0-9]+                                          { yylval.num = atoi(yytext); return NUMBER; }
+[+]                                             { return ADD; }
+[*]                                             { return MUL; }
 [=]                                             { return EQ; }
 [(]                                             { return L_BRACKET; }
 [)]                                             { return R_BRACKET; }
