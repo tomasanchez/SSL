@@ -6,9 +6,9 @@ CC = gcc
 CFLAGS = -std=c18 -g3
 INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
-FC 	  = flex -l
-FLEX  = flex/*.l
-FOUTPUT = scanner.c
+LEX 	  = flex -l
+LEXSRC  = flex/*.l
+LEXOUT = src/scanner.c
 OUTPUT = Calculator.exe
 LEAKS = leaks.log
 
@@ -16,7 +16,7 @@ all : compile debug leaks threads clean
 .PHONY: all
 
 compile:
-	$(FC) -o $(FOUTPUT) $(FLEX)
+	$(LEX) -o $(LEXOUT) $(LEXSRC)
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT)
 
 debug:
