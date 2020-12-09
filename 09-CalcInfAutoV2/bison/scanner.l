@@ -1,7 +1,7 @@
 %{
-#include "scanner.h"    // For ID
+#include "scanner.h"    // For IDs
 // Avoiding warning implicit-function-declaration as fileno is no std in C
-int fileno(FILE *);
+extern int fileno(FILE *);
 %}
 
 /* Stop the error "undefined reference to 'yywrap'" from Flex */
@@ -18,14 +18,15 @@ int fileno(FILE *);
 ("let")|("LET")|("Let")                         { return LET; }
 [a-zA-Z]+                                       { yylval.index = add_variable(yytext); return VAR;}
 [\n]                                            { return EOL; }
-.                                               { yyerror(*yytext);} 
+.                                               { yyerror();} 
 %%
+
 
 int getNextToken(){
     return yylex();
 }
 
-void yyerror(int c){
-    printf("Flex Error: Undefined Symbol '%c'\nCalculator exited with error in scanner.\n", c);
+void yyerror(){
+    puts("Syntax error.");
     exit(1);
 }

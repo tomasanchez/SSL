@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "parser.h" // For yyparse()
+#include <stdio.h>
 
 /*Starts a calculator*/
 int calc_init();
@@ -41,4 +41,3 @@ int calc_run();
 
 /*Stops a calculator*/
 int calc_stop();
-

@@ -1,6 +1,6 @@
-#line 2 "scanner.c"
+#line 2 "src/scanner.c"
 
-#line 4 "scanner.c"
+#line 4 "src/scanner.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -483,20 +483,14 @@ int yy_flex_debug = 0;
 
 char yytext[YYLMAX];
 char *yytext_ptr;
-#line 1 "flex/scanner.l"
-#line 2 "flex/scanner.l"
-#include "scanner.h"
-
-token_t currentToken;
-bool wasPeeked = false;
-value_t yylval;
-
-//avoiding warining implic-function-declaration as fileno is no std in C
-int fileno(FILE *);
-
-#line 498 "scanner.c"
+#line 1 "bison/scanner.l"
+#line 2 "bison/scanner.l"
+#include "scanner.h"    // For IDs
+// Avoiding warning implicit-function-declaration as fileno is no std in C
+extern int fileno(FILE *);
+#line 492 "src/scanner.c"
 /* Stop the error "undefined reference to 'yywrap'" from Flex */
-#line 500 "scanner.c"
+#line 494 "src/scanner.c"
 
 #define INITIAL 0
 
@@ -713,9 +707,9 @@ YY_DECL
 		}
 
 	{
-#line 16 "flex/scanner.l"
+#line 10 "bison/scanner.l"
 
-#line 719 "scanner.c"
+#line 713 "src/scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -784,66 +778,66 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "flex/scanner.l"
+#line 11 "bison/scanner.l"
 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "flex/scanner.l"
+#line 12 "bison/scanner.l"
 { yylval.num = atoi(yytext); return NUMBER; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "flex/scanner.l"
+#line 13 "bison/scanner.l"
 { return ADD; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "flex/scanner.l"
+#line 14 "bison/scanner.l"
 { return MUL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "flex/scanner.l"
+#line 15 "bison/scanner.l"
 { return EQ; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "flex/scanner.l"
+#line 16 "bison/scanner.l"
 { return L_BRACKET; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "flex/scanner.l"
+#line 17 "bison/scanner.l"
 { return R_BRACKET; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "flex/scanner.l"
+#line 18 "bison/scanner.l"
 { return LET; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "flex/scanner.l"
+#line 19 "bison/scanner.l"
 { yylval.index = add_variable(yytext); return VAR;}
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 26 "flex/scanner.l"
+#line 20 "bison/scanner.l"
 { return EOL; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "flex/scanner.l"
-{ yyerror(*yytext);} 
+#line 21 "bison/scanner.l"
+{ yyerror();} 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "flex/scanner.l"
+#line 22 "bison/scanner.l"
 ECHO;
 	YY_BREAK
-#line 847 "scanner.c"
+#line 841 "src/scanner.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1858,34 +1852,15 @@ void yyfree (void * ptr )
 			free( (char *) ptr );	/* see yyrealloc() for (char *) cast */
 }
 
-#line 28 "flex/scanner.l"
+#line 22 "bison/scanner.l"
 
 
-int peekNextToken(){
-
-    if(wasPeeked){
-        return currentToken;
-    }
-
-    currentToken = yylex();
-    wasPeeked = true;
-    return currentToken;
-}
 
 int getNextToken(){
-
-    if(wasPeeked){
-        wasPeeked = false;
-        return currentToken;
-    }
-
-    currentToken = yylex();
-    wasPeeked = false;
-
-    return currentToken;
+    return yylex();
 }
 
-void yyerror(int c){
-    printf("Flex Error: Undefined Symbol '%c'\nCalculator exited with error in scanner.\n", c);
+void yyerror(){
+    puts("Syntax error.");
     exit(1);
 }

@@ -1,0 +1,301 @@
+Grammar
+
+    0 $accept: lines $end
+
+    1 lines: %empty
+    2      | lines line
+
+    3 line: EOL
+    4     | calc EOL
+
+    5 calc: expr
+    6     | assignment
+
+    7 expr: terms
+
+    8 terms: term
+    9      | terms ADD term
+
+   10 term: factors
+
+   11 factors: factor
+   12        | factors MUL factor
+
+   13 factor: NUMBER
+   14       | VAR
+   15       | L_BRACKET expr R_BRACKET
+
+   16 assignment: LET VAR EQ calc
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+NUMBER (258) 13
+L_BRACKET (259) 15
+R_BRACKET (260) 15
+MUL (261) 12
+ADD (262) 9
+EQ (263) 16
+LET (264) 16
+VAR (265) 14 16
+EOL (266) 3 4
+
+
+Nonterminals, with rules where they appear
+
+$accept (12)
+    on left: 0
+lines (13)
+    on left: 1 2, on right: 0 2
+line (14)
+    on left: 3 4, on right: 2
+calc (15)
+    on left: 5 6, on right: 4 16
+expr (16)
+    on left: 7, on right: 5 15
+terms (17)
+    on left: 8 9, on right: 7 9
+term (18)
+    on left: 10, on right: 8 9
+factors (19)
+    on left: 11 12, on right: 10 12
+factor (20)
+    on left: 13 14 15, on right: 11 12
+assignment (21)
+    on left: 16, on right: 6
+
+
+State 0
+
+    0 $accept: . lines $end
+
+    $default  reduce using rule 1 (lines)
+
+    lines  go to state 1
+
+
+State 1
+
+    0 $accept: lines . $end
+    2 lines: lines . line
+
+    $end       shift, and go to state 2
+    NUMBER     shift, and go to state 3
+    L_BRACKET  shift, and go to state 4
+    LET        shift, and go to state 5
+    VAR        shift, and go to state 6
+    EOL        shift, and go to state 7
+
+    line        go to state 8
+    calc        go to state 9
+    expr        go to state 10
+    terms       go to state 11
+    term        go to state 12
+    factors     go to state 13
+    factor      go to state 14
+    assignment  go to state 15
+
+
+State 2
+
+    0 $accept: lines $end .
+
+    $default  accept
+
+
+State 3
+
+   13 factor: NUMBER .
+
+    $default  reduce using rule 13 (factor)
+
+
+State 4
+
+   15 factor: L_BRACKET . expr R_BRACKET
+
+    NUMBER     shift, and go to state 3
+    L_BRACKET  shift, and go to state 4
+    VAR        shift, and go to state 6
+
+    expr     go to state 16
+    terms    go to state 11
+    term     go to state 12
+    factors  go to state 13
+    factor   go to state 14
+
+
+State 5
+
+   16 assignment: LET . VAR EQ calc
+
+    VAR  shift, and go to state 17
+
+
+State 6
+
+   14 factor: VAR .
+
+    $default  reduce using rule 14 (factor)
+
+
+State 7
+
+    3 line: EOL .
+
+    $default  reduce using rule 3 (line)
+
+
+State 8
+
+    2 lines: lines line .
+
+    $default  reduce using rule 2 (lines)
+
+
+State 9
+
+    4 line: calc . EOL
+
+    EOL  shift, and go to state 18
+
+
+State 10
+
+    5 calc: expr .
+
+    $default  reduce using rule 5 (calc)
+
+
+State 11
+
+    7 expr: terms .
+    9 terms: terms . ADD term
+
+    ADD  shift, and go to state 19
+
+    $default  reduce using rule 7 (expr)
+
+
+State 12
+
+    8 terms: term .
+
+    $default  reduce using rule 8 (terms)
+
+
+State 13
+
+   10 term: factors .
+   12 factors: factors . MUL factor
+
+    MUL  shift, and go to state 20
+
+    $default  reduce using rule 10 (term)
+
+
+State 14
+
+   11 factors: factor .
+
+    $default  reduce using rule 11 (factors)
+
+
+State 15
+
+    6 calc: assignment .
+
+    $default  reduce using rule 6 (calc)
+
+
+State 16
+
+   15 factor: L_BRACKET expr . R_BRACKET
+
+    R_BRACKET  shift, and go to state 21
+
+
+State 17
+
+   16 assignment: LET VAR . EQ calc
+
+    EQ  shift, and go to state 22
+
+
+State 18
+
+    4 line: calc EOL .
+
+    $default  reduce using rule 4 (line)
+
+
+State 19
+
+    9 terms: terms ADD . term
+
+    NUMBER     shift, and go to state 3
+    L_BRACKET  shift, and go to state 4
+    VAR        shift, and go to state 6
+
+    term     go to state 23
+    factors  go to state 13
+    factor   go to state 14
+
+
+State 20
+
+   12 factors: factors MUL . factor
+
+    NUMBER     shift, and go to state 3
+    L_BRACKET  shift, and go to state 4
+    VAR        shift, and go to state 6
+
+    factor  go to state 24
+
+
+State 21
+
+   15 factor: L_BRACKET expr R_BRACKET .
+
+    $default  reduce using rule 15 (factor)
+
+
+State 22
+
+   16 assignment: LET VAR EQ . calc
+
+    NUMBER     shift, and go to state 3
+    L_BRACKET  shift, and go to state 4
+    LET        shift, and go to state 5
+    VAR        shift, and go to state 6
+
+    calc        go to state 25
+    expr        go to state 10
+    terms       go to state 11
+    term        go to state 12
+    factors     go to state 13
+    factor      go to state 14
+    assignment  go to state 15
+
+
+State 23
+
+    9 terms: terms ADD term .
+
+    $default  reduce using rule 9 (terms)
+
+
+State 24
+
+   12 factors: factors MUL factor .
+
+    $default  reduce using rule 12 (factors)
+
+
+State 25
+
+   16 assignment: LET VAR EQ calc .
+
+    $default  reduce using rule 16 (assignment)

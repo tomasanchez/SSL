@@ -6,10 +6,13 @@ CC = gcc
 CFLAGS = -std=c18 -g3
 INCLUDES = -I ./inc/
 SOURCES = ./src/*.c
+YACCC  	= bison -v
+YACCTAB = inc/token_tab.h
+YACCOUT = src/parser.c
+YACC	= bison/parser.y
 LEXC 	= flex -l
-YACC  	= bison -v
-FLEX  	= flex/*.l
-FOUTPUT = scanner.c
+LEX  	= bison/scanner.l
+LOUT 	= src/scanner.c
 OUTPUT 	= Calculator.exe
 LEAKS 	= leaks.log
 
@@ -17,14 +20,15 @@ all : compile debug leaks threads clean
 .PHONY: all
 
 compile:
-	$(FC) -o $(FOUTPUT) $(FLEX)
+	$(YACCC) --defines=$(YACCTAB) --output=$(YACCOUT) $(YACC)
+	$(LEXC) -o $(LOUT) $(LEX)
 	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT)
 
 debug:
-	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && gdb -se $(OUTPUT)
+	make compile && gdb -se $(OUTPUT)
 	
 leaks:
-	$(CC) $(CFLAGS) $(SOURCES) $(INCLUDES) -o $(OUTPUT) && valgrind --leak-check=yes --log-file="$(LEAKS)" --track-origins=yes ./$(OUTPUT)
+	make compile && valgrind --leak-check=yes --log-file="$(LEAKS)" --track-origins=yes ./$(OUTPUT)
 
 clean:
 	$(RM) ./$(OUTPUT) && $(RM) ./$(LOG)

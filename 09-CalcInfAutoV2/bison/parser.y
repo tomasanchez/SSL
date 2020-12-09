@@ -1,6 +1,5 @@
 %{
 #include "scanner.h"
-#include "parser.tab.h"
 
 /* Flex functions */
 extern void yyterminate();
@@ -53,13 +52,13 @@ static int yylex();
 
 /*Grammar Rules*/
 %%
-lines:
-        |   lines line
+lines:                                          {printf("  > ");}
+        |   lines line                          {printf("  > ");}
 
     ;
 line:
             EOL                                 { printf("Please enter a calculation:\n"); }
-        |   calc EOL                            { printf("  = %d", $1); }
+        |   calc EOL                            { printf("  = %d\n", $1); }
     ;
 calc:
             expr

@@ -33,11 +33,12 @@
 
 #include <ctype.h> //For toupper
 #include "memory.h"
+#include "token_tab.h"
 
 /*Exporting...*/
 
-/*Reads from stdin*/
+/*Replaces yylex*/
 int getNextToken();
 
 /*Displays error message*/
-void yyerror(int);
+void yyerror();

@@ -30,6 +30,9 @@
 ------------------------------------------------------------------------------------ */
 #include "Calc.h"
 
+/*Bison generated*/
+extern int yyparse();
+
 inline int calc_init(){
     return puts(" :: == A Simple Infix Manual Calculator == :: \n");
 }
