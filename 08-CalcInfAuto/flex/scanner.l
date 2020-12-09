@@ -5,7 +5,7 @@ token_t currentToken;
 bool wasPeeked = false;
 value_t yylval;
 
-//avoiding warining implic-function-declaration as fileno is no std in C
+// Avoiding warning implicit-function-declaration as fileno is no std in C
 int fileno(FILE *);
 
 %}
@@ -18,13 +18,13 @@ int fileno(FILE *);
 [0-9]+         					                { yylval.num = atoi(yytext); return NUMBER; }
 [+]                         					{ return ADD; }
 [*]                         					{ return MUL; }
-[=]												{ return EQ; }
-[(]											    { return L_BRACKET; }
-[)]												{ return R_BRACKET; }
-("let")|("LET")|("Let")							{ return LET; }
-[a-zA-Z]+  									    { yylval.index = add_variable(yytext); return VAR;}
-[\n]                        			        { return EOL; }
-. 											    { yyerror(*yytext);} 
+[=]                                             { return EQ; }
+[(]                                             { return L_BRACKET; }
+[)]                                             { return R_BRACKET; }
+("let")|("LET")|("Let")                         { return LET; }
+[a-zA-Z]+                                       { yylval.index = add_variable(yytext); return VAR;}
+[\n]                                            { return EOL; }
+.                                               { yyerror(*yytext);} 
 %%
 
 int peekNextToken(){
