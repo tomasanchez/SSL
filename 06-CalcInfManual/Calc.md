@@ -1,10 +1,10 @@
-# Calculadora Infima :: Construccion Manual
+# Calculadora Infija :: Construcción Manual
 
 Debo mencionar que mal interprete la consgina del trabajo practico: asumiendo que el objetvio era crear una calculadora, teniendo en cuenta los conceptos de scanner para el input, que verificase los caracteres validos; y el parser que estos esten en correcto orden, ver [`10-old_manualCalc`](../10-old_manualCalc/Calc.md).
 
-## Diseño Lexico
+## Diseño Léxico
 
-Para esta primera iteracion busque cumplir con la consigna implementando lo basico, con esto encontraremos los siguientes tokens:
+Para esta primera iteración busque cumplir con la consigna implementando lo básico, con esto encontraremos los siguientes tokens:
 
 - EOL
 - NUMBER
