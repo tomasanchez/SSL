@@ -45,99 +45,13 @@ typedef enum Token{
 }token_t;
 ```
 
-### EOL
-
-Representa *end of line*, para este el lenguaje que lo reconoce consta de:
-
-```c
-<EOL>   ->   \n
-    o bien
-EOL     =   [\n]
-```
-
-### Number
-
-Number abarca a los numeros en base 10, siendo:
-
-```c
-<NUMBER>    -> DIGIT | DIGIT NUMBER
-<DIGIT>     -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-                o bien
-NUMBER      = [0-9]+
-```
-
-### VAR
-
-Variables
-
-```c
-<VAR>       -> <LETTER> | <VAR> <LETTER>
-<LETTER>    -> a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z
-                o bien
-VAR         = [a-zA-Z]+
-```
-
-### LET
-
-Permite identificar una asignación
-
-```c
-<LET>   -> let | LET | Let
-    o bien
-LET =   (let)|(LET)|(Let)
-```
-
-### ADD
-
-Sumatoria
-
-```c
-<ADD> -> +
-        o bien
-ADD   = [+]
-```
-
-### MUL
-
-Multiplicación
-
-```c
-<MUL>   -> *
-        o bien
-MUL     = [*]
-```
-
-### EQ
-
-Asignación
-
-```c
-<EQ>    -> =
-        o bien
-EQ      = [=]
-```
-
-### BRACKETS
-
-Parentésis
-
-```c
-<L_BRACKET> -> (
-    o bien
-L_BRACKET   = [(]
-
-<R_BRAKCET> -> )
-    o bien
-R_BRACKET   -> [)]
-```
-
-### Codificación
+### Reglas
 
 En esta iteración se introduce el scanner realizado automaticámente por Flex.
 
 Dónde se definieron las siguientes reglas
 
-```l
+```c
 %%
 [ \t]
 [0-9]+                                          { yylval.num = atoi(yytext); return NUMBER; }
@@ -152,7 +66,6 @@ Dónde se definieron las siguientes reglas
 .                                               { yyerror(*yytext);} 
 %%
 ```
-
 
 ## Diseño Sintáctico
 
@@ -210,6 +123,8 @@ Donde a cada transición le corresponde una función.
 ```
 
 Para poder obtener cada resultado se produce una reducción, lo que podemos asociar con el concepto visto en [`Paradigmas de la Programación`](https://github.com/tomasanchez/pps/blob/master/README.md), [*folding*](https://en.wikipedia.org/wiki/Fold_(higher-order_function)), donde cada ciertos PAS reducen a un entero, por ello `static int PAS()`
+
+Nótese como la precesedencia de operadores esta implícita en los PAS, donde primero se `TERMS` evalúa `TERMS ADD TERM` y luego `FACTORS` evalúa `FACTORS MUL FACTOR`.
 
 Para la resolución de variables opté por contstruir un módulo de memoria [`memory.h`](./inc/memory.h), el cual se encarga de gestionar una "tabla" de símbolos a través de operaciones básicas como `create`,`read` y `update`. Por defecto, las variables no inicializadas se les otorga el valor `0` en el momento de su creación.
 
