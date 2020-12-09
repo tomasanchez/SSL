@@ -54,9 +54,10 @@ $n - In an action, the semantic value of then-th symbol of the right-hand side o
 
 /*Grammar Rules*/
 %%
-input: 		
-		|	input line
+lines: 		
+		|	lines line
 	;
+
 line: 
 			EOL 						 	{ printf("Please enter a calculation:\n"); }
 		| 	calc EOL  						{ printf(":: = %d\n",$1); }
