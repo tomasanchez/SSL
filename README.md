@@ -18,12 +18,14 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 |:---------:|:-------------------------:|:-------------:|
 |[Examen-00]| [00-CHelloWolrd]          |               |
 |           | [01-UsoDeC]               |               |
-|           | [02-HelloCppVHelloC]      |               |
+|[Examen-02]| [02-HelloCppVHelloC]      |               |
 |           | [03-FasesErrores]         |               |
 |           | [04-Strings]              |               |
 |           | [05-wl]                   |               |
 |           | [06-CalcInfManual]        |               |
-|           | [07-CalcInfManual2]       |               |
+|           | [07-CalcInfManualV2]      |               |
+|           | [08-CalcInfAuto]          |               |
+|           | [09-CalcInfAutoV2]        |               |
 
 ## License
 
@@ -34,6 +36,8 @@ MIT License: <https://mit-license.org/> or see the [`LICENSE`](https://github.co
 <!-- Examenes - Links -->
 [Examen-00]:./ResolucionDeExamenes/Examen00.md
 
+[Examen-02]:./ResolucionDeExamenes/Examen02.md
+
 <!-- TPs Individuales - Links -->
 [00-CHelloWolrd]:./00-CHelloWorld/README.md
 [01-UsoDeC]:./01-UsoDeC/README.md
@@ -42,6 +46,8 @@ MIT License: <https://mit-license.org/> or see the [`LICENSE`](https://github.co
 [04-Strings]:./04-Strings/README.md
 [05-wl]:./05-wl/README.md
 [06-CalcInfManual]:./06-CalcInfManual/README.md
-[07-CalcInfManual2]:./07-CalcInfManual2/Calc.md
+[07-CalcInfManualV2]:./07-CalcInfManualV2/README.md
+[08-CalcInfAuto]:./08-CalcInfAuto/README.md
+[09-CalcInfAutoV2]:./09-CalcInfAutoV2/README.md
 
 <!-- TPs Grupales - Links -->
