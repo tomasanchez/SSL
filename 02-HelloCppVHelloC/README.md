@@ -1,4 +1,4 @@
-# 02 - Niveles del Lenguaje: Hello.cpp v Hello.c
+# 02 - Niveles del Lenguaje: [Hello.cpp v Hello.c](./HelloCppVHelloC.md)
 
 ## Objetivos
 
