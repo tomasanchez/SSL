@@ -14,18 +14,18 @@ En este respositorio se encuentran los entregas, trabajos, y examenes solicitado
 
 ## Entregas
 
-|  Examenes |    TPs Individuales       | TPs  Grupales |
-|:---------:|:-------------------------:|:-------------:|
-|[Examen-00]| [00-CHelloWolrd]          |               |
-|           | [01-UsoDeC]               |               |
-|[Examen-02]| [02-HelloCppVHelloC]      |               |
-|           | [03-FasesErrores]         |               |
-|           | [04-Strings]              |               |
-|           | [05-wl]                   |               |
-|           | [06-CalcInfManual]        |               |
-|           | [07-CalcInfManualV2]      |               |
-|           | [08-CalcInfAuto]          |               |
-|           | [09-CalcInfAutoV2]        |               |
+|  Examenes |    TPs Individuales       |
+|:---------:|:-------------------------:|
+|[Examen-00]| [00-CHelloWolrd]          |
+|           | [01-UsoDeC]               |
+|[Examen-02]| [02-HelloCppVHelloC]      |
+|           | [03-FasesErrores]         |
+|           | [04-Strings]              |
+|           | [05-wl]                   |
+|           | [06-CalcInfManual]        |
+|           | [07-CalcInfManualV2]      |
+|           | [08-CalcInfAuto]          |
+|           | [09-CalcInfAutoV2]        |
 
 ## License
 
