@@ -1,20 +1,20 @@
-# Sintaxis y Semántica de los Lenguajes
+# Sintaxis and Semantics of Programming Languages
 
-En este respositorio se encuentran los entregas, trabajos, y examenes solicitados, resueltos por mi a lo largo del 2020 durante la cursada del Sintaxis y Semtantica de los Lenguajes de Programacion, K2051 a cargo del docente Ing. Jose Maria Sola.
+In this repository you will find notes, assignments and exams, solved by Tomás A. Sánchez at Course Sintax and Semantics of (Programming) Languages (SSL) - K2051 dictated by [Eng. José María Sola](https://josemariasola.wordpress.com/) during 2020.
 
-## Datos Personales
+## Personal Data
 
-- Curso: K 2051
+- Couse: K 2051
 
-- Año 2020: Anual
+- Year 2020: Anual
 
-- Legajo: 166043-3
+- Student-ID: 166043-3
 
-- Alumno: Sánchez, Tomás Agustín
+- Student: Sánchez, Tomás Agustín
 
 ## Entregas
 
-|  Examenes |    TPs Individuales       |
+|  Exams    |         Assignments       |
 |:---------:|:-------------------------:|
 |[Examen-00]| [00-CHelloWolrd]          |
 |           | [01-UsoDeC]               |
