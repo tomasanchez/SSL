@@ -1,6 +1,6 @@
 # Sintaxis and Semantics of Programming Languages
 
-In this repository you will find notes, assignments and exams, solved by Tomás A. Sánchez at Course Sintax and Semantics of (Programming) Languages (SSL) - K2051 dictated by [Eng. José María Sola](https://josemariasola.wordpress.com/) during 2020.
+In this repository you will find notes, assignments and exams, solved by Tomás A. Sánchez during Sintax and Semantics of (Programming) Languages (SSL) - K2051 course dictated by [Eng. José María Sola](https://josemariasola.wordpress.com/) during 2020.
 
 ## Personal Data
 
