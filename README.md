@@ -4,9 +4,9 @@ In this repository you will find notes, assignments and exams, solved by Tomás 
 
 ## Personal Data
 
-- Couse: K 2051
+- Course: K 2051
 
-- Year 2020: Anual
+- Year: 2020 (Anual)
 
 - Student-ID: 166043-3
 
