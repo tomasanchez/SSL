@@ -12,7 +12,7 @@ In this repository you will find notes, assignments and exams, solved by Tomás 
 
 - Student: Sánchez, Tomás Agustín
 
-## Entregas
+## Index
 
 |  Exams    |         Assignments       |
 |:---------:|:-------------------------:|
